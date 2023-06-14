@@ -27,6 +27,7 @@ const Page: NextPageWithLayout = () => {
     setscroll(scroll+1)
     console.log(scrollY)
 }
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
