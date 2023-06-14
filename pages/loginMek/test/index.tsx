@@ -1,6 +1,7 @@
 import { useState, useEffect, type ReactElement } from 'react'
 import Layout from '../layout'
 import type { NextPageWithLayout } from '../../_app'
+import Card from './card';
 
 const todo = {
   "loginId": "example@fusionauth.io",
@@ -51,6 +52,7 @@ const Page: NextPageWithLayout = () => {
           <br></br>
           <span>count = {count} <br></br> use scoll {scroll} time</span>
         </div>
+          <Card />
       </div>
     </div>
   </div>
