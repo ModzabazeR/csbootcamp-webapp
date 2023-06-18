@@ -1,4 +1,7 @@
-import tSwitch from "./typingsSwitch"
+interface tSwitch {
+    id2 : string;
+    name : string;
+}
 export default function Swich({ id2, name }: tSwitch) {
 
     return (
