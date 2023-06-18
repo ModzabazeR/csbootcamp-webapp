@@ -51,10 +51,10 @@ const Card: React.FC<ICard> = ({
             {detail}
           </p>
           <p>ราคา: {price}$</p>
-		  <div className="flex w-full justify-between mt-2">
-			  <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
-			  <button className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">ซื้อ</button>
-		  </div>
+          <div className="flex w-full justify-between mt-2">
+            <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
+            <button className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">ซื้อ</button>
+          </div>
         </div>
       </Modal>
 
