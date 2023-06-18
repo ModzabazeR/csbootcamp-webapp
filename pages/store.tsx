@@ -2,10 +2,14 @@ import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import Card from "@/components/card";
 import { ICard } from "@/typings";
+import Head from "next/head";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   return (
     <div className="flex flex-col items-center bg-[#555555] py-6 gap-4">
+      <Head>
+        <title>Shop | CS Bootcamp 2023</title>
+      </Head>
       <Link
         href="/"
         className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5"
