@@ -11,6 +11,7 @@ import { FaPersonBooth, FaShoppingBag } from "react-icons/fa";
 import Link from "next/link";
 import Head from "next/head";
 import { NextPage } from "next";
+import LogInPanel from "@/components/loginPanel";
 
 const Home: NextPage = () => {
   return (
@@ -18,10 +19,12 @@ const Home: NextPage = () => {
       <Head>
         <title>CS Bootcamp 2023 | 29 Ways to Survive</title>
       </Head>
-      <Image src={BootcampLogo} width={500} height={500} alt="bootcamp logo" />
-      <div className="text-2xl md:text-5xl font-bold text-white drop-shadow-lg mb-8">
+      <Image src={BootcampLogo} width={300} height={300} alt="bootcamp logo" />
+      {/* <div className="text-2xl md:text-5xl font-bold text-white drop-shadow-lg mb-8">
         CS29 Bootcamp | ยินดีต้อนรับ
-      </div>
+      </div> */}
+      
+      <LogInPanel />
 
       {/* ปุ่มชั่วคราว */}
       <div className="flex gap-8">
