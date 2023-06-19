@@ -7,13 +7,14 @@ interface tSwitch {
     url: string;
 }
 
-export default function Switch({ id2, name, url }: tSwitch) {
-    async function getstatus() {
+const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
+    const getstatus = async () => {
         const res = await fetch(url).then()
         const data = await res.json();
         console.log(data.data[0].open + " " + url);
     }
-    function pushState(isOpen: boolean) {
+
+    const pushState = (isOpen: boolean) => {
         console.log("push "+isOpen+" " + id2)
         const requestOptions = {
             method: 'POST',
@@ -27,8 +28,10 @@ export default function Switch({ id2, name, url }: tSwitch) {
             .then(response => response.json())
             .then(response => alert( "code : "+response.code));
     }
+
     // const effenRan = useRef(false);
     const [isChecked, setisChecked] = useState(false);
+
     useEffect(
         () => {
             fetch(url)
@@ -37,11 +40,13 @@ export default function Switch({ id2, name, url }: tSwitch) {
             
         },[]
     )
-    function changeState() {
+
+    const changeState = () => {
         setisChecked(!isChecked);
         console.log("checkkkkkkkkkk "+!isChecked)
         pushState(!isChecked);
     }
+
     return (
         <div className='m-3' id={url} key = {url}>
             <div className="flex justify-center items-center">
@@ -72,3 +77,5 @@ export default function Switch({ id2, name, url }: tSwitch) {
         </div>
     )
 }
+
+export default Switch

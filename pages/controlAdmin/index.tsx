@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import Switch from "@/components/switch";
 import Board from "@/components/board";
 import { group, updateBoard } from "@/utils/controlPage";
+import { NextPage } from "next";
 
-function page() {
+const Page: NextPage = () => {
   useEffect(() => {
     // console.log("main page");
   }, []);
@@ -36,4 +37,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

@@ -6,7 +6,7 @@ interface typeRowI {
   element: typeRow;
 }
 
-export default function Row({ element }: typeRowI) {
+const Row: React.FC<typeRowI> = ({ element }) => {
   const [defaultValue, setDefaultValue] = useState(element.score);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ export default function Row({ element }: typeRowI) {
     console.log("row Re");
   }, [element]);
 
-  function handleChange(event: any, element: typeRow) {
+  const handleChange = (event: any, element: typeRow) => {
     setDefaultValue(event.target.value);
     element.score = Number(event.target.value);
     console.log(element.score);
@@ -48,3 +48,5 @@ export default function Row({ element }: typeRowI) {
     </div>
   );
 }
+
+export default Row

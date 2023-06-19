@@ -10,8 +10,9 @@ import BootcampLogo from "@/assets/images/logo.png";
 import { FaPersonBooth, FaShoppingBag } from "react-icons/fa";
 import Link from "next/link";
 import Head from "next/head";
+import { NextPage } from "next";
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
     <div className="flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
       <Head>
@@ -38,3 +39,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Home

@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import Row from "./row";
 
 const url: string = "https://jsonplaceholder.typicode.com/todos";
-export default function Board() {
+const Board: React.FC = () => {
   const popupStyle = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -29,14 +29,14 @@ export default function Board() {
     console.log("board Re");
   }, [isUpdate]);
 
-  function updateGroup() {
+  const updateGroup = () => {
     openPopup();
     setIsUpdate(!isUpdate);
     // setGroupS(groupTemp);
     console.log(group);
   }
 
-  function getGroup() {
+  const getGroup = () => {
     // window.location.reload();
     updateBoard();
     console.log("updatedBoard");
@@ -99,4 +99,6 @@ export default function Board() {
       })}
     </>
   );
-}
+};
+
+export default Board;
