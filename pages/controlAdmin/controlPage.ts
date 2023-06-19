@@ -2,18 +2,21 @@ import Row from '@/pages/controlAdmin/board'
 import { ReactElement } from 'react';
 import * as ReactDOM from 'react-dom/client'; 
 
-
-
 export let group: typeRow[] = [
     {
         name: 'A',
         score: 10,
-        card: 3
+        card: 4
     },
     {
         name: 'B',
         score: 11,
         card: 5
+    },
+    {
+        name: 'C',
+        score: 78,
+        card: 777
     }
 ]
 export interface typeRow {
@@ -32,20 +35,21 @@ export function updateBoard() {
     group = [
         {
             name: 'A',
-            score: 10,
+            score: 37,
             card: 3
-        },
-        {
-            name: 'B',
-            score: 11,
-            card: 5
         },
         {
             name: 'C',
             score: 78,
             card: 777
+        },
+        {
+            name: 'B',
+            score: 22,
+            card: 5
         }
     ]
+    alert("done")
 }
 
 

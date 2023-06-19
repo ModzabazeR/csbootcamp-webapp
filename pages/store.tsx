@@ -18,7 +18,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           return (
             <Card
               key={i}
-              id={e.id}
+              id={i.toString()}
               name={e.name}
               detail={e.detail}
               card_type_id={e.card_type_id}

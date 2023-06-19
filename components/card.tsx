@@ -31,7 +31,7 @@ const Card: React.FC<ICard> = ({
 
   useEffect(() => {
     console.log("Card Id: " + id);
-  }, []);
+  }, [isOpen]);
   return (
     <>
       <Modal
