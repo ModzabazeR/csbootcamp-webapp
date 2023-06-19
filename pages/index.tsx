@@ -7,7 +7,7 @@
 
 import Image from "next/image";
 import BootcampLogo from "@/assets/images/logo.png";
-import { FaShoppingBag } from "react-icons/fa";
+import { FaPersonBooth, FaShoppingBag } from "react-icons/fa";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -28,6 +28,12 @@ export default function Home() {
         className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
       >
         <FaShoppingBag className="drop-shadow-lg" />
+      </Link>
+      <Link
+        href="/controlAdmin"
+        className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
+      >
+        <FaPersonBooth className="drop-shadow-lg" />
       </Link>
     </div>
   );
