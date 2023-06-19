@@ -9,6 +9,7 @@ const LogInPanel: React.FC = () => {
     console.log("User pressed login")
 	console.log(data)
   };
+  
   return (
     <form onSubmit={handleSubmit} className="flex flex-col mb-8 gap-y-4 text-white">
       <div className="flex flex-col">
