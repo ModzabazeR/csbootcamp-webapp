@@ -24,20 +24,22 @@ const Home: NextPage = () => {
       </div>
 
       {/* ปุ่มชั่วคราว */}
-      <Link
-        href="/store"
-        className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
-      >
-        <FaShoppingBag className="drop-shadow-lg" />
-      </Link>
-      <Link
-        href="/controlAdmin"
-        className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
-      >
-        <FaPersonBooth className="drop-shadow-lg" />
-      </Link>
+      <div className="flex gap-8">
+        <Link
+          href="/store"
+          className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
+        >
+          <FaShoppingBag className="drop-shadow-lg" />
+        </Link>
+        <Link
+          href="/admin/control"
+          className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
+        >
+          <FaPersonBooth className="drop-shadow-lg" />
+        </Link>
+      </div>
     </div>
   );
-}
+};
 
-export default Home
+export default Home;
