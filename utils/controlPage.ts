@@ -1,4 +1,4 @@
-import Row from '@/pages/controlAdmin/board'
+import Row from '@/components/board'
 import { ReactElement } from 'react';
 import * as ReactDOM from 'react-dom/client'; 
 

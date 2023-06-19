@@ -7,7 +7,7 @@ interface tSwitch {
     url: string;
 }
 
-export default function Swich({ id2, name, url }: tSwitch) {
+export default function Switch({ id2, name, url }: tSwitch) {
     async function getstatus() {
         const res = await fetch(url).then()
         const data = await res.json();
