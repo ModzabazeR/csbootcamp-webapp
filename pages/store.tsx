@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import Card from "@/components/card";
-import { ICard } from "@/typings";
+import { ICard, getCardsResponse } from "@/typings";
 import Head from "next/head";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
@@ -25,8 +25,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
               id={e.id}
               name={e.name}
               detail={e.detail}
-              card_type_id={e.card_type_id}
-              price={e.price}
+              type={e.type}
+              prices={e.prices}
               img_url={e.img_url}
             />
           );
@@ -39,24 +39,23 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 export default Store;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const tempCard = {
-    id: "1",
-    name: "Example Card",
-    detail: "This is an Example Card",
-    card_type_id: 0,
-    price: 50,
-    img_url:
-      "https://1.bp.blogspot.com/-agFXet3-wqg/VBTsSI1HkrI/AAAAAAAACWg/4lKOvcczY6E/s1600/การ์ดนางฟ้า.jpg",
-  };
-
-  const cardArr = [];
-  for (let i = 0; i < 10; i++) {
-    cardArr.push(tempCard);
+  const CARDS_URL = "https://api.cscamp.net/api/cards"
+  let headersList = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    "User-Agent": "Thunder Client (https://www.thunderclient.com)"
   }
-
+   
+   let response = await fetch(CARDS_URL, { 
+     method: "GET",
+     headers: headersList
+   });
+   let dataJson: getCardsResponse = await response.json()
+   console.log(`Get card status: ${dataJson.code}`)
+   
   return {
     props: {
-      cardArr,
+      cardArr: dataJson.data,
     },
   };
 };

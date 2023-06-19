@@ -7,8 +7,8 @@ const Card: React.FC<ICard> = ({
   id,
   name,
   detail,
-  card_type_id,
-  price,
+  type,
+  prices,
   img_url,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,13 +44,13 @@ const Card: React.FC<ICard> = ({
         <div className="flex flex-col items-center text-center h-full w-full justify-center">
           <Image src={img_url} alt={name} width={200} height={400} />
           <p className="text-xl font-bold my-2">{name}</p>
-          <p>ประเภท: {card_type_id}</p>
+          <p>ประเภท: {type}</p>
           <p>
             ความสามารถ:
             <br />
             {detail}
           </p>
-          <p>ราคา: {price}$</p>
+          <p>ราคา: {prices}$</p>
 		  <div className="flex w-full justify-between mt-2">
 			  <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
 			  <button className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">ซื้อ</button>
@@ -62,8 +62,8 @@ const Card: React.FC<ICard> = ({
         className="drop-shadow-md text-center rounded-lg"
         onClick={openPopup}
       >
-        <Image src={img_url} alt={name} width={200} height={400} />
-        <p className="text-2xl text-white leading-10">{price}$</p>
+        <Image src={img_url} alt={name} width={200} height={400}/>
+        <p className="text-2xl text-white leading-10">{prices}$</p>
       </div>
     </>
   );

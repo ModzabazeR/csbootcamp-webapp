@@ -2,8 +2,8 @@ export interface ICard {
 	id: string;
 	name: string;
 	detail: string;
-	card_type_id: number;
-	price: number;
+	type: string;
+	prices: number;
 	img_url: string;
 }
 
@@ -62,6 +62,11 @@ export interface getUserByIdResponse {
 	data: {
 		user_id: string;
 		point: number;
-		card: Icard[]
+		card: Icard[];
 	}
+}
+
+export interface getCardsResponse {
+	code: string;
+	data: ICard[];
 }
