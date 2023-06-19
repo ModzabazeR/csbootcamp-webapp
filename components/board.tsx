@@ -94,8 +94,8 @@ const Board: React.FC = () => {
       <button className="bg-red-200 p-4" onClick={updateGroup}>
         send
       </button>
-      {group.map((e) => {
-        return <Row element={e} />;
+      {group.map((user) => {
+        return <Row groupUser={user} />;
       })}
     </>
   );

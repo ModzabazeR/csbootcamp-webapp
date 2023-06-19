@@ -2,29 +2,25 @@ import { group } from "@/utils/controlPage";
 import { useEffect, useState } from "react";
 import { typeRow } from "../utils/controlPage";
 
-interface typeRowI {
-  element: typeRow;
-}
-
-const Row: React.FC<typeRowI> = ({ element }) => {
-  const [defaultValue, setDefaultValue] = useState(element.score);
+const Row: React.FC<{groupUser: typeRow}> = ({ groupUser }) => {
+  const [defaultValue, setDefaultValue] = useState(groupUser.score);
 
   useEffect(() => {
-    setDefaultValue(element.score);
+    setDefaultValue(groupUser.score);
     console.log("row Re");
-  }, [element]);
+  }, [groupUser]);
 
-  const handleChange = (event: any, element: typeRow) => {
+  const handleChange = (event: any, groupUser: typeRow) => {
     setDefaultValue(event.target.value);
-    element.score = Number(event.target.value);
-    console.log(element.score);
+    groupUser.score = Number(event.target.value);
+    console.log(groupUser.score);
     console.log("change");
   }
 
   return (
-    <div className="block w-full" key={element.name}>
+    <div className="block w-full" key={groupUser.name}>
       <div className=" grid grid-cols-3 gap-4 ">
-        <div className="border-2 border-r-black	">{element.name}</div>
+        <div className="border-2 border-r-black	">{groupUser.name}</div>
         <div className="border-2 border-r-black	">
           <label
             htmlFor="search"
@@ -39,11 +35,11 @@ const Row: React.FC<typeRowI> = ({ element }) => {
               id="score"
               className="block w-full p-4 pl-10 text-sm  dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Score"
-              onChange={(event) => handleChange(event, element)}
+              onChange={(event) => handleChange(event, groupUser)}
             ></input>
           </div>
         </div>
-        <div>{element.card}</div>
+        <div>{groupUser.card}</div>
       </div>
     </div>
   );
