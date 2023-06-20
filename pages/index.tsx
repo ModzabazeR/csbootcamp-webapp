@@ -1,24 +1,13 @@
-// import { Kanit } from 'next/font/google'
-
-// const kanit = Kanit({
-//   subsets: ['thai'],
-//   weight: '400'
-// })
-
 import Image from "next/image";
 import BootcampLogo from "@/assets/images/logo.png";
 import { FaPersonBooth, FaShoppingBag } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5"
 import Link from "next/link";
-import Head from "next/head";
 import { NextPage } from "next";
 
 const Home: NextPage = () => {
   return (
     <div className="flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
-      <Head>
-        <title>CS Bootcamp 2023 | 29 Ways to Survive</title>
-      </Head>
       <Image src={BootcampLogo} width={300} height={300} alt="bootcamp logo" />
       <div className="text-2xl md:text-5xl font-bold text-white drop-shadow-lg mb-8">
         CS29 Bootcamp | ยินดีต้อนรับ
