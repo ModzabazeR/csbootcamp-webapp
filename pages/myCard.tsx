@@ -11,7 +11,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   return (
     <div className="flex flex-col items-center bg-[#555555] py-6 gap-4">
       <Head>
-        <title>Shop | CS Bootcamp 2023</title>
+        <title>My Card | CS Bootcamp 2023</title>
       </Head>
       <div
         onClick={() => router.back()}

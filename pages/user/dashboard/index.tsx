@@ -47,7 +47,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
               ร้านค้า
             </button>
           </Link>
-          <Link href="">
+          <Link href="/myCard">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded h-14">
               ใช้การ์ด
             </button>
