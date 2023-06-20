@@ -5,6 +5,7 @@ import { ICard, getCardsResponse } from "@/typings";
 import Head from "next/head";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
+  console.log(cardArr)
   return (
     <div className="flex flex-col items-center bg-[#555555] py-6 gap-4">
       <Head>

@@ -64,12 +64,12 @@ const Board: React.FC = () => {
         style={popupStyle}
       >
         <div className="flex flex-col items-center text-center h-full w-full justify-center">
-          {group.map((e) => {
+          {group.data.map((e) => {
             return (
               // {console.log(e)}
               <div className=" min-w-[50%] grid grid-cols-3 gap-4 ">
-                <div>{e.name}</div>
-                <div>{e.score}</div>
+                <div>{e.user_id}</div>
+                <div>{e.point}</div>
                 <div>{e.card}</div>
               </div>
             );
@@ -97,7 +97,7 @@ const Board: React.FC = () => {
         </button>
       </div>
 
-      {group.map((user) => {
+      {group.data.map((user) => {
         return <Row groupUser={user} />;
       })}
     </div>

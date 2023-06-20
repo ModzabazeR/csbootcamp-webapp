@@ -1,24 +1,27 @@
 import Row from '@/components/board'
 import { ReactElement } from 'react';
 import * as ReactDOM from 'react-dom/client'; 
+import { getAllUser, typeRowGrup } from "@/typings";
 
-export let group: typeRow[] = [
+export let group: getAllUser = {
+    code: "000",
+    data: [
     {
-        name: 'A',
-        score: 10,
+        user_id: 'A',
+        point: 10,
         card: 4
     },
     {
-        name: 'B',
-        score: 11,
+        user_id: 'B',
+        point: 11,
         card: 5
     },
     {
-        name: 'C',
-        score: 78,
-        card: 777
-    }
-]
+        user_id: 'C',
+        point: 78,
+        card: 77777
+    }]
+}
 export interface typeRow {
     name: string;
     score: number;
@@ -32,20 +35,20 @@ export function fechSwitch() {
     
 }
 export function updateBoard() {
-    group = [
+    group.data = [
         {
-            name: 'A',
-            score: 37,
+            user_id: 'A',
+            point: 37,
             card: 3
         },
         {
-            name: 'C',
-            score: 78,
+            user_id: 'C',
+            point: 78,
             card: 777
         },
         {
-            name: 'B',
-            score: 22,
+            user_id: 'B',
+            point: 22,
             card: 5
         }
     ]

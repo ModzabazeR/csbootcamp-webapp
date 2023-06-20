@@ -1,26 +1,27 @@
 import { group } from "@/utils/controlPage";
 import { useEffect, useState } from "react";
 import { typeRow } from "../utils/controlPage";
+import { typeRowGrup } from "@/typings";
 
-const Row: React.FC<{groupUser: typeRow}> = ({ groupUser }) => {
-  const [defaultValue, setDefaultValue] = useState(groupUser.score);
+const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
+  const [defaultValue, setDefaultValue] = useState(groupUser.point);
 
   useEffect(() => {
-    setDefaultValue(groupUser.score);
+    setDefaultValue(groupUser.point);
     console.log("row Re");
   }, [groupUser]);
 
-  const handleChange = (event: any, groupUser: typeRow) => {
+  const handleChange = (event: any, groupUser: typeRowGrup) => {
     setDefaultValue(event.target.value);
-    groupUser.score = Number(event.target.value);
-    console.log(groupUser.score);
+    groupUser.point = Number(event.target.value);
+    console.log(groupUser.point);
     console.log("change");
   }
 
   return (
-    <div className="block w-full" key={groupUser.name}>
+    <div className="block w-full" key={groupUser.user_id}>
       <div className=" grid grid-cols-3 gap-4 ">
-        <div className="border-r-2	 border-r-black	">{groupUser.name}</div>
+        <div className="border-r-2	 border-r-black	">{groupUser.user_id}</div>
         <div className="border-r-2	pr-3 border-r-black	">
           <label
             htmlFor="search"

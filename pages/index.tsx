@@ -1,6 +1,6 @@
 import Image from "next/image";
 import BootcampLogo from "@/assets/images/logo.png";
-import { FaPersonBooth, FaShoppingBag } from "react-icons/fa";
+import { FaHome, FaPersonBooth, FaShoppingBag } from "react-icons/fa";
 import { IoLogIn } from "react-icons/io5"
 import Link from "next/link";
 import { NextPage } from "next";
@@ -22,10 +22,10 @@ const Home: NextPage = () => {
             <IoLogIn className="drop-shadow-lg" />
         </Link>
         <Link
-          href="/store"
+          href="/user/dashboard"
           className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
         >
-          <FaShoppingBag className="drop-shadow-lg" />
+          <FaHome className="drop-shadow-lg" />
         </Link>
         <Link
           href="/admin/control"

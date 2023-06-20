@@ -66,6 +66,21 @@ export interface getUserByIdResponse {
 	}
 }
 
+export interface getAllUser{
+	code: string;
+	data: {
+		user_id: string;
+		point: number;
+		card: number;
+	}[]
+}
+
+export interface typeRowGrup {
+	user_id: string;
+	point: number;
+	card: number;
+  }
+
 export interface getCardsResponse {
 	code: string;
 	data: ICard[];
