@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: 'Kanit', sans-serif;
-}
-
 .ReactModal__Overlay {
   opacity: 0;
   transition: opacity 200ms ease-in-out;
