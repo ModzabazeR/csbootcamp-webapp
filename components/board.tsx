@@ -55,7 +55,7 @@ const Board: React.FC = () => {
   };
 
   return (
-    <>
+    <div>
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
@@ -97,7 +97,7 @@ const Board: React.FC = () => {
       {group.map((user) => {
         return <Row groupUser={user} />;
       })}
-    </>
+    </div>
   );
 };
 

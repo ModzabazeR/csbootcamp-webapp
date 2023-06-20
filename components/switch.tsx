@@ -42,9 +42,10 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
     )
 
     const changeState = () => {
-        setisChecked(!isChecked);
-        console.log("checkkkkkkkkkk "+!isChecked)
-        pushState(!isChecked);
+        let isCheckedNew : boolean = !isChecked;
+        setisChecked(isCheckedNew);
+        console.log("check "+isCheckedNew);
+        pushState(isCheckedNew);
     }
 
     return (
