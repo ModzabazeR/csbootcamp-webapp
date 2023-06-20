@@ -20,8 +20,8 @@ const Row: React.FC<{groupUser: typeRow}> = ({ groupUser }) => {
   return (
     <div className="block w-full" key={groupUser.name}>
       <div className=" grid grid-cols-3 gap-4 ">
-        <div className="border-2 border-r-black	">{groupUser.name}</div>
-        <div className="border-2 border-r-black	">
+        <div className="border-r-2	 border-r-black	">{groupUser.name}</div>
+        <div className="border-r-2	pr-3 border-r-black	">
           <label
             htmlFor="search"
             className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"

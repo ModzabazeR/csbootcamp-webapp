@@ -55,7 +55,7 @@ const Board: React.FC = () => {
   };
 
   return (
-    <div>
+    <div  >
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
@@ -91,9 +91,12 @@ const Board: React.FC = () => {
         </div>
       </Modal>
 
-      <button className="bg-red-200 p-4" onClick={updateGroup}>
-        send
-      </button>
+      <div className="flex items-center justify-center">
+        <button className="bg-red-200 p-4 object-center" onClick={updateGroup}>
+          send
+        </button>
+      </div>
+
       {group.map((user) => {
         return <Row groupUser={user} />;
       })}

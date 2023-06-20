@@ -28,10 +28,8 @@ const Page: NextPage = () => {
           url="https://api.cscamp.net/api/settings/plays"
         />
       </div>
-      <div className="flex w-full h-auto justify-center items-center bg-purple-100">
-        <div id="boxControl" className="grid grid-cols-1 gap-4">
+      <div className="mt-3 flex w-full h-auto justify-center items-center bg-purple-100">    
           <Board />
-        </div>
       </div>
     </div>
   );
