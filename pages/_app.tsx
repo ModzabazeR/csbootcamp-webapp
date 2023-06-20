@@ -19,14 +19,12 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>CS Bootcamp 2023 | 29 Ways to Survive</title>
       </Head>
-      <style>{`
-        .ReactModalPortal {
+      <style jsx global>{`
+        html {
           font-family: ${kanit.style.fontFamily};
         }
       `}</style>
-      <main className={kanit.className}>
-        <Component {...pageProps} />
-      </main>
+      <Component {...pageProps} />
     </>
   );
 }
