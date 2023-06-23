@@ -1,4 +1,4 @@
-import { group } from "@/utils/controlPage";
+import { group } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
 import { typeRowGrup } from "@/typings";
 

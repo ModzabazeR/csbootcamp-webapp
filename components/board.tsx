@@ -1,4 +1,4 @@
-import { group, typeRow, updateBoard } from "@/utils/controlPage";
+import { group, updateBoard } from "@/utils/boardLeader";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Row from "./row";
@@ -16,15 +16,12 @@ const Board: React.FC = () => {
 
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [test, setTest] = useState<any>({});
 
   useEffect(() => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setTest(data);
-        console.log(test);
       });
     console.log("board Re");
   }, [isUpdate]);
@@ -92,7 +89,7 @@ const Board: React.FC = () => {
       </Modal>
 
       <div className="flex items-center justify-center">
-        <button className="bg-red-200 p-4 object-center" onClick={updateGroup}>
+        <button className="bg-red-200 m-2 p-4 object-center" onClick={updateGroup}>
           send
         </button>
       </div>

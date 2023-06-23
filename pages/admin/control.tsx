@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Switch from "@/components/switch";
 import Board from "@/components/board";
-import { group, updateBoard } from "@/utils/controlPage";
+import { group, updateBoard } from "@/utils/boardLeader";
 import { NextPage } from "next";
+import router from "next/router";
 
 const Page: NextPage = () => {
   useEffect(() => {
@@ -14,7 +15,13 @@ const Page: NextPage = () => {
       key="controlPage"
       className="p-3 h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
     >
-      <div className="flex w-full h-1/4 justify-center items-center bg-purple-200	">
+      <div
+        onClick={() => router.back()}
+        className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
+      >
+        Back
+      </div>
+      <div className="flex w-full h-1/4 justify-center items-center bg-purple-200	rounded">
         <Switch
           key={0}
           id2="BuyCardBtn"
@@ -28,7 +35,7 @@ const Page: NextPage = () => {
           url="https://api.cscamp.net/api/settings/plays"
         />
       </div>
-      <div className="mt-3 flex w-full h-auto justify-center items-center bg-purple-100">    
+      <div className="mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded">    
           <Board />
       </div>
     </div>

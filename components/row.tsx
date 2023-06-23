@@ -1,6 +1,6 @@
-import { group } from "@/utils/controlPage";
+import { group } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
-import { typeRow } from "../utils/controlPage";
+import { typeRow } from "../utils/boardLeader";
 import { typeRowGrup } from "@/typings";
 
 const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {

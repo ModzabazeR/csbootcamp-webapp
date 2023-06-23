@@ -1,7 +1,4 @@
-import Row from '@/components/board'
-import { ReactElement } from 'react';
-import * as ReactDOM from 'react-dom/client'; 
-import { getAllUser, typeRowGrup } from "@/typings";
+import { getAllUser } from "@/typings";
 
 export let group: getAllUser = {
     code: "000",
@@ -22,18 +19,7 @@ export let group: getAllUser = {
         card: 77777
     }]
 }
-export interface typeRow {
-    name: string;
-    score: number;
-    card: number;
-}
 
-export function testF() {
-    console.log("run");
-}
-export function fechSwitch() {
-    
-}
 export function updateBoard() {
     group.data = [
         {
