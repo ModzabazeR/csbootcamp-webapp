@@ -12,7 +12,7 @@ const AdminDashboard: NextPage<{ groups: getAllUser }> = ({ groups }) => {
   const [isEvent, setIsEvent] = useState(false);
   return (
     <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
-      <div className="flex flex-col md:flex-row gap-4 md:gap-8 h-5/6 md:h-5/6">
+      <div className="flex flex-col md:flex-row gap-4 h-5/6 md:h-5/6">
         <div className="w-full md:w-4/6 h-1/2 md:h-full">
           <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center justify-start h-full divide-y-2 divide-slate-400/25">
             <div className="block w-full sm:text-xl	md:text-4xl" key="user_id">
