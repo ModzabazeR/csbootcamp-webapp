@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Switch from "@/components/switch";
-import Board from "@/components/board";
+import Board from "@/components/boardControl";
 import { group, updateBoard } from "@/utils/boardLeader";
 import { NextPage } from "next";
 import router from "next/router";
@@ -35,7 +35,7 @@ const Page: NextPage = () => {
           url="https://api.cscamp.net/api/settings/plays"
         />
       </div>
-      <div className="mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded">    
+      <div className=" mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded">    
           <Board />
       </div>
     </div>
