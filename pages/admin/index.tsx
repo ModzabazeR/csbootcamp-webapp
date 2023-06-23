@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import BoardDisplay from "@/components/boardDisplay";
 import Log from "@/components/log";
 import { getAllUser } from "@/typings";
 import RowUser from "@/components/rowUser";
