@@ -13,7 +13,7 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
 
   return (
     <div className="block w-full" key={groupUser.user_id}>
-      <div className="grid grid-cols-3 gap-8 justify-items-center sm:text-xl	md:text-4xl	p-4">
+      <div className="grid grid-cols-3 gap-8 justify-items-center sm:text-xl md:text-4xl	p-4">
         <div className=" ">{groupUser.user_id}</div>
         <div className="	">{groupUser.point}</div>
         <div>{groupUser.card}</div>
