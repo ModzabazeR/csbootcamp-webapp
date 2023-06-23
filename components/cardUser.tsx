@@ -12,6 +12,13 @@ const Card: React.FC<ICard> = ({
   img_url,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  function tpyeCheck(type: string) {
+    if (type === 'Attack')
+      return 'ใช้ (สุ่มเป้าหมาย)'
+    else if(type === 'Defense')
+      return 'ใช้ (ป้องกันอัตโนมัติ)'
+    return 'ใช้'
+  }
   const popupStyle = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -41,6 +48,7 @@ const Card: React.FC<ICard> = ({
         closeTimeoutMS={200}
         style={popupStyle}
       >
+
         <div className="flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
           <Image src={img_url} alt={name} width={200} height={400} />
           <p className="text-xl font-bold my-2">{name}</p>
@@ -51,10 +59,10 @@ const Card: React.FC<ICard> = ({
             {detail}
           </p>
           <p>ราคา: {prices}$</p>
-		  <div className="flex w-full justify-between mt-2">
-			  <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
-			  <button className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">ซื้อ</button>
-		  </div>
+          <div className="flex w-full justify-between mt-2">
+            <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
+            <button className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">{tpyeCheck(type)}</button>
+          </div>
         </div>
       </Modal>
 
@@ -62,8 +70,8 @@ const Card: React.FC<ICard> = ({
         className="drop-shadow-md text-center rounded-lg"
         onClick={openPopup}
       >
-        <Image src={img_url} alt={name} width={200} height={400}/>
-        <p className="text-2xl text-white leading-10">{prices}$</p>
+        <Image src={img_url} alt={name} width={200} height={400} />
+        <p className="text-2xl text-white leading-10">{type}</p>
       </div>
     </>
   );
