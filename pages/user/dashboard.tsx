@@ -76,6 +76,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   });
   let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
 
+  dataJsonAllGroup.data.sort((a, b) =>{return b.point-a.point});
+
   return {
     props: {
       user: dataJsonMygroup,
