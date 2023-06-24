@@ -22,7 +22,7 @@ const AdminDashboard: NextPage<{ groups: getAllUser, logMessages: string[] }> = 
               </div>
             </div>
             {groups.data.map((eachGroup) => {
-              return <RowUser groupUser={eachGroup} />;
+              return <RowUser groupUser={eachGroup} key={eachGroup.id} />;
             })}
           </div>
         </div>
