@@ -25,16 +25,18 @@ export interface ICardInUser {
 }
 
 export interface ILogBuy {
-	id: number;
+	id: string;
 	user_id: string;
 	card_id: string;
 	date_time: string;
 }
 
 export interface ILogEvent {
-	id: number;
+	id: string;
 	user_id: string;
+	card: ICard[];
 	target_id?: string;
+	date_time: string;
 }
 
 export interface ICardEvent {
@@ -65,6 +67,17 @@ export interface getUserByIdResponse {
 		card: Icard[];
 	}
 }
+
+export interface getLogBuyResponse {
+	code: string;
+	data: ILogBuy[];
+}
+
+export interface getLogEventResponse {
+	code: string;
+	data: ILogEvent[];
+}
+
 export interface arrayUser {
 	id: string;
 	point: number;
