@@ -1,44 +1,41 @@
 import { getAllUser } from "@/typings";
 
+const url = 'https://api.cscamp.net/api/users/'
+let headersList = {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+    "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+};
+
+export async function  getData(): Promise<getAllUser> {
+    updateBoard()
+    return group;
+  }
+
+function sortUsers(){
+    group.data.sort((a, b) =>{return b.point-a.point})
+}
 export let group: getAllUser = {
     code: "000",
     data: [
-    {
-        user_id: 'A',
-        point: 10,
-        card: 4
-    },
-    {
-        user_id: 'B',
-        point: 11,
-        card: 5
-    },
-    {
-        user_id: 'C',
-        point: 78,
-        card: 77777
-    }]
+        {
+            id: 'nothing',
+            point: 99999,
+            admin: 0,
+            card_count: 99999
+        }]
 }
 
-export function updateBoard() {
-    group.data = [
-        {
-            user_id: 'A',
-            point: 37,
-            card: 3
-        },
-        {
-            user_id: 'C',
-            point: 78,
-            card: 777
-        },
-        {
-            user_id: 'B',
-            point: 22,
-            card: 5
-        }
-    ]
-    alert("done")
+export async function updateBoard() {
+    const ALLUESR_URL = 'https://api.cscamp.net/api/users/'
+    let responseAllgroup = await fetch(ALLUESR_URL, {
+        method: "GET",
+        headers: headersList,
+    });
+    let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
+    console.log(dataJsonAllGroup)
+    group = dataJsonAllGroup;
+    sortUsers()
 }
 
 

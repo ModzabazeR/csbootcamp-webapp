@@ -1,4 +1,4 @@
-import { group } from "@/utils/boardLeader";
+import {  } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
 import { typeRowGrup } from "@/typings";
 
@@ -18,9 +18,9 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
   }
 
   return (
-    <div className="block w-full" key={groupUser.user_id}>
+    <div className="block w-full" key={groupUser.id}>
       <div className=" grid grid-cols-3 gap-4 ">
-        <div className="pl-5 text-center">{groupUser.user_id}</div>
+        <div className="pl-5 text-center">{groupUser.id}</div>
         <div className="border-x-2	px-5 border-x-black	">
           <div className="relative ">
             <input
@@ -34,7 +34,7 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
             ></input>
           </div>
         </div>
-        <div>{groupUser.card}</div>
+        <div>{groupUser.card_count}</div>
       </div>
     </div>
   );

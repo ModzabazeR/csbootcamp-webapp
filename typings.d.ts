@@ -65,21 +65,40 @@ export interface getUserByIdResponse {
 		card: Icard[];
 	}
 }
-
-export interface getAllUser{
+export interface arrayUser {
+	id: string;
+	point: number;
+	admin: number;
+	card_count: number;
+}
+export interface getAllUser {
 	code: string;
 	data: {
-		user_id: string;
+		id: string;
 		point: number;
-		card: number;
+		admin: number;
+		card_count: number;
+	}[]
+}
+export interface groupPoint {
+	user_id: string,
+	update_point: int
+}
+
+export interface upDatePointAll {
+	admin: string;
+	points: {
+		user_id: string,
+		update_point: int
 	}[]
 }
 
 export interface typeRowGrup {
-	user_id: string;
+	id: string;
 	point: number;
-	card: number;
-  }
+	admin: number;
+	card_count: number;
+}
 
 export interface getCardsResponse {
 	code: string;

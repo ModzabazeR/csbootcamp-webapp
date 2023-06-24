@@ -1,6 +1,6 @@
 import { getAllUser, getUserByIdResponse } from "@/typings";
 import { GetServerSideProps, NextPage } from "next";
-import { group } from "@/utils/boardLeader";
+import { updateBoard } from "@/utils/boardLeader";
 import RowUser from "@/components/rowUser";
 import Link from "next/link";
 import router from "next/router";
@@ -9,7 +9,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
   user,
   groups,
 }) => {
-  console.log(user);
+  console.log(groups);
   return (
     <div className="overflow-scroll flex flex-col h-screen justify-start items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
       <div
@@ -31,24 +31,6 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
               <div>จำนวนการ์ด</div>
             </div>
           </div>
-          {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
-          })}
-          {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
-          })}
-          {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
-          })}
-          {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
-          })}
-          {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
-          })}
-          {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
-          })}
           {groups.data.map((eachGroup) => {
             return <RowUser groupUser={eachGroup} />;
           })}
@@ -75,23 +57,29 @@ export default Page;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
+  const ALLUESR_URL = 'https://api.cscamp.net/api/users/'
   let headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   };
 
-  let response = await fetch(USER_URL, {
+  let responseMygroup = await fetch(USER_URL, {
     method: "GET",
     headers: headersList,
   });
-  let dataJson: getUserByIdResponse = await response.json();
-  console.log(`Get card status: ${dataJson}`);
+  let dataJsonMygroup: getUserByIdResponse = await responseMygroup.json();
+  console.log(`Get card status: ${responseMygroup}`);
+  let responseAllgroup = await fetch(ALLUESR_URL, {
+    method: "GET",
+    headers: headersList,
+  });
+  let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
 
   return {
     props: {
-      user: dataJson,
-      groups: group,
+      user: dataJsonMygroup,
+      groups: dataJsonAllGroup,
     },
   };
 };
