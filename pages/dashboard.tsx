@@ -4,6 +4,7 @@ import { updateBoard } from "@/utils/boardLeader";
 import RowUser from "@/components/rowUser";
 import Link from "next/link";
 import router from "next/router";
+import { getGroupName } from "@/utils/userUtils";
 
 const Page: NextPage<{ user: any; groups: getAllUser }> = ({
   user,
@@ -18,9 +19,9 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
       >
         Log out
       </div> */}
-      <div className="flex flex-col h-full gap-4 py-8">
+      <div className="flex flex-col h-full gap-4 py-8 w-5/6">
         <div className="flex flex-col items-center justify-center sm:text-xl	md:text-4xl text-white h-1/6">
-          <span className="text-xl">คะแนนของทีม {user.id}</span>
+          <span className="text-xl">คะแนนของทีม {getGroupName("G01")}</span>
           <span className="text-7xl">100</span>
         </div>
         <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center h-4/6 divide-y-2 divide-slate-400/25">
@@ -32,7 +33,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
             </div>
           </div>
           {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} key={eachGroup.id} />;
+            return <RowUser groupUser={eachGroup} key={eachGroup.id} isFromAdmin={false} />;
           })}
         </div>
         <div className="content-center text-center grid grid-cols-2 row-start gap-4 justify-items-center w-full h-1/6">
