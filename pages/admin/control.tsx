@@ -37,7 +37,7 @@ const Page: NextPage = () => {
           url="https://api.cscamp.net/api/settings/plays"
         />
       </div>
-      <div className="overflow-scroll mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded">    
+      <div key='board' className="overflow-scroll mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded">    
           <Board />
       </div>
     </div>

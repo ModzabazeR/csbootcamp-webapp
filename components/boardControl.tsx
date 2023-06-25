@@ -109,7 +109,7 @@ const Board: React.FC = () => {
         <div className="flex flex-col items-center text-center h-full w-full justify-center">
           {arrayPoint.map((e) => {
             return (
-              <div className=" min-w-[50%] grid grid-cols-3 gap-4 ">
+              <div key={e.user_id+"preview"} className=" min-w-[50%] grid grid-cols-3 gap-4 ">
                 <div>{e.user_id}</div>
                 <div>{e.update_point}</div>
               </div>
@@ -142,7 +142,7 @@ const Board: React.FC = () => {
       </div>
       <div className="sm:text-xl	md:text-4xl" >
         {group.data.map((user) => {
-          return <Row groupUser={user} />;
+          return <Row key={user.id+" idUser"} groupUser={user} />;
         })}
       </div>
 
