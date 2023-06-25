@@ -70,7 +70,9 @@ const Card: React.FC<ICard> = ({
       >
 
         <div className=" flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
-          <Image src={img_url} alt={name} width={200} height={400} />
+          <Image style={{
+            filter: disabled ? "grayscale(100%)" : "grayscale(0)"
+          }} src={img_url} alt={name} width={200} height={400} />
           <p className="text-xl font-bold my-2">{name}</p>
           <p>ประเภท: {type}</p>
           <p>
@@ -98,7 +100,9 @@ const Card: React.FC<ICard> = ({
         className="drop-shadow-md text-center rounded-lg"
         onClick={openPopup}
       >
-        <Image src={img_url} alt={name} width={200} height={400} />
+        <Image style={{
+            filter: disabled ? "grayscale(100%)" : "grayscale(0)"
+          }} src={img_url} alt={name} width={200} height={400} />
         <p className="text-2xl text-white leading-10">{type}</p>
       </div>
     </>

@@ -22,8 +22,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
         <span className="">You score</span>
         <span className="">{user.id}</span>
       </div>
-      <div className="grow w-max">
-        <div className="grow overflow-scroll rounded-lg bg-slate-200 flex flex-col items-center p-2 justify-start sm:max-h-[32rem] md:max-h-[50rem]	m-3 max-w-max	">
+      <div className="grow overflow-scroll overflow-x-hidden	 rounded-lg bg-slate-200 flex flex-col items-center p-2 justify-start sm:max-h-[32rem] md:max-h-[50rem] lg:	m-3:max-h-[70rem] max-w-max	">
           <div className="block w-full sm:text-xl	md:text-4xl" key='user_id'>
             <div className=" grid grid-cols-3 gap-2 justify-items-center">
               <div >ชื่อกลุ่ม</div>
@@ -34,7 +33,6 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
           {groups.data.map((eachGroup) => {
             return <RowUser groupUser={eachGroup} />;
           })}
-        </div>
       </div>
       <div>
         <div className="content-center grid grid-cols-2 row-start gap-8 justify-items-center h-32">

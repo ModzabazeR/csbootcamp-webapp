@@ -24,15 +24,18 @@
 {
 	width: 6px;
   height: 6px;
-	background-color: #F5F5F5;
+	background-color: none;
+  border-radius: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb
 {
 	background-color: #505050;
+  border-radius: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb:hover
 {
 	background-color: #303030;
+  border-radius: 0.5rem;
 }
