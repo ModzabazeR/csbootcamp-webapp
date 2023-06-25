@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
 import Card from "@/components/card";
-import { ICard, getCardsResponse } from "@/typings";
+import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -55,6 +55,33 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
    });
    let dataJson: getCardsResponse = await response.json()
    console.log(`Get card status: ${dataJson.code}`)
+
+   let dataJsonUser:getUserByIdResponse = 
+   {
+    code: 'string',
+    data: {
+      user_id: 'string',
+      point: 9999,
+      card: [{
+        id: "AT11",
+        name: "DISPIONT",
+        detail: "ATTACK",
+        type: "Attack",
+        prices: 75,
+        img_url: "https://media.discordapp.net/attachments/1115665101035413554/1120373815218810880/BF31.png"
+        },
+        
+        {
+        id: "DF11",
+        name: "DEFATMINUS",
+        detail: "DEFENSE",
+        type: "Defense",
+        prices: 50,
+        img_url: "https://media.discordapp.net/attachments/1115665101035413554/1120373815218810880/BF31.png"
+        }]
+    }
+  }
+  dataJson.data = dataJson.data.filter(e1 =>!(dataJsonUser.data.card.some(e2 => e2.id === e1.id)))
    
   return {
     props: {
