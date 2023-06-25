@@ -1,13 +1,34 @@
-const LogInPanel: React.FC = () => {
-  const handleSubmit = async (e: any) => {
+import { useState } from "react";
+
+async function loginPerform(credentials:{username:string,password:string}) {
+  const dataBody = {
+    username: Buffer.from(credentials.username, 'utf8').toString('base64'),
+    password:Buffer.from(credentials.password, 'utf8').toString('base64')
+  }
+  console.log(dataBody);
+  return fetch('https://api.cscamp.net/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dataBody)
+  })
+    .then(data => data.json())
+    .then(dataJson => console.log(dataJson))
+ }
+
+const  LogInPanel: React.FC = () => {
+  const [token, setToken] = useState();
+  const  handleSubmit = async (e: any) => {
     e.preventDefault();
 
 	const data = {
 		username: e.target.username.value,
 		password: e.target.password.value,
 	}
-    console.log("User pressed login")
-	console.log(data)
+  // console.log("User pressed login")
+	// console.log(data)
+  console.log(await loginPerform(data))
   };
   
   return (
