@@ -13,8 +13,8 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
   const handleChange = (event: any, groupUser: typeRowGrup) => {
     setDefaultValue(event.target.value);
     groupUser.point = Number(event.target.value);
-    console.log(groupUser.point);
-    console.log("change");
+    // console.log(groupUser.point);
+    // console.log("change");
   }
 
   return (

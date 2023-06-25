@@ -45,14 +45,14 @@ const Page: NextPage = () => {
 }
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
-//   let headersList = {
-//     Accept: "application/json",
-//     "Content-Type": "application/json",
-//     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-//   };
+//   // const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
+//   // let headersList = {
+//   //   Accept: "application/json",
+//   //   "Content-Type": "application/json",
+//   //   "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+//   // };
 
-//   // await updateBoard();
+//   await updateBoard();
 
 //   // let response = await fetch(USER_URL, {
 //   //   method: "GET",
@@ -63,7 +63,7 @@ const Page: NextPage = () => {
   
 //   return {
 //     props: {
-//       groups: group,
+//       groups: null,
 //     },
 //   };
 // };

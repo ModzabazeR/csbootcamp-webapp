@@ -31,7 +31,7 @@ const Board: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    updateBoard();
+    getGroup();
   }, [])
   useEffect(() => {
     console.log("board Re");
