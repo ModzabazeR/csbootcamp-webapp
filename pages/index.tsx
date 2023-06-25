@@ -22,7 +22,7 @@ const Home: NextPage = () => {
             <IoLogIn className="drop-shadow-lg" />
         </Link>
         <Link
-          href="/user/dashboard"
+          href="/dashboard"
           className="bg-yellow-300 hover:bg-white p-4 rounded-xl drop-shadow-lg text-white hover:text-yellow-300 text-5xl transition-all duration-300"
         >
           <FaHome className="drop-shadow-lg" />

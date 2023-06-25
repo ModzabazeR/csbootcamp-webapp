@@ -37,13 +37,13 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
         </div>
         <div className="content-center text-center grid grid-cols-2 row-start gap-4 justify-items-center w-full h-1/6">
           <Link
-            href="/user/store"
+            href="/store"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded sm:text-xl	md:text-4xl w-full transition-all duration-150"
           >
             ร้านค้า
           </Link>
           <Link
-            href="/user/myCard"
+            href="/myCard"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded sm:text-xl	md:text-4xl w-full  transition-all duration-15"
           >
             ใช้การ์ด
