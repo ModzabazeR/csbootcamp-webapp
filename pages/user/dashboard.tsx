@@ -11,40 +11,42 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
 }) => {
   console.log(groups);
   return (
-    <div className="overflow-scroll flex flex-col h-screen justify-start items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
-      <div
+    <div className="flex h-screen items-center justify-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+      {/* <div
         onClick={() => router.back()}
         className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
       >
-        log out
-      </div>
-      <div className="flex flex-col items-center justify-center h-32 sm:text-xl	md:text-4xl">
-        <span className="">You score</span>
-        <span className="">{user.id}</span>
-      </div>
-      <div className="grow overflow-scroll overflow-x-hidden	 rounded-lg bg-slate-200 flex flex-col items-center p-2 justify-start sm:max-h-[32rem] md:max-h-[50rem] lg:	m-3:max-h-[70rem] max-w-max	">
-          <div className="block w-full sm:text-xl	md:text-4xl" key='user_id'>
-            <div className=" grid grid-cols-3 gap-2 justify-items-center">
-              <div >ชื่อกลุ่ม</div>
-              <div >คะแนน</div>
+        Log out
+      </div> */}
+      <div className="flex flex-col h-full gap-4 py-8">
+        <div className="flex flex-col items-center justify-center sm:text-xl	md:text-4xl text-white h-1/6">
+          <span className="text-xl">คะแนนของทีม {user.id}</span>
+          <span className="text-7xl">100</span>
+        </div>
+        <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center h-4/6 divide-y-2 divide-slate-400/25">
+          <div className="block w-full sm:text-xl	md:text-4xl" key="user_id">
+            <div className="grid grid-cols-3 gap-2 text-center justify-items-center p-4 font-bold">
+              <div>ชื่อกลุ่ม</div>
+              <div>คะแนน</div>
               <div>จำนวนการ์ด</div>
             </div>
           </div>
           {groups.data.map((eachGroup) => {
-            return <RowUser groupUser={eachGroup} />;
+            return <RowUser groupUser={eachGroup} key={eachGroup.id} />;
           })}
-      </div>
-      <div>
-        <div className="content-center grid grid-cols-2 row-start gap-8 justify-items-center h-32">
-          <Link href="/user/store">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded h-auto sm:text-xl	md:text-4xl">
-              ร้านค้า
-            </button>
+        </div>
+        <div className="content-center text-center grid grid-cols-2 row-start gap-4 justify-items-center w-full h-1/6">
+          <Link
+            href="/user/store"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded sm:text-xl	md:text-4xl w-full transition-all duration-150"
+          >
+            ร้านค้า
           </Link>
-          <Link href="/user/myCard">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded h-auto sm:text-xl	md:text-4xl">
-              ใช้การ์ด
-            </button>
+          <Link
+            href="/user/myCard"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded sm:text-xl	md:text-4xl w-full  transition-all duration-15"
+          >
+            ใช้การ์ด
           </Link>
         </div>
       </div>
@@ -55,7 +57,7 @@ export default Page;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
-  const ALLUESR_URL = 'https://api.cscamp.net/api/users/'
+  const ALLUESR_URL = "https://api.cscamp.net/api/users/";
   let headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -74,7 +76,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   });
   let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
 
-  dataJsonAllGroup.data.sort((a, b) =>{return b.point-a.point});
+  dataJsonAllGroup.data.sort((a, b) => {
+    return b.point - a.point;
+  });
 
   return {
     props: {

@@ -40,7 +40,7 @@ const  LogInPanel: React.FC = () => {
 
       <div className="flex flex-col">
         <label className="font-light"  htmlFor="password">Password</label>
-        <input className="p-2 text-black rounded-xl focus:outline-purple-500" type="password" name="password" id="password" required />
+        <input className="p-2 text-black rounded-xl focus:outline-purple-500" type="password" name="password" id="password" autoComplete="current-password" required />
       </div>
 
       <button className="bg-purple-300 p-2 rounded-xl uppercase mt-2" type="submit">Login</button>
