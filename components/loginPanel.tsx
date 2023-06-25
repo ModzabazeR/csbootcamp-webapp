@@ -26,8 +26,9 @@ const  LogInPanel: React.FC = () => {
 		username: e.target.username.value,
 		password: e.target.password.value,
 	}
-  // console.log("User pressed login")
-	// console.log(data)
+  
+  // redirects to /dashboard if is user
+  // redirects to /admin if is admin
   console.log(await loginPerform(data))
   };
   
