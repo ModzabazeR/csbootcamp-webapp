@@ -12,10 +12,12 @@ const Card: React.FC<ICard> = ({
   img_url,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
   function tpyeCheck(type: string) {
     if (type === 'Attack')
       return 'ใช้ (สุ่มเป้าหมาย)'
-    else if(type === 'Defense')
+    else if (type === 'Defense')
       return 'ใช้ (ป้องกันอัตโนมัติ)'
     return 'ใช้'
   }
@@ -27,6 +29,24 @@ const Card: React.FC<ICard> = ({
       background: "#D9D9D9",
     },
   };
+
+  async function buyCard(event: React.MouseEvent<HTMLElement>) {
+    setLoading(true)
+    let headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+    };
+    let response = await fetch('https://jsonplaceholder.typicode.com/todos/1', {
+      method: "GET",
+      headers: headersList,
+    });
+    let getdata = await response.json();
+    console.log(getdata);
+    // console.log(event)
+    setDisabled(true);
+    setLoading(false)
+  }
 
   const openPopup = () => {
     setIsOpen(true);
@@ -49,7 +69,7 @@ const Card: React.FC<ICard> = ({
         style={popupStyle}
       >
 
-        <div className="flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
+        <div className=" flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
           <Image src={img_url} alt={name} width={200} height={400} />
           <p className="text-xl font-bold my-2">{name}</p>
           <p>ประเภท: {type}</p>
@@ -61,7 +81,15 @@ const Card: React.FC<ICard> = ({
           <p>ราคา: {prices}$</p>
           <div className="flex w-full justify-between mt-2">
             <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
-            <button className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">{tpyeCheck(type)}</button>
+            <button disabled={disabled}
+              onClick={buyCard}
+              className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg"
+            style={{ backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
+            cursor: loading ? "wait" : "auto" 
+            }}
+            >
+              {tpyeCheck(type)}
+            </button>
           </div>
         </div>
       </Modal>

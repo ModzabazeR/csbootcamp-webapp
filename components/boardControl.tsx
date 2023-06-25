@@ -133,10 +133,10 @@ const Board: React.FC = () => {
       </Modal>
 
       <div className="flex items-center justify-center ">
-        <button className="bg-red-200 m-2 p-4 object-center rounded-lg	" onClick={updateGroup}>
+        <button className="bg-pink-400 m-2 p-4 object-center rounded-lg	" onClick={updateGroup}>
           send
         </button>
-        <button className="bg-red-200 m-2 p-4 object-center rounded-lg	" onClick={refresh}>
+        <button className="bg-green-400 m-2 p-4 object-center rounded-lg	" onClick={refresh}>
           refresh
         </button>
       </div>

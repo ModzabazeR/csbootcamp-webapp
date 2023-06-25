@@ -15,7 +15,7 @@ const Page: NextPage = () => {
   return (
     <div
       key="controlPage"
-      className="overflow-scroll p-3 h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"
+      className="overflow-scroll p-3 h-screen justify-center items-center bg-slate-800"
     >
       <div
         onClick={() => router.back()}

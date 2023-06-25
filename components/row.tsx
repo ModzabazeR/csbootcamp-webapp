@@ -28,7 +28,7 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
               value={defaultValue}
               type="text"
               id="score"
-              className="block w-full p-4 pl-10 text-center dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="my-2 block w-full p-4 pl-10 text-center dark:focus:ring-blue-500 dark:focus:border-blue-500 rounded-lg"
               placeholder="Score"
               onChange={(event) => handleChange(event, groupUser)}
             ></input>
