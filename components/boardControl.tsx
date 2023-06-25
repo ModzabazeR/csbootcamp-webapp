@@ -31,7 +31,7 @@ const Board: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    getGroup();
+    // getGroup();
   }, [])
   useEffect(() => {
     console.log("board Re");
@@ -72,7 +72,7 @@ const Board: React.FC = () => {
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,
-      'authentication': 'string' },
+      authorization: 'RzAxOkcwMWJvb3RDYW1wQDIwMjMwMQ==' },
       body: JSON.stringify({
         'admin': 'mek',
         'points': arrayPoint
