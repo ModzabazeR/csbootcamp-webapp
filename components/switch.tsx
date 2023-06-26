@@ -18,7 +18,9 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
         console.log("push "+isOpen+" " + id2)
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+            authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
+         },
             body: JSON.stringify({
                 'status': isOpen
             })
@@ -33,10 +35,23 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
     const [isChecked, setisChecked] = useState(false);
 
     useEffect(
+        
         () => {
-            fetch(url)
+            const headersGetList = {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+                authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
+              };
+            fetch(url, {
+                method: "GET",
+                headers: headersGetList,
+              })
             .then(res => res.json())
-            .then(data => setisChecked(JSON.parse(data.data[0].open)))
+            .then(data => {console.log(data);
+                setisChecked(JSON.parse(data.data[0].open))}
+                
+                )
             
         },[url]
     )

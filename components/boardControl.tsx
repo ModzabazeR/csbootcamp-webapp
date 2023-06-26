@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Row from "./row";
 import { GetServerSideProps } from "next";
-import { getAllUser, upDatePointAll, groupPoint } from "@/typings";
+import { getAllUser, upDatePointAll, groupPoint, arrayUser } from "@/typings";
 
 let arrayPoint: groupPoint[] = []
+let groupCopy: arrayUser[] = [...group.data]
 let dataPoint: upDatePointAll = {
   admin: 'string',
   points: [
@@ -39,10 +40,10 @@ const Board: React.FC = () => {
   // getGroup()
   const updateGroup = () => {
     arrayPoint = [];
-    for (var val of group.data) {
+    for (var i = 0; i < groupCopy.length; i++) {
       let arr: groupPoint = {
-        user_id: val.id,
-        update_point: val.point
+        user_id: group.data[i].id,
+        update_point: group.data[i].point - groupCopy[i].point
       }
       arrayPoint.push(arr);
       console.log(arrayPoint);
@@ -54,6 +55,7 @@ const Board: React.FC = () => {
   }
   const refresh = async () => {
     await updateBoard();
+    groupCopy = [...group.data];
     setIsUpdate(!isUpdate);
   }
 
@@ -67,12 +69,16 @@ const Board: React.FC = () => {
     console.log(group);
   }
 
+  async function compareNum(){
+
+  }
+
   async function pushData() {
     const urlPush: string = "https://api.cscamp.net/api/users/points";
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' ,
-      authorization: 'RzAxOkcwMWJvb3RDYW1wQDIwMjMwMQ==' },
+      authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q' },
       body: JSON.stringify({
         'admin': 'mek',
         'points': arrayPoint
