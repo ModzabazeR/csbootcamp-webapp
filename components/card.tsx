@@ -22,10 +22,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
-
-  useEffect(() => {
-    console.log("Card Id: " + id);
-  }, [id]);
+  
   return (
     <>
       <Modal
