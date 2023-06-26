@@ -98,6 +98,12 @@ export interface groupPoint {
 	update_point: int
 }
 
+export interface scoreSummary{
+	id : string,
+	point: number,
+	addPoint : number
+}
+
 export interface upDatePointAll {
 	admin: string;
 	points: {

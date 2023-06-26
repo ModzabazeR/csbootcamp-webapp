@@ -3,19 +3,11 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Row from "./row";
 import { GetServerSideProps } from "next";
-import { getAllUser, upDatePointAll, groupPoint, arrayUser } from "@/typings";
+import { getAllUser, upDatePointAll, groupPoint, arrayUser, scoreSummary } from "@/typings";
 
 let arrayPoint: groupPoint[] = []
 let groupCopy: arrayUser[] = [...group.data]
-let dataPoint: upDatePointAll = {
-  admin: 'string',
-  points: [
-    {
-      user_id: 'None',
-      update_point: 5
-    }
-  ]
-}
+let sumPoint : scoreSummary[] = []
 
 const Board: React.FC = () => {
   const popupStyle = {
@@ -39,12 +31,20 @@ const Board: React.FC = () => {
   }, [isUpdate]);
   // getGroup()
   const updateGroup = () => {
+    sumPoint = [];
     arrayPoint = [];
     for (var i = 0; i < groupCopy.length; i++) {
+      let addPointV = group.data[i].point -  groupCopy[i].point
       let arr: groupPoint = {
         user_id: group.data[i].id,
-        update_point: group.data[i].point - groupCopy[i].point
+        update_point: addPointV
       }
+      let arrSum : scoreSummary ={
+        id : group.data[i].id,
+        point : groupCopy[i].point,
+        addPoint : addPointV
+      }
+      sumPoint.push( arrSum)
       arrayPoint.push(arr);
       console.log(arrayPoint);
     }
@@ -53,9 +53,23 @@ const Board: React.FC = () => {
     // setGroupS(groupTemp);
     console.log(group);
   }
+  
+   const copyData = async () => {
+    groupCopy = [];
+    for(var item of group.data) {
+      let arr: arrayUser = {
+        id : item.id,
+        point : item.point,
+        admin : item.admin,
+        card_count : item.card_count
+      }
+      groupCopy.push(arr);
+    }
+   }
+
   const refresh = async () => {
     await updateBoard();
-    groupCopy = [...group.data];
+    copyData();
     setIsUpdate(!isUpdate);
   }
 
@@ -69,11 +83,9 @@ const Board: React.FC = () => {
     console.log(group);
   }
 
-  async function compareNum(){
-
-  }
 
   async function pushData() {
+    console.log(arrayPoint);
     const urlPush: string = "https://api.cscamp.net/api/users/points";
     const requestOptions = {
       method: 'POST',
@@ -113,11 +125,11 @@ const Board: React.FC = () => {
         style={popupStyle}
       >
         <div className="flex flex-col items-center text-center h-full w-full justify-center">
-          {arrayPoint.map((e) => {
+          {sumPoint.map((e) => {
             return (
-              <div key={e.user_id+"preview"} className=" min-w-[50%] grid grid-cols-3 gap-4 ">
-                <div>{e.user_id}</div>
-                <div>{e.update_point}</div>
+              <div key={e.id+"preview"} className=" min-w-[50%] grid grid-cols-3 gap-4 ">
+                <div>{e.id}</div>
+                <div>from {e.point} + {e.addPoint} = {e.point+e.addPoint}</div>
               </div>
             );
           })}

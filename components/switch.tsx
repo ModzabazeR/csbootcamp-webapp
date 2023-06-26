@@ -14,7 +14,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
         console.log(data.data[0].open + " " + url);
     }
 
-    const pushState = (isOpen: boolean) => {
+    const pushState = async (isOpen: boolean) => {
         console.log("push "+isOpen+" " + id2)
         const requestOptions = {
             method: 'POST',
@@ -26,7 +26,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
             })
         };
         // console.log(requestOptions.body)
-        fetch(url, requestOptions)
+        await fetch(url, requestOptions)
             .then(response => response.json())
             .then(response => alert( "code : "+response.code));
     }
