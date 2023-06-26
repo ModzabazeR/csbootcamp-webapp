@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ICard } from "@/typings";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import Loading from "./loading";
 
 const Card: React.FC<ICard> = ({
   id,
@@ -26,12 +27,15 @@ const Card: React.FC<ICard> = ({
       backgroundColor: "rgba(0, 0, 0, 0.75)",
     },
     content: {
-      background: "#D9D9D9",
+      background: "#D9D9D9"
     },
   };
 
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
-    setLoading(true)
+    console.log("clicki");
+    setDisabled(true);
+    setLoading(true);
+    event.currentTarget.style.cursor = 'wait';
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -44,7 +48,8 @@ const Card: React.FC<ICard> = ({
     let getdata = await response.json();
     console.log(getdata);
     // console.log(event)
-    setDisabled(true);
+    // event.currentTarget.style.cursor =  'default';
+    alert("successful");
     setLoading(false)
   }
 
@@ -61,6 +66,7 @@ const Card: React.FC<ICard> = ({
   }, []);
   return (
     <>
+    
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
@@ -68,8 +74,10 @@ const Card: React.FC<ICard> = ({
         closeTimeoutMS={200}
         style={popupStyle}
       >
-
+        
+        
         <div className=" flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
+        {loading ? <Loading /> : <div></div>}
           <Image style={{
             filter: disabled ? "grayscale(100%)" : "grayscale(0)"
           }} src={img_url} alt={name} width={200} height={400} />
@@ -85,10 +93,11 @@ const Card: React.FC<ICard> = ({
             <button className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg" onClick={closePopup}>ออก</button>
             <button disabled={disabled}
               onClick={buyCard}
-              className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg"
-            style={{ backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
-            cursor: loading ? "wait" : "auto" 
-            }}
+              className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg  cursor-pointer"
+              style={{
+                backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
+                cursor: disabled ? "default" : "pointer"
+              }}
             >
               {tpyeCheck(type)}
             </button>
@@ -101,8 +110,8 @@ const Card: React.FC<ICard> = ({
         onClick={openPopup}
       >
         <Image style={{
-            filter: disabled ? "grayscale(100%)" : "grayscale(0)"
-          }} src={img_url} alt={name} width={200} height={400} />
+          filter: disabled ? "grayscale(100%)" : "grayscale(0)"
+        }} src={img_url} alt={name} width={200} height={400} />
         <p className="text-2xl text-white leading-10">{type}</p>
       </div>
     </>
