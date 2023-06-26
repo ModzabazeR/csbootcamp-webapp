@@ -13,12 +13,12 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
   console.log(groups);
   return (
     <div className="flex h-screen items-center justify-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
-      {/* <div
+      <div
         onClick={() => router.back()}
         className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
       >
         Log out
-      </div> */}
+      </div>
       <div className="flex flex-col h-full gap-4 py-8 w-5/6">
         <div className="flex flex-col items-center justify-center sm:text-xl	md:text-4xl text-white h-1/6">
           <span className="text-xl">คะแนนของทีม {getGroupName("G01")}</span>
