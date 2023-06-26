@@ -1,50 +1,89 @@
 import { useState } from "react";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
-async function loginPerform(credentials:{username:string,password:string}) {
-  const dataBody = {
-    username: Buffer.from(credentials.username, 'utf8').toString('base64'),
-    password:Buffer.from(credentials.password, 'utf8').toString('base64')
-  }
-  console.log(dataBody);
-  return fetch('https://api.cscamp.net/api/login', {
-    method: 'POST',
+async function loginPerform(credentials: {
+  username: string;
+  password: string;
+}) {
+  const usernamePassword = Buffer.from(
+    `${credentials.username}:${credentials.password}`,
+    "utf8"
+  ).toString("base64");
+
+  fetch("https://api.cscamp.net/api/auth/login", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
+      authorization: usernamePassword,
     },
-    body: JSON.stringify(dataBody)
   })
-    .then(data => data.json())
-    .then(dataJson => console.log(dataJson))
- }
+    .then((data) => data.json())
+    .then((dataJson) => {
+      localStorage.setItem("token", dataJson.data.token);
+      console.log(
+        jwt.verify(
+          dataJson.data.token as string,
+          "BOOTCAMP_2023_SECRET_KEY"
+        ) as JwtPayload
+      );
+    });
 
-const  LogInPanel: React.FC = () => {
+  return;
+}
+
+const LogInPanel: React.FC = () => {
   const [token, setToken] = useState();
-  const  handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-	const data = {
-		username: e.target.username.value,
-		password: e.target.password.value,
-	}
-  
-  // redirects to /dashboard if is user
-  // redirects to /admin if is admin
-  console.log(await loginPerform(data))
+    const data = {
+      username: e.target.username.value,
+      password: e.target.password.value,
+    };
+
+    // redirects to /dashboard if is user
+    // redirects to /admin if is admin
+    console.log(await loginPerform(data));
   };
-  
+
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col mb-8 gap-y-4 text-white">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col mb-8 gap-y-4 text-white"
+    >
       <div className="flex flex-col">
-        <label className="font-light" htmlFor="username">Username</label>
-        <input className="p-2 text-black rounded-xl focus:outline-purple-500" type="text" name="username" id="username" required />
+        <label className="font-light" htmlFor="username">
+          Username
+        </label>
+        <input
+          className="p-2 text-black rounded-xl focus:outline-purple-500"
+          type="text"
+          name="username"
+          id="username"
+          required
+        />
       </div>
 
       <div className="flex flex-col">
-        <label className="font-light"  htmlFor="password">Password</label>
-        <input className="p-2 text-black rounded-xl focus:outline-purple-500" type="password" name="password" id="password" autoComplete="current-password" required />
+        <label className="font-light" htmlFor="password">
+          Password
+        </label>
+        <input
+          className="p-2 text-black rounded-xl focus:outline-purple-500"
+          type="password"
+          name="password"
+          id="password"
+          autoComplete="current-password"
+          required
+        />
       </div>
 
-      <button className="bg-purple-300 p-2 rounded-xl uppercase mt-2" type="submit">Login</button>
+      <button
+        className="bg-purple-300 p-2 rounded-xl uppercase mt-2"
+        type="submit"
+      >
+        Login
+      </button>
     </form>
   );
 };
