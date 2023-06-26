@@ -10,16 +10,28 @@ import BootcampLogo from "@/assets/images/logo.png";
 import Head from "next/head";
 import { NextPage } from "next";
 import LogInPanel from "@/components/loginPanel";
+import { motion } from "framer-motion";
 
 const LogIn: NextPage = () => {
   return (
-    <div className="flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
-      <Head>
-        <title>Login | CS Bootcamp 2023</title>
-      </Head>
-      <Image src={BootcampLogo} width={300} height={300} alt="bootcamp logo" />
-      <LogInPanel />
-    </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div className="flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+        <Head>
+          <title>Login | CS Bootcamp 2023</title>
+        </Head>
+        <Image
+          src={BootcampLogo}
+          width={300}
+          height={300}
+          alt="bootcamp logo"
+        />
+        <LogInPanel />
+      </div>
+    </motion.div>
   );
 };
 

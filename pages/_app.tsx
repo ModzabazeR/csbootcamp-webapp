@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import Modal from "react-modal";
+import { AnimatePresence } from "framer-motion";
 
 import { Kanit } from "next/font/google";
 import Head from "next/head";
@@ -12,7 +13,7 @@ const kanit = Kanit({
   display: "swap",
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   Modal.setAppElement("#__next");
   return (
     <>
@@ -24,7 +25,11 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${kanit.style.fontFamily};
         }
       `}</style>
-      <Component {...pageProps} />
+      <AnimatePresence mode="wait" initial={false}>
+        <Component {...pageProps} />
+      </AnimatePresence>
     </>
   );
 }
+
+export default App;
