@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { varlidateToken } from "@/utils/validateAdmin";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
+  const [refreshCardUser, setRefreshCardUser] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const router = useRouter();
   console.log(cardArr);

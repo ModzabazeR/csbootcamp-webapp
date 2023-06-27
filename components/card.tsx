@@ -23,6 +23,12 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     return true;
   };
 
+  useEffect(() => {
+    const haveCookie = handleGetCookie()
+    setDisabled(haveCookie)
+    console.log(type + haveCookie)
+  },[id])
+
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
