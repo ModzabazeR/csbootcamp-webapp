@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import Log from "@/components/log";
-import { getAllUser, getLogBuyResponse } from "@/typings";
+import { getAllUser, getLogBuyResponse, getLogEventResponseNew } from "@/typings";
 import RowUser from "@/components/rowUser";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -88,7 +88,7 @@ const AdminDashboard: NextPage<{
           <IoLogOut className="text-xl font-bold" />
         </div>
         <div className="flex flex-col md:flex-row gap-4 h-5/6 md:h-5/6">
-          <div className="w-full md:w-4/6 h-1/2 md:h-full">
+          <div className="w-11/12 h-1/2 md:h-full">
             <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center justify-start h-full divide-y-2 divide-slate-400/25">
               <div
                 className="block w-full sm:text-xl md:text-4xl"
@@ -155,45 +155,59 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return b.point - a.point;
   });
 
-  const logBuyResponse: getLogBuyResponse = {
-    code: "000",
-    data: [
-      {
-        id: "001",
-        user_id: "G01",
-        card_id: "1",
-        date_time: "2023-01-01 10:10:10",
-      },
-      {
-        id: "002",
-        user_id: "G01",
-        card_id: "2",
-        date_time: "2022-01-05 12:11:09",
-      },
-      {
-        id: "003",
-        user_id: "G02",
-        card_id: "1",
-        date_time: "2023-01-01 10:10:12",
-      },
-    ],
-  };
+  const responseEvenGroup = await fetch("https://api.cscamp.net/api/logs/events", {
+    method: "GET",
+    headers: headersList,
+  });
 
-  logBuyResponse.data.sort(
-    (a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime()
+
+  const dataJsonEvenGroup: getLogEventResponseNew = await responseEvenGroup.json();
+  // const logBuyResponse: getLogBuyResponse = {
+  //   code: "000",
+  //   data: [
+  //     {
+  //       id: "001",
+  //       user_id: "G01",
+  //       card_id: "1",
+  //       date_time: "2023-01-01 10:10:10",
+  //     },
+  //     {
+  //       id: "002",
+  //       user_id: "G01",
+  //       card_id: "2",
+  //       date_time: "2022-01-05 12:11:09",
+  //     },
+  //     {
+  //       id: "003",
+  //       user_id: "G02",
+  //       card_id: "1",
+  //       date_time: "2023-01-01 10:10:12",
+  //     },
+  //   ],
+  // };
+
+  // dataJsonEvenGroup.data.sort(
+  //   (a, b) => new Date(a.date_time).getTime() - new Date(b.date_time).getTime()
+  // );
+  dataJsonEvenGroup.data.sort(
+    (a, b) => a.id - b.id
   );
-  const logBuyMessages = [];
-  for (let i = 0; i < logBuyResponse.data.length; i++) {
-    let cur = logBuyResponse.data[i];
+  const logBuyMessages: string[] = [];
+  for (let i = 0; i < dataJsonEvenGroup.data.length; i++) {
+    let cur = dataJsonEvenGroup.data[i];
+    let at_cardName : string = (cur.at_card_id === null)? "none":cur.at_card_id.name
+    let bf_cardName : string = (cur.bf_card_id === null)? "none":cur.bf_card_id.name
+    let df_cardName : string = (cur.df_card_id === null)? "none":cur.df_card_id.name
     logBuyMessages.push(
-      `${cur.date_time} - (Buy) ${cur.user_id} bought card ${cur.card_id}.`
+      `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n`+` use at_card ${at_cardName} \n
+      use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}` 
     );
   }
 
   return {
     props: {
       groups: dataJsonAllGroup,
-      logMessages: logBuyMessages,
+      logMessages: logBuyMessages as string[],
     },
   };
 };

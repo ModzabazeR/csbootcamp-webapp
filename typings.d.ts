@@ -89,6 +89,41 @@ export interface getLogEventResponse {
 	data: ILogEvent[];
 }
 
+export interface getLogEventResponseNew {
+	code: string;
+	data: {
+		id : number;
+		user_id : string;
+		at_card_id :{
+			id : string;
+			name : string;
+			details : string;
+			type : string;
+			price : number;
+			img_url : string;
+		};
+		bf_card_id :{
+			id : string;
+			name : string;
+			details : string;
+			type : string;
+			price : number;
+			img_url : string;
+		};
+		df_card_id :{
+			id : string;
+			name : string;
+			details : string;
+			type : string;
+			price : number;
+			img_url : string
+		};
+		target_id : string;
+		detail: string;
+		date_time: string;
+	}[];
+}
+
 export interface arrayUser {
 	id: string;
 	point: number;
