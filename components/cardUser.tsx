@@ -4,11 +4,29 @@ import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Loading from "./loading";
 import { toBase64, convertImage } from "@/utils/imageUtils";
+import { useCookies } from 'react-cookie'
+
 
 const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
+  const [cookies, setCookie] = useCookies();
+  const  handleSetCookie = () => {
+    const expirationDate = new Date();
+    expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
+
+    setCookie( type, true, { maxAge: 20 * 60 });
+  };
+  const handleGetCookie = () => {
+    const cookieValue = cookies[type];
+    console.log('Cookie value:', cookieValue);
+    if ( cookieValue == undefined){
+      return false;
+    }
+    return cookieValue
+  };
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
+  
   function tpyeCheck(type: string) {
     if (type === "Attack") return "ใช้ (สุ่มเป้าหมาย)";
     else if (type === "Defense") return "ใช้ (ป้องกันอัตโนมัติ)";
@@ -27,6 +45,13 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     console.log("clicki");
     setDisabled(true);
     setLoading(true);
+    const haveCookie = handleGetCookie()
+    console.log(haveCookie);
+    if(haveCookie === true || haveCookie === 'true') {
+      alert("cannot use type in this card");
+      setLoading(false);
+      return;
+    }
     event.currentTarget.style.cursor = "wait";
     let headersList = {
       Accept: "application/json",
@@ -41,6 +66,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     console.log(getdata);
     // console.log(event)
     // event.currentTarget.style.cursor =  'default';
+    handleSetCookie()
     alert("successful");
     setLoading(false);
   }
@@ -52,6 +78,12 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const haveCookie = handleGetCookie()
+    setDisabled(haveCookie)
+    console.log(haveCookie)
+  },[])
 
   return (
     <>

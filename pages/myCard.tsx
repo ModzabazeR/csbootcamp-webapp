@@ -17,9 +17,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     if (validate === null) {
       router.push('/login')
     }
-    else if (validate === false) {
-      router.push('/dashboard')
-    }
     else if(validate === true) {
       router.push('/admin')
     }
