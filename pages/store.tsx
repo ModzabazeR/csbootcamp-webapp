@@ -69,7 +69,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           onClick={() => router.back()}
           className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
         >
-          Back
+          กลับ
         </div>
         <h1 className="text-5xl text-white">ร้านค้า</h1>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
