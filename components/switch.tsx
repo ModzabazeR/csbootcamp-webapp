@@ -69,17 +69,17 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
 
     return (
         <div className='m-3' id={url} key={url}>
-            <div className="flex justify-center items-center">
+            <div className="text-xl		m-3 flex justify-center items-center">
                 <span>Session</span>
             </div>
             <div className="flex justify-center items-center">
-                <div className="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                    <input checked={isChecked} type="checkbox" name={id2} id={id2} className="switch-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                <div className="relative inline-block w-20 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input checked={isChecked} type="checkbox" name={id2} id={id2} className="switch-checkbox absolute block w-10 h-10 rounded-full bg-white border-4 appearance-none cursor-pointer"
                         onChange={changeState}
                     />
-                    <label htmlFor={id2} className="switch-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    <label htmlFor={id2} className="switch-label block overflow-hidden h-10 rounded-full bg-gray-300 cursor-pointer"></label>
                 </div>
-                <label htmlFor={id2} className="text-xs text-gray-700">{name}</label>
+                <label htmlFor={id2} className="text-lg	 text-xs text-gray-700">{name}</label>
             </div>
             <style jsx>{`
        /* CHECKBOX switch SWITCH */
