@@ -107,6 +107,12 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
             >
               ใช้การ์ด
             </Link>
+            {/* <Link
+              href="/manual"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-5 px-4 rounded sm:text-xl	md:text-4xl w-full  transition-all duration-15"
+            >
+              คู่มือ
+            </Link> */}
           </div>
         </div>
       </div>

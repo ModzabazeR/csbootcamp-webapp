@@ -21,6 +21,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     else if(validate === true) {
       router.push('/admin')
     }
+
     const idUserString = localStorage.getItem("idUser");
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL)
@@ -42,7 +43,18 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         );
         setFilteredCardArr(filteredCards);
       })
-      
+
+      fetch('https://api.cscamp.net/api/status/shops', {
+        method: "GET",
+        headers: headersList,
+      })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (!(JSON.parse(data.data[0].open)))
+            router.push('/dashboard')
+        })
+        .catch(error => console.error(error))
   }, []);
   return (
     <motion.div
