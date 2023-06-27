@@ -6,6 +6,16 @@ export interface ICard {
 	prices: number;
 	img_url: string;
 }
+export interface ICardUser {
+	id: string;
+	name: string;
+	detail: string;
+	type: string;
+	prices: number;
+	img_url: string;
+	refresh : any;
+	refreshMain : any;
+}
 
 export interface IUser {
 	id: string;

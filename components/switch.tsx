@@ -29,7 +29,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
         // console.log(requestOptions.body)
         await fetch(url, requestOptions)
             .then(response => response.json())
-            .then(response => console.log(response.code))
+            .then(response => alert(response.code))
             .catch(error => console.error(error))
     }
 
@@ -43,7 +43,6 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-                authorization: localStorage.getItem("token") as string
             };
             fetch(url, {
                 method: "GET",

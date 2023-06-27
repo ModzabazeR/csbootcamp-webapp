@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ICard } from "@/typings";
+import { ICard, ICardUser } from "@/typings";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Loading from "./loading";
@@ -7,8 +7,9 @@ import { toBase64, convertImage } from "@/utils/imageUtils";
 import { useCookies } from 'react-cookie'
 
 
-const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
+const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,refresh,refreshMain }) => {
   const [cookies, setCookie] = useCookies();
+
   const  handleSetCookie = () => {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
@@ -17,7 +18,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   };
   const handleGetCookie = () => {
     const cookieValue = cookies[type];
-    console.log('Cookie value:', cookieValue);
+    console.log('Cookie value of :'+type+" "+cookieValue);
     if ( cookieValue == undefined){
       return false;
     }
@@ -27,10 +28,13 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
   
+  useEffect(() => {
+    setDisabled(false)
+  }, [refresh]);
   function tpyeCheck(type: string) {
-    if (type === "Attack") return "ใช้ (สุ่มเป้าหมาย)";
-    else if (type === "Defense") return "ใช้ (ป้องกันอัตโนมัติ)";
-    return "ใช้";
+    if (type === "Attack") return "เลือก (สุ่มเป้าหมาย)";
+    else if (type === "Defense") return "เลือก (ป้องกันอัตโนมัติ)";
+    return "เลือก";
   }
   const popupStyle = {
     overlay: {
@@ -48,15 +52,16 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     const haveCookie = handleGetCookie()
     console.log(haveCookie);
     if(haveCookie === true ) {
-      alert("cannot use type in this card");
+      alert("cannot use this type in this round");
       setLoading(false);
       return;
     }
     // console.log(event)
     // event.currentTarget.style.cursor =  'default';
     handleSetCookie()
-    alert("successful");
     setLoading(false);
+    refreshMain(Math.floor(Math.random() * 99999))
+    closePopup()
   }
 
   const openPopup = () => {
@@ -71,7 +76,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     const haveCookie = handleGetCookie()
     setDisabled(haveCookie)
     console.log(type + haveCookie)
-  },[])
+  },[id])
 
   return (
     <>

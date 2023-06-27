@@ -14,8 +14,12 @@ import { useCookies } from 'react-cookie'
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const [disabled, setDisabled] = useState(false);
+  console.log(disabled)
   const [loading, setLoading] = useState(false);
-  const [cookies, setCookie] = useCookies();
+  const [myCardList, setmyCardList] = useState("");
+  const [refreshCardUser, setRefreshCardUser] = useState(false);
+  const [refreshMycard, setRefrerefreshMycard] = useState(0);
+  const [cookies, setCookie, removeCookie] = useCookies();
   const router = useRouter();
   const booleanify = (value: string): boolean => {
     const truthy: string[] = [
@@ -26,6 +30,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 
     return truthy.includes(value)
   }
+
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
@@ -50,15 +55,27 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       .then((dataJson: getUserByIdResponse) => {
         setFilteredCardArr(dataJson.data.cards)
       })
+
+    fetch('https://api.cscamp.net/api/status/plays', {
+      method: "GET",
+      headers: headersList,
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (!(JSON.parse(data.data[0].open)))
+        router.push('/dashboard')
+      })
+      .catch(error => console.error(error))
     const haveCookie = cookies["bought"]
-    // setDisabled(booleanify(haveCookie))
+    setDisabled(booleanify(haveCookie))
     console.log("bought   " + haveCookie)
   }, []);
-  const handleSetCookie = () => {
+  const handleSetCookie = (isTrue: boolean) => {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
 
-    setCookie("bought", true, { maxAge: 20 * 60 });
+    setCookie("bought", isTrue, { maxAge: 20 * 60 });
   };
   const handleGetCookie = (type: string) => {
     const cookieValue = cookies[type];
@@ -70,6 +87,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   };
   console.log(cardArr);
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
+    event.currentTarget.style.cursor = 'default';
     setDisabled(true);
     const tokenString = localStorage.getItem("token") as string;
     const idUserString = localStorage.getItem("idUser") as string;
@@ -80,16 +98,21 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      authentication: tokenString
+      authorization: tokenString
     };
     const body = {
       buff: handleGetCookie('Buff'),
       atk: handleGetCookie('Attack'),
       def: handleGetCookie('Defense')
     }
-    
-    let res 
 
+    let res: {
+      code: string,
+      message: string
+    } = {
+      code: "",
+      message: ""
+    }
     await fetch(`https://api.cscamp.net/api/users/${idUserString}/play`, {
       method: "POST",
       headers: headersList,
@@ -99,20 +122,57 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         def: handleGetCookie('Defense')
       })
     }).then(response => response.json())
-      .then(data => {console.log(data);
-        res = data})
+      .then(data => {
+        console.log(data);
+        res = data
+      })
       .catch(error => console.log(error))
     console.log(body);
-    handleSetCookie()
+    handleSetCookie(true)
     // console.log(res)
-    // event.currentTarget.style.cursor =  'default';
-    if(res!== '000'){
-      alert("error");
+
+    if (res.code === "000") {
+      alert("successful");
       return;
     }
-    alert("successful");
+    else if (res.code === "070") {
+      alert("User already use card.");
+      setDisabled(false);
+      removeCookie('bought')
+      return;
+    }
+    else if (res.code === "071") {
+      alert("User can not play card at this moment.");
+      setDisabled(false);
+      removeCookie('bought')
+      return;
+    }
+    else {
+      alert("some error");
+    }
+
     setLoading(false);
   }
+  function clearCard() {
+    removeCookie('Attack');
+    removeCookie('Defense');
+    removeCookie('Buff');
+    makeList();
+    setRefreshCardUser(!refreshCardUser);
+    setRefrerefreshMycard(Math.floor(Math.random() * 99999))
+  }
+
+  function makeList() {
+    let text: string = "";
+    text += ((cookies["Attack"] !== undefined) ? cookies["Attack"] + ",    " : " ") + "    "
+    text += ((cookies["Defense"] !== undefined) ? cookies["Defense"] + ",    " : " ") + "    "
+    text += ((cookies["Buff"] !== undefined) ? cookies["Buff"] : " ") + "    "
+    setmyCardList(text)
+  }
+  useEffect(() => {
+    makeList();
+  }, [refreshMycard])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -131,6 +191,34 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           Back
         </div>
         <h1 className="text-5xl text-white">คลัง</h1>
+        <div className="	w-full		" >
+          <div className="bg-slate-200 mx-5 rounded">
+            <button
+              onClick={clearCard}
+              disabled={disabled}
+              className=" bg-blue-600 py-2 px-5 text-white right-5 m-3  cursor-pointer rounded"
+              style={{
+                cursor: disabled ? "default" : "pointer",
+                backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)"
+              }}
+            >
+              clear
+            </button>
+            <button
+              onClick={makeList}
+              disabled={disabled}
+              className=" bg-blue-600 py-2 px-5 text-white right-5 m-3  cursor-pointer rounded"
+              style={{
+                cursor: disabled ? "default" : "pointer",
+                backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)"
+              }}
+            >
+              check
+            </button>
+            List : {myCardList}
+          </div>
+
+        </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {filteredCardArr.map((e, i) => {
             return (
@@ -142,6 +230,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
                 type={e.type}
                 prices={e.prices}
                 img_url={e.img_url}
+                refresh={refreshCardUser}
+                refreshMain={setRefrerefreshMycard}
               />
             );
           })}
@@ -150,7 +240,11 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           disabled={disabled}
           onClick={buyCard}
           className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
-          style={{ cursor: disabled ? "default" : "pointer", }}
+          style={{
+            cursor: disabled ? "default" : "pointer",
+            backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)"
+          }}
+
         >
           Use
         </button>
