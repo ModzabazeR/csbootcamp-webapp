@@ -85,13 +85,15 @@ const Board: React.FC = () => {
 
 
   async function pushData() {
+    const tokenString = localStorage.getItem("token") as string;
     console.log(arrayPoint);
     const urlPush: string = "https://api.cscamp.net/api/users/points";
+    //authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
     const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
+        authorization: tokenString
       },
       body: JSON.stringify({
         'admin': 'mek',

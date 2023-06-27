@@ -15,11 +15,13 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
     }
 
     const pushState = async (isOpen: boolean) => {
+        const tokenString = localStorage.getItem("token") as string;
         console.log("push " + isOpen + " " + id2)
+        //authorization : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q',
         const requestOptions = {
             method: 'POST',
             headers: {
-                authorization : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q',
+                authorization : tokenString,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
