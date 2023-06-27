@@ -52,7 +52,7 @@ const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,ref
     const haveCookie = handleGetCookie()
     console.log(haveCookie);
     if(haveCookie === true ) {
-      alert("cannot use this type in this round");
+      alert("คุณเลือกการ์ดประเภทนี้ไปแล้ว โปรดเลือกการ์ดประเภทอื่นหรือ clear ใหม่");
       setLoading(false);
       return;
     }

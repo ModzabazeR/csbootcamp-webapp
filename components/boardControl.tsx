@@ -108,7 +108,11 @@ const Board: React.FC = () => {
       .then((response) => response.json())
       .then((response) => {
         console.log(response);
-        alert("code : " + response.code);
+        if (response.code !== "000") {
+          alert(response.message)
+        } else {
+          alert("success")
+        }
       });
 
     getGroup();

@@ -152,7 +152,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       removeCookie("used");
       return;
     } else {
-      alert("some error");
+      alert(res.message);
     }
 
     setLoading(false);
