@@ -13,7 +13,6 @@ const AdminDashboard: NextPage<{
   logMessages: string[];
 }> = ({ groups, logMessages }) => {
   const router = useRouter();
-
   
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
