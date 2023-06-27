@@ -84,7 +84,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 export default Store;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const CARDS_URL = "https://api.cscamp.net/api/cards";
+  const CARDS_URL = "https://api.cscamp.net/api/shops";
   let headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",

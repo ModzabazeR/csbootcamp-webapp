@@ -1,10 +1,28 @@
 import Image from "next/image";
 import { ICard } from "@/typings";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { toBase64, convertImage } from "@/utils/imageUtils";
+import { useCookies } from "react-cookie";
+import Loading from "./loading";
 
 const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
+  const [cookies, setCookie] = useCookies();
+
+  const handleSetCookie = () => {
+    const expDate = new Date();
+    expDate.setTime(expDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
+    setCookie(`bought_${id}`, true, { maxAge: 20 * 60 });
+  };
+
+  const handleGetCookie = () => {
+    const cookieValue = cookies[`bought_${id}`];
+    if (cookieValue === undefined) {
+      return false;
+    }
+    return true;
+  };
+
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -20,9 +38,8 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
     const tokenString = localStorage.getItem("token") as string;
     console.log("clicki");
-    setDisabled(true);
     setLoading(true);
-    event.currentTarget.style.cursor = "wait";
+
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -47,12 +64,19 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       });
 
     // console.log(event)
-    // event.currentTarget.style.cursor =  'default';
-    alert("successful");
+    alert("ซื้อสำเร็จ");
+    handleSetCookie();
+    setDisabled(true);
     setLoading(false);
+    closePopup();
   }
 
   const openPopup = () => {
+    const haveCookie = handleGetCookie();
+    if (haveCookie === true) {
+      alert("คุณได้ซื้อการ์ดนี้ไปแล้ว โปรดรอสำหรับรอบถัดไป");
+      return;
+    }
     setIsOpen(true);
   };
 
@@ -60,16 +84,27 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     setIsOpen(false);
   };
 
+  useEffect(() => {
+    const haveCookie = handleGetCookie();
+    setDisabled(haveCookie);
+  }, []);
+
   return (
     <>
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
-        contentLabel="Test Modal"
+        contentLabel="Buy Card"
         closeTimeoutMS={200}
         style={popupStyle}
       >
-        <div className="flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
+        <div
+          className={
+            `flex flex-col items-center text-center h-full w-full justify-center cursor-pointer ` +
+            (disabled ? "grayscale cursor-not-allowed" : "grayscale-0")
+          }
+        >
+          {loading && <Loading />}
           <Image
             src={img_url}
             alt={name}
@@ -106,7 +141,10 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       </Modal>
 
       <div
-        className="drop-shadow-md text-center rounded-lg"
+        className={
+          `drop-shadow-md text-center rounded-lg ` +
+          (disabled ? "grayscale cursor-not-allowed" : "grayscale-0")
+        }
         onClick={openPopup}
       >
         <Image
