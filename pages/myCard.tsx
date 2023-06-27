@@ -142,7 +142,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
           style={{ cursor: disabled ? "default" : "pointer",}}
         >
-          Buy
+          Use
         </button>
       </div>
     </motion.div>
