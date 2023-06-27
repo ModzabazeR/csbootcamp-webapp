@@ -15,12 +15,13 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
     }
 
     const pushState = async (isOpen: boolean) => {
-        console.log("push "+isOpen+" " + id2)
+        console.log("push " + isOpen + " " + id2)
         const requestOptions = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json',
-            authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
-         },
+            headers: {
+                authorization : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q',
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 'status': isOpen
             })
@@ -28,43 +29,46 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
         // console.log(requestOptions.body)
         await fetch(url, requestOptions)
             .then(response => response.json())
-            .then(response => alert( "code : "+response.code));
+            .then(response => console.log(response.code))
+            .catch(error => console.error(error))
     }
 
     // const effenRan = useRef(false);
     const [isChecked, setisChecked] = useState(false);
 
     useEffect(
-        
+
         () => {
             const headersGetList = {
                 Accept: "application/json",
                 "Content-Type": "application/json",
                 "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
-              };
+            };
             fetch(url, {
                 method: "GET",
                 headers: headersGetList,
-              })
-            .then(res => res.json())
-            .then(data => {console.log(data);
-                setisChecked(JSON.parse(data.data[0].open))}
-                
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    setisChecked(JSON.parse(data.data[0].open))
+                }
+
                 )
-            
-        },[url]
+
+        }, [url]
     )
 
-    const changeState = () => {
-        let isCheckedNew : boolean = !isChecked;
+    const changeState = async () => {
+        let isCheckedNew: boolean = !isChecked;
         setisChecked(isCheckedNew);
-        console.log("check "+isCheckedNew);
-        pushState(isCheckedNew);
+        console.log("check " + isCheckedNew);
+        await pushState(isCheckedNew);
     }
 
     return (
-        <div className='m-3' id={url} key = {url}>
+        <div className='m-3' id={url} key={url}>
             <div className="flex justify-center items-center">
                 <span>Session</span>
             </div>

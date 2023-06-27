@@ -7,7 +7,7 @@ import { getAllUser, upDatePointAll, groupPoint, arrayUser, scoreSummary } from 
 
 let arrayPoint: groupPoint[] = []
 let groupCopy: arrayUser[] = [...group.data]
-let sumPoint : scoreSummary[] = []
+let sumPoint: scoreSummary[] = []
 
 const Board: React.FC = () => {
   const popupStyle = {
@@ -34,17 +34,17 @@ const Board: React.FC = () => {
     sumPoint = [];
     arrayPoint = [];
     for (var i = 0; i < groupCopy.length; i++) {
-      let addPointV = group.data[i].point -  groupCopy[i].point
+      let addPointV = group.data[i].point - groupCopy[i].point
       let arr: groupPoint = {
         user_id: group.data[i].id,
         update_point: addPointV
       }
-      let arrSum : scoreSummary ={
-        id : group.data[i].id,
-        point : groupCopy[i].point,
-        addPoint : addPointV
+      let arrSum: scoreSummary = {
+        id: group.data[i].id,
+        point: groupCopy[i].point,
+        addPoint: addPointV
       }
-      sumPoint.push( arrSum)
+      sumPoint.push(arrSum)
       arrayPoint.push(arr);
       console.log(arrayPoint);
     }
@@ -53,19 +53,19 @@ const Board: React.FC = () => {
     // setGroupS(groupTemp);
     console.log(group);
   }
-  
-   const copyData = async () => {
+
+  const copyData = async () => {
     groupCopy = [];
-    for(var item of group.data) {
+    for (var item of group.data) {
       let arr: arrayUser = {
-        id : item.id,
-        point : item.point,
-        admin : item.admin,
-        card_count : item.card_count
+        id: item.id,
+        point: item.point,
+        admin: item.admin,
+        card_count: item.card_count
       }
       groupCopy.push(arr);
     }
-   }
+  }
 
   const refresh = async () => {
     await updateBoard();
@@ -89,8 +89,10 @@ const Board: React.FC = () => {
     const urlPush: string = "https://api.cscamp.net/api/users/points";
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' ,
-      authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q' },
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
+      },
       body: JSON.stringify({
         'admin': 'mek',
         'points': arrayPoint
@@ -127,9 +129,9 @@ const Board: React.FC = () => {
         <div className="flex flex-col items-center text-center h-full w-full justify-center">
           {sumPoint.map((e) => {
             return (
-              <div key={e.id+"preview"} className=" min-w-[50%] grid grid-cols-3 gap-4 ">
+              <div key={e.id + "preview"} className=" min-w-[50%] grid grid-cols-3 gap-4 ">
                 <div>{e.id}</div>
-                <div>from {e.point} + {e.addPoint} = {e.point+e.addPoint}</div>
+                <div>from {e.point} + {e.addPoint} = {e.point + e.addPoint}</div>
               </div>
             );
           })}
@@ -160,7 +162,7 @@ const Board: React.FC = () => {
       </div>
       <div className="sm:text-xl	md:text-4xl" >
         {group.data.map((user) => {
-          return <Row key={user.id+" idUser"} groupUser={user} />;
+          return <Row key={user.id + " idUser"} groupUser={user} />;
         })}
       </div>
 

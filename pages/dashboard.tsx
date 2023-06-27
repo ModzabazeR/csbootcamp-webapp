@@ -20,7 +20,9 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
     >
       <div className="flex h-screen items-center justify-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
         <div
-          onClick={() => router.back()}
+          onClick={() => {
+            localStorage.removeItem("token");
+            router.back()}}
           className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
         >
           Log out

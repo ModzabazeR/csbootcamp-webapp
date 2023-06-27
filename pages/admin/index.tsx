@@ -3,7 +3,7 @@ import Log from "@/components/log";
 import { getAllUser, getLogBuyResponse, getLogEventResponse } from "@/typings";
 import RowUser from "@/components/rowUser";
 import { group } from "@/utils/boardLeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 
@@ -11,8 +11,22 @@ const AdminDashboard: NextPage<{
   groups: getAllUser;
   logMessages: string[];
 }> = ({ groups, logMessages }) => {
+  const tokenString = localStorage.getItem("token");
   const router = useRouter();
+  useEffect(()=>{
+  if(tokenString === null){
+    alert("please login" );
+    router.back()
+  }
+  console.log(tokenString);
+  },[])
+  
+  
+  // const tokenString = localStorage.getItem('token') as string;
+  // console.log(tokenString);
+  // // const userToken = JSON.parse(tokenString);
   const [isEvent, setIsEvent] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -21,7 +35,9 @@ const AdminDashboard: NextPage<{
     >
       <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
         <div
-          onClick={() => router.back()}
+          onClick={() => {
+            localStorage.removeItem("token");
+            router.back()}}
           className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
         >
           log out
@@ -53,6 +69,7 @@ const AdminDashboard: NextPage<{
           <button
             className="bg-pink-400 rounded-l-lg w-1/2 h-full"
             onClick={() => {
+              
               router.push("/admin/control");
             }}
           >
@@ -75,6 +92,7 @@ const AdminDashboard: NextPage<{
 export default AdminDashboard;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+
   const headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
