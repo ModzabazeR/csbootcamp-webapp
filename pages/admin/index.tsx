@@ -109,7 +109,7 @@ const AdminDashboard: NextPage<{
           <IoLogOut className="text-xl font-bold" />
         </div>
         <div className="flex flex-col md:flex-row gap-4 h-5/6 md:h-5/6">
-          <div className="w-11/12 h-1/2 md:h-full">
+          <div className="w-full md:w-11/12 h-1/2 md:h-full">
             <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center justify-start h-full divide-y-2 divide-slate-400/25">
               <div
                 className="block w-full sm:text-xl md:text-4xl"
