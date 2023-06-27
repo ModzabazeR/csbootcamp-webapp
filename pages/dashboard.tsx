@@ -8,11 +8,10 @@ import { getGroupName } from "@/utils/userUtils";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { varlidateToken } from "@/utils/validateAdmin";
-import { useCookies } from 'react-cookie'
+import { useCookies } from "react-cookie";
+import { IoLogOut } from "react-icons/io5";
 
-const Page: NextPage<{ user: any; groups: getAllUser }> = ({
-  groups
-}) => {
+const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
   const [updateUser, setupdateUser] = useState(false);
   const [user, setUser] = useState<getUserByIdResponse>({
     code: "000",
@@ -20,14 +19,14 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
       id: "G99",
       point: 0,
       admin: 0,
-      cards: []
-    }
+      cards: [],
+    },
   });
 
   useEffect(() => {
     const idUserString = localStorage.getItem("idUser");
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
-    console.log(USER_URL)
+    console.log(USER_URL);
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -36,22 +35,21 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
     if (validate === null || idUserString === null) {
-      router.push('/login')
-    }
-    else if (validate === false) {
-      router.push('/dashboard')
-    }
-    else if (validate === true) {
-      router.push('/admin')
+      router.push("/login");
+    } else if (validate === false) {
+      router.push("/dashboard");
+    } else if (validate === true) {
+      router.push("/admin");
     }
     fetch(USER_URL, {
       method: "GET",
       headers: headersList,
-    }).then(data => data.json())
-      .then((dataJson : getUserByIdResponse) => {
+    })
+      .then((data) => data.json())
+      .then((dataJson: getUserByIdResponse) => {
         setUser(dataJson);
-        setupdateUser(prevState => !prevState);
-      })
+        setupdateUser((prevState) => !prevState);
+      });
   }, []);
   console.log(groups);
   return (
@@ -60,19 +58,22 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="flex h-screen items-center justify-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+      <div className="flex h-screen items-center justify-center bg-slate-800">
         <div
           onClick={() => {
             localStorage.removeItem("token");
-            router.back()
+            router.back();
           }}
-          className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
+          className="absolute bg-blue-600/25 p-4 backdrop-blur-md text-white right-5 top-5 cursor-pointer rounded-xl hover:backdrop-blur-sm transition-all drop-shadow"
+          title="Log out"
         >
-          Log out
+          <IoLogOut className="text-xl font-bold" />
         </div>
         <div className="flex flex-col h-full gap-4 py-8 w-5/6">
           <div className="flex flex-col items-center justify-center sm:text-xl	md:text-4xl text-white h-1/6">
-            <span className="text-xl">คะแนนของทีม {getGroupName(user.data.id)}</span>
+            <span className="text-xl">
+              คะแนนของทีม {getGroupName(user.data.id)}
+            </span>
             <span className="text-7xl">{user.data.point}</span>
           </div>
           <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center h-4/6 divide-y-2 divide-slate-400/25">
@@ -115,7 +116,6 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
 export default Page;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-
   const ALLUESR_URL = "https://api.cscamp.net/api/users/";
   let headersList = {
     Accept: "application/json",
@@ -134,7 +134,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      groups: dataJsonAllGroup
+      groups: dataJsonAllGroup,
     },
   };
 };

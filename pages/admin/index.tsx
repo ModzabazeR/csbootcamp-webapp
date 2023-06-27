@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { varlidateToken } from "@/utils/validateAdmin"
+import {IoLogOut} from "react-icons/io5"
 
 const AdminDashboard: NextPage<{
   groups: getAllUser;
@@ -47,9 +48,10 @@ return (
           localStorage.removeItem("token");
           router.back()
         }}
-        className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
+        className="absolute bg-blue-600/25 p-4 backdrop-blur-md text-white right-5 top-5 cursor-pointer rounded-xl hover:backdrop-blur-sm transition-all drop-shadow border border-white hover:border-none"
+        title="Log out"
       >
-        log out
+        <IoLogOut className="text-xl font-bold" />
       </div>
       <div className="flex flex-col md:flex-row gap-4 h-5/6 md:h-5/6">
         <div className="w-full md:w-4/6 h-1/2 md:h-full">

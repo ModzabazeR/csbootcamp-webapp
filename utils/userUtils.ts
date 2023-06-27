@@ -3,6 +3,6 @@ const groupNames = ["loading","หมาน้ำ", "เพนกวินรา
 const groupObj = Object.fromEntries(groupIds.map((_, i) => [groupIds[i], groupNames[i]]))
 
 export const getGroupName = (groupId: string) => {
-	// return groupObj[groupId]
-	return groupId
+	return groupObj[groupId]
+	// return groupId
 }
