@@ -11,8 +11,23 @@ import Head from "next/head";
 import { NextPage } from "next";
 import LogInPanel from "@/components/loginPanel";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { varlidateToken } from "@/utils/validateAdmin";
+import { useRouter } from "next/router";
 
 const LogIn: NextPage = () => {
+  const router = useRouter();
+  useEffect(() => {
+    const tokenString = localStorage.getItem("token");
+    let validate: boolean = varlidateToken(tokenString);
+
+    if (validate === true) {
+      router.push("/admin");
+    } else if (validate === false) {
+      router.push("/dashboard")
+    }
+  });
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -33,8 +48,8 @@ const LogIn: NextPage = () => {
         <LogInPanel />
       </div>
       <footer className="overflow-hidden text-white	">
-      version 27/6/44 20/22
-    </footer>
+        version 27/6/44 20/22
+      </footer>
     </motion.div>
   );
 };

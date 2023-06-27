@@ -16,9 +16,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       background: "#D9D9D9",
     },
   };
-  useEffect(() => {
 
-  },[])
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
     const tokenString = localStorage.getItem("token") as string;
     console.log("clicki");
@@ -29,19 +27,25 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      authentication : tokenString
+      authentication: tokenString,
     };
-    const idUserString = localStorage.getItem("idUser")
-    await fetch(`https://api.cscamp.net/api/users/${idUserString}/cards/${id}`, {
-      method: "POST",
-      headers: headersList,
-    }).then(data => data.json()).then(dataJson => {
-      console.log(dataJson)
-    }).catch(
-      error => {console.error(error)
-      alert("error")}
+    const idUserString = localStorage.getItem("idUser") as string;
+    await fetch(
+      `https://api.cscamp.net/api/users/${idUserString}/cards/${id}`,
+      {
+        method: "POST",
+        headers: headersList,
+      }
     )
-    
+      .then((data) => data.json())
+      .then((dataJson) => {
+        console.log(dataJson);
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("error");
+      });
+
     // console.log(event)
     // event.currentTarget.style.cursor =  'default';
     alert("successful");
@@ -55,7 +59,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
-  
+
   return (
     <>
       <Modal
@@ -91,7 +95,10 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
             >
               ออก
             </button>
-            <button onClick={buyCard} className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg">
+            <button
+              onClick={buyCard}
+              className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg"
+            >
               ซื้อ
             </button>
           </div>
@@ -102,7 +109,16 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
         className="drop-shadow-md text-center rounded-lg"
         onClick={openPopup}
       >
-        <Image src={img_url} alt={name} width={200} height={400} placeholder="blur" blurDataURL={`data:image/svg+xml;base64,${toBase64(convertImage(450, 700))}`} />
+        <Image
+          src={img_url}
+          alt={name}
+          width={200}
+          height={400}
+          placeholder="blur"
+          blurDataURL={`data:image/svg+xml;base64,${toBase64(
+            convertImage(450, 700)
+          )}`}
+        />
         <p className="text-2xl text-white leading-10">{prices}$</p>
       </div>
     </>
