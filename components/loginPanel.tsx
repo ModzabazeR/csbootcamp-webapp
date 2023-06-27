@@ -29,12 +29,10 @@ async function loginPerform(credentials: {
         validate
       );
       console.log(validate.admin)
-      if(validate.admin === true) {
-        console.log("to admin")
+      if(validate.admin) {
         router.push('/admin')
       }
-      else if (validate.admin === false) {
-        console.log("user")
+      else {
         router.push('/dashboard')
       }
     });
@@ -43,7 +41,6 @@ async function loginPerform(credentials: {
 }
 
 const LogInPanel: React.FC = () => {
-  const [token, setToken] = useState();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -71,6 +68,7 @@ const LogInPanel: React.FC = () => {
           type="text"
           name="username"
           id="username"
+          autoComplete="username"
           required
         />
       </div>

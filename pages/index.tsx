@@ -5,8 +5,16 @@ import { IoLogIn } from "react-icons/io5";
 import Link from "next/link";
 import { NextPage } from "next";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { useRouter } from "next/router";
+import { securePage } from "@/utils/authorizationUtils";
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    securePage(localStorage.getItem("token"));
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
