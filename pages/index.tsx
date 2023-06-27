@@ -8,11 +8,22 @@ import { motion } from "framer-motion";
 import { useEffect } from "react";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { useRouter } from "next/router";
-import { securePage } from "@/utils/authorizationUtils";
+import { varlidateToken } from "@/utils/validateAdmin";
 
 const Home: NextPage = () => {
+  const router = useRouter();
   useEffect(() => {
-    securePage(localStorage.getItem("token"));
+    const tokenString = localStorage.getItem("token");
+    let validate: boolean = varlidateToken(tokenString);
+    if (validate === null) {
+      router.push('/login')
+    }
+    else if (validate === false) {
+      router.push('/dashboard')
+    }
+    else if(validate === true) {
+      router.push('/admin')
+    }
   }, []);
 
   return (

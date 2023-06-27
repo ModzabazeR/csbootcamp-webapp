@@ -6,7 +6,10 @@ export function varlidateAdminJson (dataJson : any){
       ) as JwtPayload
     return validate.admin
 }
-export function varlidateToken( token : string){
+export function varlidateToken( token : string | null){
+  if(token == null){
+    return null;
+  }
     let validate = jwt.verify(
         token,
         "BOOTCAMP_2023_SECRET_KEY"

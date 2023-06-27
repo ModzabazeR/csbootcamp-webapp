@@ -5,11 +5,22 @@ import { getData, updateBoard } from "@/utils/boardLeader";
 import { GetServerSideProps, NextPage } from "next";
 import router from "next/router";
 import { getAllUser } from "@/typings";
+import { varlidateToken } from "@/utils/validateAdmin";
 
 const Page: NextPage = () => {
-  useEffect(() => {
-    // console.log("main page");
-  }, []);
+  const tokenString = localStorage.getItem("token") as string;
+  useEffect(()=>{
+    let validate : boolean = varlidateToken(tokenString);
+  if(tokenString === null){
+    alert("please login" );
+    router.back()
+  }
+  else if(!validate){
+    alert("please use account admin" );
+    router.back()
+  }
+  console.log(validate);
+  },[])
 
 
   return (

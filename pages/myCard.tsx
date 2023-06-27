@@ -6,9 +6,24 @@ import { ICard, getCardsResponse } from "@/typings";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { varlidateToken } from "@/utils/validateAdmin";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const router = useRouter();
+  useEffect(() => {
+    const tokenString = localStorage.getItem("token");
+    let validate: boolean = varlidateToken(tokenString);
+    if (validate === null) {
+      router.push('/login')
+    }
+    else if (validate === false) {
+      router.push('/dashboard')
+    }
+    else if(validate === true) {
+      router.push('/admin')
+    }
+  }, []);
   console.log(cardArr);
   return (
     <motion.div

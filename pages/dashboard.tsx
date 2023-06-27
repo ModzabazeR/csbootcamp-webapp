@@ -6,11 +6,26 @@ import Link from "next/link";
 import router from "next/router";
 import { getGroupName } from "@/utils/userUtils";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { varlidateToken } from "@/utils/validateAdmin";
 
 const Page: NextPage<{ user: any; groups: getAllUser }> = ({
   user,
   groups,
 }) => {
+  useEffect(() => {
+    const tokenString = localStorage.getItem("token");
+    let validate: boolean = varlidateToken(tokenString);
+    if (validate === null) {
+      router.push('/login')
+    }
+    else if (validate === false) {
+      router.push('/dashboard')
+    }
+    else if(validate === true) {
+      router.push('/admin')
+    }
+  }, []);
   console.log(groups);
   return (
     <motion.div
