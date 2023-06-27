@@ -1,6 +1,7 @@
 import {  } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
 import { typeRowGrup } from "@/typings";
+import { getGroupName } from "@/utils/userUtils";
 
 const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
   const [defaultValue, setDefaultValue] = useState(groupUser.point);
@@ -20,7 +21,7 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
   return (
     <div className="block w-full" key={groupUser.id}>
       <div className=" grid grid-cols-3 gap-4 ">
-        <div className="pl-5 text-center">{groupUser.id}</div>
+        <div className="pl-5 text-center">{`${getGroupName(groupUser.id)} (${groupUser.id})`}</div>
         <div className="border-x-2	px-5 border-x-black	">
           <div className="relative ">
             <input
