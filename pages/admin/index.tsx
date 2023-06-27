@@ -132,7 +132,7 @@ const AdminDashboard: NextPage<{
               })}
             </div>
           </div>
-          <div className="rounded-lg w-10/12 h-1/2 md:h-full bg-slate-100 overflow-auto p-2">
+          <div className="rounded-lg md:w-9/12	 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
             <input
               name="score"
               value={defaultValue}
