@@ -88,7 +88,9 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       def: handleGetCookie('Defense')
     }
     
-    let response = await fetch(`https://api.cscamp.net/api/users/${idUserString}/play`, {
+    let res 
+
+    await fetch(`https://api.cscamp.net/api/users/${idUserString}/play`, {
       method: "POST",
       headers: headersList,
       body: JSON.stringify({
@@ -97,12 +99,17 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         def: handleGetCookie('Defense')
       })
     }).then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => {console.log(data);
+        res = data})
       .catch(error => console.log(error))
     console.log(body);
     handleSetCookie()
-    // console.log(event)
+    // console.log(res)
     // event.currentTarget.style.cursor =  'default';
+    if(res!== '000'){
+      alert("error");
+      return;
+    }
     alert("successful");
     setLoading(false);
   }
