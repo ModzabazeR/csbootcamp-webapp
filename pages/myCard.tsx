@@ -197,7 +197,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="flex flex-col items-center bg-[#555555] py-6 gap-4">
+      <div className="flex flex-col items-center bg-slate-800 py-6 gap-4">
         <Head>
           <title>My Card | CS Bootcamp 2023</title>
         </Head>
