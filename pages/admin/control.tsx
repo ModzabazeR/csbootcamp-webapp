@@ -8,20 +8,18 @@ import { getAllUser } from "@/typings";
 import { varlidateToken } from "@/utils/validateAdmin";
 
 const Page: NextPage = () => {
-  const tokenString = localStorage.getItem("token") as string;
-  useEffect(()=>{
-    let validate : boolean = varlidateToken(tokenString);
-  if(tokenString === null){
-    alert("please login" );
-    router.back()
-  }
-  else if(!validate){
-    alert("please use account admin" );
-    router.back()
-  }
-  console.log(validate);
-  },[])
-
+  useEffect(() => {
+    const tokenString = localStorage.getItem("token") as string;
+    let validate: boolean = varlidateToken(tokenString);
+    if (tokenString === null) {
+      alert("please login");
+      router.back();
+    } else if (!validate) {
+      alert("please use account admin");
+      router.back();
+    }
+    console.log(validate);
+  }, []);
 
   return (
     <div
@@ -48,12 +46,15 @@ const Page: NextPage = () => {
           url="https://api.cscamp.net/api/settings/plays"
         />
       </div>
-      <div key='board' className="overflow-scroll mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded">    
-          <Board />
+      <div
+        key="board"
+        className="overflow-scroll mt-3 flex w-full h-auto justify-center items-center bg-purple-100 rounded"
+      >
+        <Board />
       </div>
     </div>
   );
-}
+};
 
 // export const getServerSideProps: GetServerSideProps = async (context) => {
 //   // const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
@@ -71,13 +72,12 @@ const Page: NextPage = () => {
 //   // });
 //   // let dataJson: getAllUser = await response.json();
 //   // console.log(`Get card status: ${dataJson}`);
-  
+
 //   return {
 //     props: {
 //       groups: null,
 //     },
 //   };
 // };
-
 
 export default Page;
