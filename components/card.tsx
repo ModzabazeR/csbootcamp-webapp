@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ICard } from "@/typings";
+import { ICard, getUserByIdResponse } from "@/typings";
 import React, { use, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { toBase64, convertImage } from "@/utils/imageUtils";
@@ -47,6 +47,18 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       authentication: tokenString,
     };
     const idUserString = localStorage.getItem("idUser") as string;
+
+    const res = await fetch(`https://api.cscamp.net/api/users/${idUserString}`);
+    const dataJson: getUserByIdResponse = await res.json();
+    if (dataJson.data.point < prices) {
+      alert(
+        `คะแนนของคุณไม่พอซื้อการ์ดใบนี้ (ต้องการ ${prices} แต่มี ${dataJson.data.point})`
+      );
+      setLoading(false);
+      closePopup();
+      return;
+    }
+
     await fetch(
       `https://api.cscamp.net/api/users/${idUserString}/cards/${id}`,
       {
