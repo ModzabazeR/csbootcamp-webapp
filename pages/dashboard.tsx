@@ -6,25 +6,53 @@ import Link from "next/link";
 import router from "next/router";
 import { getGroupName } from "@/utils/userUtils";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { varlidateToken } from "@/utils/validateAdmin";
+import { useCookies } from 'react-cookie'
 
 const Page: NextPage<{ user: any; groups: getAllUser }> = ({
-  user,
-  groups,
+  groups
 }) => {
+  const [updateUser, setupdateUser] = useState(false);
+  const [user, setUser] = useState<getUserByIdResponse>({
+    code: "000",
+    data: {
+      id: "G99",
+      point: 0,
+      admin: 0,
+      cards: []
+    }
+  });
+
   useEffect(() => {
+    const idUserString = localStorage.getItem("idUser");
+    const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
+    console.log(USER_URL)
+    let headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+    };
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
-    if (validate === null) {
+    if (validate === null || idUserString === null) {
       router.push('/login')
     }
     else if (validate === false) {
       router.push('/dashboard')
     }
-    else if(validate === true) {
+    else if (validate === true) {
       router.push('/admin')
     }
+    fetch(USER_URL, {
+      method: "GET",
+      headers: headersList,
+    }).then(data => data.json())
+      .then(dataJson => {
+        setUser(dataJson);
+        setupdateUser(prevState => !prevState);
+      })
+      setupdateUser(!updateUser)
   }, []);
   console.log(groups);
   return (
@@ -37,15 +65,16 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
         <div
           onClick={() => {
             localStorage.removeItem("token");
-            router.back()}}
+            router.back()
+          }}
           className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
         >
           Log out
         </div>
         <div className="flex flex-col h-full gap-4 py-8 w-5/6">
           <div className="flex flex-col items-center justify-center sm:text-xl	md:text-4xl text-white h-1/6">
-            <span className="text-xl">คะแนนของทีม {getGroupName("G01")}</span>
-            <span className="text-7xl">100</span>
+            <span className="text-xl">คะแนนของทีม {getGroupName(user.data.id)}</span>
+            <span className="text-7xl">{user.data.point}</span>
           </div>
           <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center h-4/6 divide-y-2 divide-slate-400/25">
             <div className="block w-full sm:text-xl	md:text-4xl" key="user_id">
@@ -87,20 +116,13 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
 export default Page;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
+
   const ALLUESR_URL = "https://api.cscamp.net/api/users/";
   let headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   };
-
-  let responseMygroup = await fetch(USER_URL, {
-    method: "GET",
-    headers: headersList,
-  });
-  let dataJsonMygroup: getUserByIdResponse = await responseMygroup.json();
-  console.log(`Get card status: ${responseMygroup}`);
   let responseAllgroup = await fetch(ALLUESR_URL, {
     method: "GET",
     headers: headersList,
@@ -113,8 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      user: dataJsonMygroup,
-      groups: dataJsonAllGroup,
+      groups: dataJsonAllGroup
     },
   };
 };

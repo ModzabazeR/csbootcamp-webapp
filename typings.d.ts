@@ -61,11 +61,12 @@ export interface getUsersResponse {
 
 export interface getUserByIdResponse {
 	code: string;
-	data: {
-		user_id: string;
-		point: number;
-		card: Icard[];
-	}
+    data: {
+        id: string;
+        point: number;
+        admin: number;
+        cards: never[];
+    };
 }
 
 export interface getLogBuyResponse {

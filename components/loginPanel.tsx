@@ -1,7 +1,7 @@
 import { useState } from "react";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import router from "next/router";
-import {varlidateAdminJson }from "@/utils/validateAdmin"
+import { varlidateAdminJson } from "@/utils/validateAdmin"
 
 async function loginPerform(credentials: {
   username: string;
@@ -22,15 +22,16 @@ async function loginPerform(credentials: {
     .then((data) => data.json())
     .then((dataJson) => {
       localStorage.setItem("token", dataJson.data.token);
-      let validate : boolean = varlidateAdminJson(dataJson);
+      localStorage.setItem("idUser", credentials.username);
+      let validate: boolean = varlidateAdminJson(dataJson);
       console.log(
         validate
       );
       console.log(validate)
-      if(validate) {
+      if (validate) {
         router.push('/admin')
       }
-      else if(!validate) {
+      else if (!validate) {
         router.push('/dashboard')
       }
     });
