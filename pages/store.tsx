@@ -16,15 +16,14 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
     if (validate === null) {
-      router.push('/login')
-    }
-    else if(validate === true) {
-      router.push('/admin')
+      router.push("/login");
+    } else if (validate === true) {
+      router.push("/admin");
     }
 
     const idUserString = localStorage.getItem("idUser");
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
-    console.log(USER_URL)
+    console.log(USER_URL);
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -33,28 +32,28 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     fetch(USER_URL, {
       method: "GET",
       headers: headersList,
-    }).then(data => data.json())
-      .then((dataJson : getUserByIdResponse)=> {
+    })
+      .then((data) => data.json())
+      .then((dataJson: getUserByIdResponse) => {
         console.log(cardArr);
         console.log(dataJson);
-        let cardGet: ICard[] = dataJson.data.cards
+        let cardGet: ICard[] = dataJson.data.cards;
         const filteredCards = cardArr.filter(
-          (e1) => !cardGet.some(e2 => e2.id === e1.id)
+          (e1) => !cardGet.some((e2) => e2.id === e1.id)
         );
         setFilteredCardArr(filteredCards);
-      })
+      });
 
-      fetch('https://api.cscamp.net/api/status/shops', {
-        method: "GET",
-        headers: headersList,
+    fetch("https://api.cscamp.net/api/status/shops", {
+      method: "GET",
+      headers: headersList,
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (!JSON.parse(data.data[0].open)) router.push("/dashboard");
       })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          if (!(JSON.parse(data.data[0].open)))
-            router.push('/dashboard')
-        })
-        .catch(error => console.error(error))
+      .catch((error) => console.error(error));
   }, []);
   return (
     <motion.div
@@ -70,7 +69,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           onClick={() => router.back()}
           className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
         >
-          Back
+          กลับ
         </div>
         <h1 className="text-5xl text-white">ร้านค้า</h1>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
