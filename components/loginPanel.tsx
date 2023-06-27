@@ -1,6 +1,7 @@
 import { useState } from "react";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import router from "next/router";
+import {varlidateAdminJson }from "@/utils/validateAdmin"
 
 async function loginPerform(credentials: {
   username: string;
@@ -21,19 +22,16 @@ async function loginPerform(credentials: {
     .then((data) => data.json())
     .then((dataJson) => {
       localStorage.setItem("token", dataJson.data.token);
-      let validate : JwtPayload = jwt.verify(
-        dataJson.data.token as string,
-        "BOOTCAMP_2023_SECRET_KEY"
-      ) as JwtPayload
+      let validate : boolean = varlidateAdminJson(dataJson);
       console.log(
         validate
       );
-      console.log(validate.admin)
-      if(validate.admin === true) {
+      console.log(validate)
+      if(validate === true) {
         console.log("to admin")
         router.push('/admin')
       }
-      else if (validate.admin === false) {
+      else if (validate === false) {
         console.log("user")
         router.push('/dashboard')
       }

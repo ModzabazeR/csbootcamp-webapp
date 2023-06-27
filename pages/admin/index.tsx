@@ -6,19 +6,25 @@ import { group } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import {varlidateToken }from "@/utils/validateAdmin"
 
 const AdminDashboard: NextPage<{
   groups: getAllUser;
   logMessages: string[];
 }> = ({ groups, logMessages }) => {
-  const tokenString = localStorage.getItem("token");
+  const tokenString = localStorage.getItem("token") as string;
   const router = useRouter();
   useEffect(()=>{
+    let validate : boolean = varlidateToken(tokenString);
   if(tokenString === null){
     alert("please login" );
     router.back()
   }
-  console.log(tokenString);
+  else if(!validate){
+    alert("please use account admin" );
+    router.back()
+  }
+  console.log(validate);
   },[])
   
   
