@@ -68,9 +68,6 @@ const AdminDashboard: NextPage<{
     }
   };
 
-  function setIsEvent(arg0: boolean) {
-    throw new Error("Function not implemented.");
-  }
   const handleChange = (event: any) => {
     setDefaultValue(event.target.value);
     let dataJsonEvenGroupCopy: getLogEventResponseNew["data"] = dataJsonEvenGroup.data.filter(e => Number(e.id) >= Number(event.target.value))
@@ -148,20 +145,12 @@ const AdminDashboard: NextPage<{
         </div>
         <div className="flex h-1/6 md:h-1/6 w-full items-center justify-center text-2xl">
           <button
-            className="bg-pink-400 rounded-l-lg w-1/2 h-full"
+            className="bg-pink-400 rounded-lg w-full h-full"
             onClick={() => {
               router.push("/admin/control");
             }}
           >
             Control
-          </button>
-          <button
-            className="bg-green-400 rounded-r-lg w-1/2 h-full"
-            onClick={() => {
-              setIsEvent(true);
-            }}
-          >
-            Start Event
           </button>
         </div>
       </div>

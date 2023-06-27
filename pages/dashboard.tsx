@@ -5,8 +5,8 @@ import RowUser from "@/components/rowUser";
 import Link from "next/link";
 import router from "next/router";
 import { getGroupName } from "@/utils/userUtils";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { animate, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { varlidateToken } from "@/utils/validateAdmin";
 import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
@@ -93,7 +93,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
             <span className="text-xl">
               คะแนนของทีม {getGroupName(user.data.id)}
             </span>
-            <span className="text-7xl">{user.data.point}</span>
+            <Counter from={0} to={user.data.point} />
           </div>
           <div className="overflow-auto rounded-lg bg-slate-200 flex flex-col items-center h-4/6 divide-y-2 divide-slate-400/25">
             <div className="block w-full sm:text-xl	md:text-4xl" key="user_id">
@@ -166,4 +166,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       groups: dataJsonAllGroup,
     },
   };
+};
+
+const Counter: React.FC<{ from: number; to: number }> = ({ from, to }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const node = nodeRef.current;
+
+    const controls = animate(from, to, {
+      duration: 1,
+      onUpdate(value) {
+        node!.textContent = value.toFixed(0);
+      },
+    });
+
+    return () => controls.stop();
+  }, [from, to]);
+
+  return <span className="text-7xl" ref={nodeRef} />;
 };

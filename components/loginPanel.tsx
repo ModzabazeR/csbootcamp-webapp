@@ -21,6 +21,10 @@ async function loginPerform(credentials: {
   })
     .then((data) => data.json())
     .then((dataJson) => {
+      if (dataJson.code !== "000") {
+        alert(dataJson.message)
+        return;
+      }
       localStorage.setItem("token", dataJson.data.token);
       localStorage.setItem("idUser", credentials.username);
       let validate: boolean = varlidateAdminJson(dataJson);

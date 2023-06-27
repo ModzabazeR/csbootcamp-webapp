@@ -44,7 +44,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      authentication: tokenString,
+      authorization: tokenString,
     };
     const idUserString = localStorage.getItem("idUser") as string;
 
@@ -69,6 +69,15 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       .then((data) => data.json())
       .then((dataJson) => {
         console.log(dataJson);
+        if (dataJson.code !== "000") {
+          alert(
+            "เกิดข้อผิดพลาด ไม่สามารถซื้อการ์ดได้: " + dataJson.message
+          );
+        } else {
+          alert("ซื้อสำเร็จ");
+          handleSetCookie();
+          setDisabled(true);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -76,9 +85,6 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       });
 
     // console.log(event)
-    alert("ซื้อสำเร็จ");
-    handleSetCookie();
-    setDisabled(true);
     setLoading(false);
     closePopup();
   }
