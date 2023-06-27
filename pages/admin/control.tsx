@@ -8,23 +8,6 @@ import { getAllUser } from "@/typings";
 import { varlidateToken } from "@/utils/validateAdmin";
 
 const Page: NextPage = () => {
-<<<<<<< HEAD
-  
-  useEffect(()=>{
-    const tokenString = localStorage.getItem("token") as string;
-    let validate : boolean = varlidateToken(tokenString);
-  if(tokenString === null){
-    alert("please login" );
-    router.back()
-  }
-  else if(!validate){
-    alert("please use account admin" );
-    router.back()
-  }
-  console.log(validate);
-  },[])
-
-=======
   useEffect(() => {
     const tokenString = localStorage.getItem("token") as string;
     let validate: boolean = varlidateToken(tokenString);
@@ -37,7 +20,6 @@ const Page: NextPage = () => {
     }
     console.log(validate);
   }, []);
->>>>>>> 9361f58d178d32e172fcc013a45fdf550b3ee6ff
 
   return (
     <div
