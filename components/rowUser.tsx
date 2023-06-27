@@ -8,7 +8,7 @@ const Row: React.FC<{groupUser: typeRowGrup, isFromAdmin: boolean}> = ({ groupUs
 
   useEffect(() => {
     setDefaultValue(groupUser.point);
-    console.log("row Re");
+    // console.log("row Re");
   }, [groupUser]);
 
   return (
