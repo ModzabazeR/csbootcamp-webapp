@@ -19,20 +19,20 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const router = useRouter();
   const booleanify = (value: string): boolean => {
     const truthy: string[] = [
-        'true',
-        'True',
-        '1'
+      'true',
+      'True',
+      '1'
     ]
 
     return truthy.includes(value)
-}
+  }
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
     if (validate === null) {
       router.push('/login')
     }
-    else if(validate === true) {
+    else if (validate === true) {
       router.push('/admin')
     }
     const idUserString = localStorage.getItem("idUser");
@@ -47,23 +47,23 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       method: "GET",
       headers: headersList,
     }).then(data => data.json())
-    .then((dataJson : getUserByIdResponse)=> {
-      setFilteredCardArr(dataJson.data.cards)
-    })
+      .then((dataJson: getUserByIdResponse) => {
+        setFilteredCardArr(dataJson.data.cards)
+      })
     const haveCookie = cookies["bought"]
-    setDisabled(booleanify(haveCookie))
-    console.log("bought   "+haveCookie)
+    // setDisabled(booleanify(haveCookie))
+    console.log("bought   " + haveCookie)
   }, []);
-  const  handleSetCookie = () => {
+  const handleSetCookie = () => {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
 
-    setCookie( "bought", true, { maxAge: 20 * 60  });
+    setCookie("bought", true, { maxAge: 20 * 60 });
   };
-  const handleGetCookie = (type : string) => {
+  const handleGetCookie = (type: string) => {
     const cookieValue = cookies[type];
     console.log('Cookie value:', cookieValue);
-    if ( cookieValue === undefined){
+    if (cookieValue === undefined) {
       return null;
     }
     return cookieValue
@@ -72,30 +72,33 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
     setDisabled(true);
     const tokenString = localStorage.getItem("token") as string;
-    console.log("clicki");
+    const idUserString = localStorage.getItem("idUser") as string;
+    console.log(tokenString);
     setLoading(true);
     event.currentTarget.style.cursor = "wait";
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      authentication : tokenString
+      authentication: tokenString
     };
     const body = {
-      buff : handleGetCookie('Buff'),
+      buff: handleGetCookie('Buff'),
+      atk: handleGetCookie('Attack'),
+      def: handleGetCookie('Defense')
+    }
+    
+    let response = await fetch(`https://api.cscamp.net/api/users/${idUserString}/play`, {
+      method: "POST",
+      headers: headersList,
+      body: JSON.stringify({
+        buff: handleGetCookie('Buff'),
         atk: handleGetCookie('Attack'),
-        def : handleGetCookie('Defense')}
-    const idUserString = localStorage.getItem("idUser")
-    // let response = await fetch(`https://api.cscamp.net/api/users/${idUserString}/play`, {
-    //   method: "POST",
-    //   headers: headersList,
-    //   body: JSON.stringify({
-    //     buff : handleGetCookie('Buff'),
-    //     atk: handleGetCookie('Attack'),
-    //     def : handleGetCookie('Defense')
-    //   })
-    // });
-    // let getdata = await response.json();
+        def: handleGetCookie('Defense')
+      })
+    }).then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.log(error))
     console.log(body);
     handleSetCookie()
     // console.log(event)
@@ -137,10 +140,10 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           })}
         </div>
         <button
-        disabled={disabled}
+          disabled={disabled}
           onClick={buyCard}
           className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
-          style={{ cursor: disabled ? "default" : "pointer",}}
+          style={{ cursor: disabled ? "default" : "pointer", }}
         >
           Use
         </button>

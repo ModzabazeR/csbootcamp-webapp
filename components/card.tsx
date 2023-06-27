@@ -16,7 +16,9 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       background: "#D9D9D9",
     },
   };
+  useEffect(() => {
 
+  },[])
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
     const tokenString = localStorage.getItem("token") as string;
     console.log("clicki");
@@ -30,12 +32,16 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       authentication : tokenString
     };
     const idUserString = localStorage.getItem("idUser")
-    let response = await fetch(`https://api.cscamp.net/api/users/${idUserString}/cards/${id}`, {
+    await fetch(`https://api.cscamp.net/api/users/${idUserString}/cards/${id}`, {
       method: "POST",
       headers: headersList,
-    });
-    let getdata = await response.json();
-    console.log(getdata);
+    }).then(data => data.json()).then(dataJson => {
+      console.log(dataJson)
+    }).catch(
+      error => {console.error(error)
+      alert("error")}
+    )
+    
     // console.log(event)
     // event.currentTarget.style.cursor =  'default';
     alert("successful");

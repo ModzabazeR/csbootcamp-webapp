@@ -23,7 +23,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                'status': isOpen
+                status: isOpen
             })
         };
         // console.log(requestOptions.body)

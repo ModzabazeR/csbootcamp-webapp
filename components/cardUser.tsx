@@ -52,18 +52,6 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       setLoading(false);
       return;
     }
-    event.currentTarget.style.cursor = "wait";
-    let headersList = {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-    };
-    let response = await fetch("https://jsonplaceholder.typicode.com/todos/1", {
-      method: "GET",
-      headers: headersList,
-    });
-    let getdata = await response.json();
-    console.log(getdata);
     // console.log(event)
     // event.currentTarget.style.cursor =  'default';
     handleSetCookie()
@@ -82,7 +70,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   useEffect(() => {
     const haveCookie = handleGetCookie()
     setDisabled(haveCookie)
-    console.log(haveCookie)
+    console.log(type + haveCookie)
   },[])
 
   return (

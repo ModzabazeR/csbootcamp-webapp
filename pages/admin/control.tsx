@@ -37,13 +37,13 @@ const Page: NextPage = () => {
           key={0}
           id2="BuyCardBtn"
           name="buy card"
-          url="https://api.cscamp.net/api/settings/shops"
+          url="https://api.cscamp.net/api/status/shops"
         />
         <Switch
           key={1}
           id2="UseCardBtn"
           name="use card"
-          url="https://api.cscamp.net/api/settings/plays"
+          url="https://api.cscamp.net/api/status/plays"
         />
       </div>
       <div
