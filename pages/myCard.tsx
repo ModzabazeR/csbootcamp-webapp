@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { varlidateToken } from "@/utils/validateAdmin";
 import { useCookies } from 'react-cookie'
+import Modal from "react-modal";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
@@ -19,6 +20,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [myCardList, setmyCardList] = useState("");
   const [refreshCardUser, setRefreshCardUser] = useState(false);
   const [refreshMycard, setRefrerefreshMycard] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies();
   const router = useRouter();
   const booleanify = (value: string): boolean => {
@@ -30,7 +32,16 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 
     return truthy.includes(value)
   }
-
+  const popupStyle = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.75)",
+    },
+    content: {
+      background: "#D9D9D9",
+    },
+    width: "auto",
+    height: "auto",
+  };
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
@@ -64,18 +75,18 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       .then(data => {
         console.log(data);
         if (!(JSON.parse(data.data[0].open)))
-        router.push('/dashboard')
+          router.push('/dashboard')
       })
       .catch(error => console.error(error))
-    const haveCookie = cookies["bought"]
+    const haveCookie = cookies["used"]
     setDisabled(booleanify(haveCookie))
-    console.log("bought   " + haveCookie)
+    console.log("used   " + haveCookie)
   }, []);
   const handleSetCookie = (isTrue: boolean) => {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
 
-    setCookie("bought", isTrue, { maxAge: 20 * 60 });
+    setCookie("used", isTrue, { maxAge: 20 * 60 });
   };
   const handleGetCookie = (type: string) => {
     const cookieValue = cookies[type];
@@ -137,14 +148,14 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     }
     else if (res.code === "070") {
       alert("User already use card.");
-      setDisabled(false);
-      removeCookie('bought')
+      // setDisabled(false);
+      // removeCookie('used')
       return;
     }
     else if (res.code === "071") {
       alert("User can not play card at this moment.");
       setDisabled(false);
-      removeCookie('bought')
+      removeCookie('used')
       return;
     }
     else {
@@ -173,6 +184,13 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     makeList();
   }, [refreshMycard])
 
+  const openPopup = () => {
+    setIsOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsOpen(false);
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -238,7 +256,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         </div>
         <button
           disabled={disabled}
-          onClick={buyCard}
+          onClick={openPopup}
           className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
           style={{
             cursor: disabled ? "default" : "pointer",
@@ -249,6 +267,42 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           Use
         </button>
       </div>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closePopup}
+        contentLabel="Test Modal"
+        closeTimeoutMS={200}
+        style={popupStyle}
+      >
+        <div className="flex flex-col items-center text-center w-full justify-center">
+          <div>การ์ดที่ใช้ </div>
+          <div></div>
+          <div>{myCardList} </div>
+          <div></div>
+          <div>แน่ใจ ไหม    ไม่ สามารถ แก้ไข ได้ </div>
+        </div>
+
+        <div className="flex w-auto justify-between mt-2">
+          <button
+            className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg"
+            onClick={closePopup}
+          >
+            ออก
+
+          </button>
+          <button
+            disabled={disabled}
+            onClick={buyCard}
+            className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg  cursor-pointer"
+            style={{
+              backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
+              cursor: disabled ? "default" : "pointer",
+            }}
+          >
+            ใช้
+          </button>
+        </div>
+      </Modal>
     </motion.div>
   );
 };

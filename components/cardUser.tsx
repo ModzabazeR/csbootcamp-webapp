@@ -103,6 +103,7 @@ const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,ref
             )}`}
           />
           <p className="text-xl font-bold my-2">{name}</p>
+          <p>id card: {id}</p>
           <p>ประเภท: {type}</p>
           <p>
             ความสามารถ:
