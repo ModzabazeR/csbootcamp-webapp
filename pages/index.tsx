@@ -39,6 +39,7 @@ const Home: NextPage = () => {
           CS29 Bootcamp | ยินดีต้อนรับ
         </div>
       </div>
+
     </motion.div>
   );
 };

@@ -18,8 +18,9 @@ const LogIn: NextPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
+      className="overflow-hidden		"
     >
-      <div className="flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+      <div className="overflow-y-hidden	 flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
         <Head>
           <title>Login | CS Bootcamp 2023</title>
         </Head>
@@ -31,6 +32,9 @@ const LogIn: NextPage = () => {
         />
         <LogInPanel />
       </div>
+      <footer className="overflow-hidden text-white	">
+      version 27/6/44 20/22
+    </footer>
     </motion.div>
   );
 };
