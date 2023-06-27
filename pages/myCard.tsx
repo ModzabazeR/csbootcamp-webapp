@@ -180,6 +180,13 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     text += ((cookies["Buff"] !== undefined) ? cookies["Buff"] : " ") + "    "
     setmyCardList(text)
   }
+
+  function empty() {
+    if (myCardList.trim() === "") {
+      return "ไม่มีการ์ดที่จะใช้ในรอบนี้ ยีนยันที่จะไม่ใช้หรือไม่";
+    }
+  }
+
   useEffect(() => {
     makeList();
   }, [refreshMycard])
@@ -274,33 +281,34 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         closeTimeoutMS={200}
         style={popupStyle}
       >
-        <div className="flex flex-col items-center text-center w-full justify-center">
-          <div>การ์ดที่ใช้ </div>
-          <div></div>
-          <div>{myCardList} </div>
-          <div></div>
-          <div>แน่ใจ ไหม    ไม่ สามารถ แก้ไข ได้ </div>
-        </div>
+        <div className="text-lg	 flex flex-col items-center text-center h-full w-full justify-center">
+          <div className="flex gap-4 flex-col items-center text-center w-full justify-center">
+            <p>การ์ดที่ใช้ </p>
+            <p>{myCardList} </p>
+            <p>{empty()}</p>
+            <p></p>
+            <p>( หากกดปุ่ม "ใช้" จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
+          </div>
 
-        <div className="flex w-auto justify-between mt-2">
-          <button
-            className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg"
-            onClick={closePopup}
-          >
-            ออก
-
-          </button>
-          <button
-            disabled={disabled}
-            onClick={buyCard}
-            className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg  cursor-pointer"
-            style={{
-              backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
-              cursor: disabled ? "default" : "pointer",
-            }}
-          >
-            ใช้
-          </button>
+          <div className="text-xl	 flex w-full justify-between mt-10">
+            <button
+              className="bg-[#ACACAC] px-4 py-2 rounded-l-lg w-full"
+              onClick={closePopup}
+            >
+              ปิด
+            </button>
+            <button
+              disabled={disabled}
+              onClick={buyCard}
+              className="bg-[#F90000] px-4 py-2 rounded-r-lg  cursor-pointer w-full"
+              style={{
+                backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
+                cursor: disabled ? "default" : "pointer",
+              }}
+            >
+              ใช้
+            </button>
+          </div>
         </div>
       </Modal>
     </motion.div>

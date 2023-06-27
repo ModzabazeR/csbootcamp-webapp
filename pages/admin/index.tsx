@@ -134,12 +134,12 @@ const AdminDashboard: NextPage<{
           </div>
           <div className="rounded-lg md:w-9/12	 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
             <input
-              name="score"
+              name="id"
               value={defaultValue}
               type="text"
-              id="score"
+              id="id"
               className="my-2 block w-full p-4 pl-10 text-center dark:focus:ring-blue-500 dark:focus:border-blue-500 rounded-lg"
-              placeholder="Score"
+              placeholder="ID"
               onChange={(event) => handleChange(event)}
             ></input>
             <Log messages={filteredData} />

@@ -79,7 +79,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
                     />
                     <label htmlFor={id2} className="switch-label block overflow-hidden h-10 rounded-full bg-gray-300 cursor-pointer"></label>
                 </div>
-                <label htmlFor={id2} className="text-lg	 text-xs text-gray-700">{name}</label>
+                <label htmlFor={id2} className="text-lg	  text-gray-700">{name}</label>
             </div>
             <style jsx>{`
        /* CHECKBOX switch SWITCH */
