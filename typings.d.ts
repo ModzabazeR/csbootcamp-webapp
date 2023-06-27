@@ -65,7 +65,7 @@ export interface getUserByIdResponse {
         id: string;
         point: number;
         admin: number;
-        cards: never[];
+        cards: ICard[];
     };
 }
 

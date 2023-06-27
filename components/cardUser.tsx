@@ -13,7 +13,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
 
-    setCookie( type, true, { maxAge: 20 * 60 });
+    setCookie( type, id, { maxAge: 20 * 60 });
   };
   const handleGetCookie = () => {
     const cookieValue = cookies[type];
@@ -21,7 +21,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     if ( cookieValue == undefined){
       return false;
     }
-    return cookieValue
+    else return true
   };
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -47,7 +47,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     setLoading(true);
     const haveCookie = handleGetCookie()
     console.log(haveCookie);
-    if(haveCookie === true || haveCookie === 'true') {
+    if(haveCookie === true ) {
       alert("cannot use type in this card");
       setLoading(false);
       return;

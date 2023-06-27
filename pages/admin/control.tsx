@@ -8,8 +8,9 @@ import { getAllUser } from "@/typings";
 import { varlidateToken } from "@/utils/validateAdmin";
 
 const Page: NextPage = () => {
-  const tokenString = localStorage.getItem("token") as string;
+  
   useEffect(()=>{
+    const tokenString = localStorage.getItem("token") as string;
     let validate : boolean = varlidateToken(tokenString);
   if(tokenString === null){
     alert("please login" );

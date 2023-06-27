@@ -53,9 +53,8 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
                 .then(data => {
                     console.log(data);
                     setisChecked(JSON.parse(data.data[0].open))
-                }
-
-                )
+                    })
+                .catch(error => console.error(error))
 
         }, [url]
     )

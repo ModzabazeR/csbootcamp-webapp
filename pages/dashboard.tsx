@@ -48,11 +48,10 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({
       method: "GET",
       headers: headersList,
     }).then(data => data.json())
-      .then(dataJson => {
+      .then((dataJson : getUserByIdResponse) => {
         setUser(dataJson);
         setupdateUser(prevState => !prevState);
       })
-      setupdateUser(!updateUser)
   }, []);
   console.log(groups);
   return (
