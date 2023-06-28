@@ -35,7 +35,7 @@ export async function updateBoard() {
     let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
     console.log(dataJsonAllGroup)
     group = dataJsonAllGroup;
-    sortUsers()
+    // sortUsers()
 }
 
 
