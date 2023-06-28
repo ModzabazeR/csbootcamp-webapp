@@ -1,29 +1,29 @@
-import {  } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
 import { typeRowGrup } from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
 
-const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
+const Row: React.FC<{ groupUser: typeRowGrup }> = ({ groupUser }) => {
   const [defaultValue, setDefaultValue] = useState(groupUser.point);
+  const [initialPoint, setInitialPoint] = useState(groupUser.point);
 
   useEffect(() => {
     setDefaultValue(groupUser.point);
+    setInitialPoint(groupUser.point); // Set initialPoint only once when component mounts
     console.log("row Re");
   }, [groupUser]);
 
   const handleChange = (event: any, groupUser: typeRowGrup) => {
     setDefaultValue(event.target.value);
     groupUser.point = Number(event.target.value);
-    // console.log(groupUser.point);
-    // console.log("change");
-  }
+  };
 
   return (
-    <div className="block w-full text-center" key={groupUser.id}>
-      <div className=" grid grid-cols-3 gap-4 ">
+    <div className="block w-full text-center " key={groupUser.id}>
+      <div className="grid grid-cols-3 gap-4 items-center">
         <div className="pl-5">{`${getGroupName(groupUser.id)} (${groupUser.id})`}</div>
-        <div className="border-x-2	px-5 border-x-black	">
-          <div className="relative ">
+        <div className="border-x-2 px-5 border-x-black">
+          <div className="relative grid grid-cols-2 gap-4 items-center">
+            <div className="text-left	" >from {initialPoint}</div>
             <input
               name="score"
               value={defaultValue}
@@ -39,6 +39,6 @@ const Row: React.FC<{groupUser: typeRowGrup}> = ({ groupUser }) => {
       </div>
     </div>
   );
-}
+};
 
-export default Row
+export default Row;
