@@ -116,6 +116,7 @@ const Board: React.FC = () => {
       });
 
     getGroup();
+    window.location.reload();
   }
 
   const openPopup = () => {
