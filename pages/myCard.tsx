@@ -292,7 +292,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
             <p>{myCardList} </p>
             <p>{empty()}</p>
             <p></p>
-            <p>( หากกดปุ่ม "ใช้" จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
+            <p>( หากกดปุ่ม &quot;ใช้&quot; จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
           </div>
         
         <div className="flex w-auto justify-between mt-2">

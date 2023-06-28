@@ -75,23 +75,11 @@ const AdminDashboard: NextPage<{
     const logBuyMessages: string[] = [];
     for (let i = 0; i < dataJsonEvenGroupCopy.length; i++) {
       let cur = dataJsonEvenGroupCopy[i];
-      console.log(cur.date_time)
-      let date_time = new Date(cur.date_time).toLocaleString("en-US", {
-        hour12: false,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        timeZone: "Asia/Bangkok",
-      });
-
       let at_cardName: string = (cur.at_card_id === null) ? "none" : cur.at_card_id.name
       let bf_cardName: string = (cur.bf_card_id === null) ? "none" : cur.bf_card_id.name
       let df_cardName: string = (cur.df_card_id === null) ? "none" : cur.df_card_id.name
       logBuyMessages.push(
-        `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n` + ` use at_card ${at_cardName} \n
+        `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n` + ` use at_card ${at_cardName} \n
       use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
       );
     }
@@ -141,7 +129,7 @@ const AdminDashboard: NextPage<{
               })}
             </div>
           </div>
-          <div className="rounded-lg md:w-9/12 sm:w-full h-full bg-slate-100 overflow-auto p-2">
+          <div className="rounded-lg md:w-9/12	 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
             <input
               name="id"
               value={defaultValue}
@@ -200,21 +188,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const logBuyMessages: string[] = [];
   for (let i = 0; i < dataJsonEvenGroup.data.length; i++) {
     let cur = dataJsonEvenGroup.data[i];
-    let date_time = new Date(cur.date_time).toLocaleString("en-US", {
-      hour12: false,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "Asia/Bangkok",
-    });
     let at_cardName: string = cur.at_card_id === null ? "none" : cur.at_card_id.name;
     let bf_cardName: string = cur.bf_card_id === null ? "none" : cur.bf_card_id.name;
     let df_cardName: string = cur.df_card_id === null ? "none" : cur.df_card_id.name;
     logBuyMessages.push(
-      `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n` +
+      `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n` +
         ` use at_card ${at_cardName} \n use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
     );
   }
@@ -227,7 +205,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
-
-function moment(date_time: string) {
-  throw new Error("Function not implemented.");
-}
