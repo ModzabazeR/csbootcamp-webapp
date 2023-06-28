@@ -6,7 +6,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [refreshCardUser, setRefreshCardUser] = useState(false);
@@ -22,7 +22,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       router.push("/admin");
     }
 
-    const idUserString = localStorage.getItem("idUser");
+    const userJson = getUserJson(tokenString)
+    const idUserString = userJson?.username
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {
