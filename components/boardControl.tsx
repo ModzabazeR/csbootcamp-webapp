@@ -136,7 +136,7 @@ const Board: React.FC = () => {
         closeTimeoutMS={200}
         style={popupStyle}
       >
-        <div className="flex flex-col items-center text-center h-full w-full justify-center">
+        <div className=" flex flex-col items-center text-center h-full w-full justify-center">
           {sumPoint.map((e) => {
             return (
               <div
@@ -144,7 +144,7 @@ const Board: React.FC = () => {
                 className=" min-w-[50%] grid grid-cols-3 gap-4 "
               >
                 <div>{e.id}</div>
-                <div>
+                <div className="text-left" >
                   from {e.point} + {e.addPoint} = {e.point + e.addPoint}
                 </div>
               </div>
