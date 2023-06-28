@@ -10,6 +10,7 @@ import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [refreshCardUser, setRefreshCardUser] = useState(false);
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const router = useRouter();
   console.log(cardArr);
@@ -22,8 +23,12 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       router.push("/admin");
     }
 
-    const userJson = getUserJson(tokenString)
-    const idUserString = userJson?.username
+    const userJson = getUserJson(tokenString);
+    if (userJson === null) {
+      router.push("/login");
+      return;
+    }
+    const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {
@@ -53,7 +58,11 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (!JSON.parse(data.data[0].open)) router.push("/dashboard");
+        if (!JSON.parse(data.data[0].open)) {
+          router.push("/dashboard");
+        } else {
+          setIsPageLoaded(true);
+        }
       })
       .catch((error) => console.error(error));
   }, []);
@@ -63,33 +72,35 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="flex flex-col items-center bg-slate-800 py-6 gap-4">
-        <Head>
-          <title>Shop | CS Bootcamp 2023</title>
-        </Head>
-        <div
-          onClick={() => router.back()}
-          className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
-        >
-          กลับ
+      {isPageLoaded && (
+        <div className="flex flex-col items-center bg-slate-800 py-6 gap-4">
+          <Head>
+            <title>Shop | CS Bootcamp 2023</title>
+          </Head>
+          <div
+            onClick={() => router.back()}
+            className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
+          >
+            กลับ
+          </div>
+          <h1 className="text-5xl text-white">ร้านค้า</h1>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+            {filteredCardArr.map((e, i) => {
+              return (
+                <Card
+                  key={i}
+                  id={e.id}
+                  name={e.name}
+                  detail={e.detail}
+                  type={e.type}
+                  prices={e.prices}
+                  img_url={e.img_url}
+                />
+              );
+            })}
+          </div>
         </div>
-        <h1 className="text-5xl text-white">ร้านค้า</h1>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-          {filteredCardArr.map((e, i) => {
-            return (
-              <Card
-                key={i}
-                id={e.id}
-                name={e.name}
-                detail={e.detail}
-                type={e.type}
-                prices={e.prices}
-                img_url={e.img_url}
-              />
-            );
-          })}
-        </div>
-      </div>
+      )}
     </motion.div>
   );
 };

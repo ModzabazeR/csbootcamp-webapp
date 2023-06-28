@@ -3,15 +3,16 @@ import { GetServerSideProps, NextPage } from "next";
 import { updateBoard } from "@/utils/boardLeader";
 import RowUser from "@/components/rowUser";
 import Link from "next/link";
-import router from "next/router";
 import { getGroupName } from "@/utils/userUtils";
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
 import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
+import { useRouter } from "next/router";
 
 const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
+  const router = useRouter()
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isPlayOpen, setIsPlayOpen] = useState(false);
   const [updateUser, setupdateUser] = useState(false);
@@ -28,7 +29,11 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     const userJson = getUserJson(tokenString)
-    const idUserString = userJson?.username
+    if (userJson === null) {
+      router.push("/login")
+      return
+    }
+    const idUserString = userJson.username
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {

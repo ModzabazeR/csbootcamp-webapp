@@ -17,6 +17,7 @@ const AdminDashboard: NextPage<{
   logMessages: string[];
   dataJsonEvenGroup: getLogEventResponseNew;
 }> = ({ groups, logMessages, dataJsonEvenGroup }) => {
+  const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [defaultValue, setDefaultValue] = useState(0);
   const [filteredData, setFilteredData] = useState<string[]>(logMessages);
   const router = useRouter();
@@ -29,7 +30,7 @@ const AdminDashboard: NextPage<{
     } else if (validate === false) {
       router.push("/dashboard");
     } else if (validate === true) {
-      router.push("/admin");
+      setIsPageLoaded(true)
     }
   }, []);
 
@@ -105,7 +106,7 @@ const AdminDashboard: NextPage<{
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
+      {isPageLoaded && <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
         <div
           onClick={() => {
             localStorage.removeItem("token");
@@ -171,7 +172,7 @@ const AdminDashboard: NextPage<{
             คู่มือ
           </button>
         </div>
-      </div>
+      </div>}
     </motion.div>
   );
 };

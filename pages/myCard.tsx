@@ -13,6 +13,7 @@ import { useCookies } from "react-cookie";
 import Modal from "react-modal";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const [disabled, setDisabled] = useState(false);
   console.log(disabled);
@@ -46,8 +47,13 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     } else if (validate === true) {
       router.push("/admin");
     }
-    const userJson = getUserJson(tokenString)
-    const idUserString = userJson?.username
+
+    const userJson = getUserJson(tokenString);
+    if (userJson === null) {
+      router.push("/login");
+      return;
+    }
+    const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {
@@ -71,7 +77,11 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        if (!JSON.parse(data.data[0].open)) router.push("/dashboard");
+        if (!JSON.parse(data.data[0].open)) {
+          router.push("/dashboard");
+        } else {
+          setIsPageLoaded(true);
+        }
       })
       .catch((error) => console.error(error));
     const haveCookie = cookies["used"];
@@ -202,122 +212,136 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="flex flex-col items-center bg-slate-800 py-6 gap-4">
-        <Head>
-          <title>My Card | CS Bootcamp 2023</title>
-        </Head>
-        {/* {loading ? <Loading /> : <div></div>} */}
-        <div
-          onClick={() => router.back()}
-          className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
-        >
-          กลับ
-        </div>
-        <h1 className="text-5xl text-white">คลัง</h1>
-        <div className="	w-full		">
-          <div className="bg-slate-200 mx-5 rounded">
-            <button
-              onClick={clearCard}
-              disabled={disabled}
-              className=" bg-blue-600 py-2 px-5 text-white right-5 m-3  cursor-pointer rounded"
-              style={{
-                cursor: disabled ? "default" : "pointer",
-                backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
-              }}
-            >
-              clear
-            </button>
-            <button
-              onClick={makeList}
-              disabled={disabled}
-              className=" bg-blue-600 py-2 px-5 text-white right-5 m-3  cursor-pointer rounded"
-              style={{
-                cursor: disabled ? "default" : "pointer",
-                backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
-              }}
-            >
-              check
-            </button>
-            List : {myCardList}
-          </div>
-        </div>
-
-        <div className="w-full">
-          <div className="bg-yellow-300 mx-5 p-4 rounded">
-            <p className="font-bold">การใช้การ์ด:</p>
-            <p>สามารถเลือกใช้การ์ดได้ประเภทละ 1 ใบต่อ 1 ตา การ์ดที่เลือกแล้วจะกลายเป็นสีเทา เมื่อมั่นใจแล้วให้กด use เป็นการยืนยันการใช้</p>
-            <p>การ์ดมีทั้งหมด 3 ประเภทคือ Attack, Buff, และ Defense ดังนั้นหมายความว่าเราสามารถใช้ได้มากสุด 3 ใบต่อตานั่นเอง</p>
-            <p>หากว่าเลือกการ์ดไปแล้วอยากเปลี่ยน สามารถกด clear เพื่อเลือกอีกครั้งได้เรื่อย ๆ (ถ้ากด use ไปแล้วจะเปลี่ยนไม่ได้แล้วนะครับ)</p>
-          </div>
-        </div>
-
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-          {filteredCardArr.map((e, i) => {
-            return (
-              <CardUser
-                key={i}
-                id={e.id}
-                name={e.name}
-                detail={e.detail}
-                type={e.type}
-                prices={e.prices}
-                img_url={e.img_url}
-                refresh={refreshCardUser}
-                refreshMain={setRefrerefreshMycard}
-              />
-            );
-          })}
-        </div>
-        <button
-          disabled={disabled}
-          onClick={openPopup}
-          className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
-          style={{
-            cursor: disabled ? "default" : "pointer",
-            backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
-          }}
-        >
-          Use
-        </button>
-      </div>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={closePopup}
-        contentLabel="Test Modal"
-        closeTimeoutMS={200}
-        style={popupStyle}
-      >
-        <div className="text-lg	 flex flex-col items-center text-center h-full w-full justify-center">
-          <div className="flex gap-4 flex-col items-center text-center w-full justify-center">
-            <p>การ์ดที่ใช้ </p>
-            <p>{myCardList} </p>
-            <p>{empty()}</p>
-            <p></p>
-            <p>( หากกดปุ่ม &quot;ใช้&quot; จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
-          </div>
-        
-        <div className="flex w-auto justify-between mt-2">
-          <button
-            className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg"
-            onClick={closePopup}
+      {isPageLoaded && (
+        <div className="flex flex-col items-center bg-slate-800 py-6 gap-4">
+          <Head>
+            <title>My Card | CS Bootcamp 2023</title>
+          </Head>
+          {/* {loading ? <Loading /> : <div></div>} */}
+          <div
+            onClick={() => router.back()}
+            className="absolute bg-blue-600 py-2 px-5 text-white right-5 top-5 cursor-pointer rounded"
           >
-            ออก
+            กลับ
+          </div>
+          <h1 className="text-5xl text-white">คลัง</h1>
+          <div className="	w-full		">
+            <div className="bg-slate-200 mx-5 rounded">
+              <button
+                onClick={clearCard}
+                disabled={disabled}
+                className=" bg-blue-600 py-2 px-5 text-white right-5 m-3  cursor-pointer rounded"
+                style={{
+                  cursor: disabled ? "default" : "pointer",
+                  backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
+                }}
+              >
+                clear
+              </button>
+              <button
+                onClick={makeList}
+                disabled={disabled}
+                className=" bg-blue-600 py-2 px-5 text-white right-5 m-3  cursor-pointer rounded"
+                style={{
+                  cursor: disabled ? "default" : "pointer",
+                  backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
+                }}
+              >
+                check
+              </button>
+              List : {myCardList}
+            </div>
+          </div>
 
-          </button>
+          <div className="w-full">
+            <div className="bg-yellow-300 mx-5 p-4 rounded">
+              <p className="font-bold">การใช้การ์ด:</p>
+              <p>
+                สามารถเลือกใช้การ์ดได้ประเภทละ 1 ใบต่อ 1 ตา
+                การ์ดที่เลือกแล้วจะกลายเป็นสีเทา เมื่อมั่นใจแล้วให้กด use
+                เป็นการยืนยันการใช้
+              </p>
+              <p>
+                การ์ดมีทั้งหมด 3 ประเภทคือ Attack, Buff, และ Defense
+                ดังนั้นหมายความว่าเราสามารถใช้ได้มากสุด 3 ใบต่อตานั่นเอง
+              </p>
+              <p>
+                หากว่าเลือกการ์ดไปแล้วอยากเปลี่ยน สามารถกด clear
+                เพื่อเลือกอีกครั้งได้เรื่อย ๆ (ถ้ากด use
+                ไปแล้วจะเปลี่ยนไม่ได้แล้วนะครับ)
+              </p>
+            </div>
+          </div>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+            {filteredCardArr.map((e, i) => {
+              return (
+                <CardUser
+                  key={i}
+                  id={e.id}
+                  name={e.name}
+                  detail={e.detail}
+                  type={e.type}
+                  prices={e.prices}
+                  img_url={e.img_url}
+                  refresh={refreshCardUser}
+                  refreshMain={setRefrerefreshMycard}
+                />
+              );
+            })}
+          </div>
           <button
             disabled={disabled}
-            onClick={buyCard}
-            className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg  cursor-pointer"
+            onClick={openPopup}
+            className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
             style={{
-              backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
               cursor: disabled ? "default" : "pointer",
+              backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
             }}
           >
-            ใช้
+            Use
           </button>
         </div>
-        </div>
-      </Modal>
+      )}
+      {isPageLoaded && (
+        <Modal
+          isOpen={isOpen}
+          onRequestClose={closePopup}
+          contentLabel="Use Card"
+          closeTimeoutMS={200}
+          style={popupStyle}
+        >
+          <div className="text-lg	 flex flex-col items-center text-center h-full w-full justify-center">
+            <div className="flex gap-4 flex-col items-center text-center w-full justify-center">
+              <p>การ์ดที่ใช้ </p>
+              <p>{myCardList} </p>
+              <p>{empty()}</p>
+              <p></p>
+              <p>( หากกดปุ่ม &quot;ใช้&quot; จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
+            </div>
+
+            <div className="flex w-auto justify-between mt-2">
+              <button
+                className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg"
+                onClick={closePopup}
+              >
+                ออก
+              </button>
+              <button
+                disabled={disabled}
+                onClick={buyCard}
+                className="bg-[#F90000] px-4 py-2 w-1/2 rounded-r-lg  cursor-pointer"
+                style={{
+                  backgroundColor: disabled ? "grey" : "rgb(249, 0, 0)",
+                  cursor: disabled ? "default" : "pointer",
+                }}
+              >
+                ใช้
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
     </motion.div>
   );
 };
