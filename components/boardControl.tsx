@@ -10,6 +10,7 @@ import {
   arrayUser,
   scoreSummary,
 } from "@/typings";
+import { useRouter } from "next/router";
 
 let arrayPoint: groupPoint[] = [];
 let groupCopy: arrayUser[] = [...group.data];
@@ -25,6 +26,7 @@ const Board: React.FC = () => {
     },
   };
 
+  const router = useRouter()
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -116,7 +118,7 @@ const Board: React.FC = () => {
       });
 
     getGroup();
-    window.location.reload();
+    router.reload()
   }
 
   const openPopup = () => {
