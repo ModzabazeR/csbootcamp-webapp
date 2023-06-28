@@ -8,7 +8,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
 import { useCookies } from "react-cookie";
 import Modal from "react-modal";
 
@@ -46,7 +46,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     } else if (validate === true) {
       router.push("/admin");
     }
-    const idUserString = localStorage.getItem("idUser");
+    const userJson = getUserJson(tokenString)
+    const idUserString = userJson?.username
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {
@@ -292,7 +293,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
             <p>{myCardList} </p>
             <p>{empty()}</p>
             <p></p>
-            <p>( หากกดปุ่ม "ใช้" จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
+            <p>( หากกดปุ่ม &quot;ใช้&quot; จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
           </div>
         
         <div className="flex w-auto justify-between mt-2">

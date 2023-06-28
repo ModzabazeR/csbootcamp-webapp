@@ -26,7 +26,6 @@ async function loginPerform(credentials: {
         return;
       }
       localStorage.setItem("token", dataJson.data.token);
-      localStorage.setItem("idUser", credentials.username);
       let validate: boolean = varlidateAdminJson(dataJson);
       console.log(
         validate

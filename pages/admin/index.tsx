@@ -1,6 +1,10 @@
 import { GetServerSideProps, NextPage } from "next";
 import Log from "@/components/log";
-import { getAllUser, getLogBuyResponse, getLogEventResponseNew } from "@/typings";
+import {
+  getAllUser,
+  getLogBuyResponse,
+  getLogEventResponseNew,
+} from "@/typings";
 import RowUser from "@/components/rowUser";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -11,7 +15,7 @@ let countRefresh = 0;
 const AdminDashboard: NextPage<{
   groups: getAllUser;
   logMessages: string[];
-  dataJsonEvenGroup: getLogEventResponseNew
+  dataJsonEvenGroup: getLogEventResponseNew;
 }> = ({ groups, logMessages, dataJsonEvenGroup }) => {
   const [defaultValue, setDefaultValue] = useState(0);
   const [filteredData, setFilteredData] = useState<string[]>(logMessages);
@@ -36,7 +40,6 @@ const AdminDashboard: NextPage<{
       // Fetch the updated groups data
       fetchGroupsData();
       // console.log(countRefresh++)
-
     }, 1000); // Refresh every 1 second
 
     return () => {
@@ -52,10 +55,13 @@ const AdminDashboard: NextPage<{
         "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       };
 
-      const responseAllGroup = await fetch("https://api.cscamp.net/api/users/", {
-        method: "GET",
-        headers: headersList,
-      });
+      const responseAllGroup = await fetch(
+        "https://api.cscamp.net/api/users/",
+        {
+          method: "GET",
+          headers: headersList,
+        }
+      );
 
       const dataJsonAllGroup: getAllUser = await responseAllGroup.json();
       dataJsonAllGroup.data.sort((a, b) => {
@@ -70,35 +76,29 @@ const AdminDashboard: NextPage<{
 
   const handleChange = (event: any) => {
     setDefaultValue(event.target.value);
-    let dataJsonEvenGroupCopy: getLogEventResponseNew["data"] = dataJsonEvenGroup.data.filter(e => Number(e.id) >= Number(event.target.value))
-    console.log(dataJsonEvenGroupCopy)
+    let dataJsonEvenGroupCopy: getLogEventResponseNew["data"] =
+      dataJsonEvenGroup.data.filter(
+        (e) => Number(e.id) >= Number(event.target.value)
+      );
+    console.log(dataJsonEvenGroupCopy);
     const logBuyMessages: string[] = [];
     for (let i = 0; i < dataJsonEvenGroupCopy.length; i++) {
       let cur = dataJsonEvenGroupCopy[i];
-      console.log(cur.date_time)
-      let date_time = new Date(cur.date_time).toLocaleString("en-US", {
-        hour12: false,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        timeZone: "Asia/Bangkok",
-      });
-
-      let at_cardName: string = (cur.at_card_id === null) ? "none" : cur.at_card_id.name
-      let bf_cardName: string = (cur.bf_card_id === null) ? "none" : cur.bf_card_id.name
-      let df_cardName: string = (cur.df_card_id === null) ? "none" : cur.df_card_id.name
+      let at_cardName: string =
+        cur.at_card_id === null ? "none" : cur.at_card_id.name;
+      let bf_cardName: string =
+        cur.bf_card_id === null ? "none" : cur.bf_card_id.name;
+      let df_cardName: string =
+        cur.df_card_id === null ? "none" : cur.df_card_id.name;
       logBuyMessages.push(
-        `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n` + ` use at_card ${at_cardName} \n
+        `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n` +
+          ` use at_card ${at_cardName} \n
       use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
       );
     }
     setFilteredData(logBuyMessages);
     // let arrCopy: getAllUser[] = refreshedGroups
-
-  }
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -114,7 +114,6 @@ const AdminDashboard: NextPage<{
           className="absolute bg-blue-600/25 p-4 backdrop-blur-md text-white right-5 top-5 cursor-pointer rounded-xl hover:backdrop-blur-sm transition-all drop-shadow border border-white hover:border-none"
           title="Log out"
         >
-
           <IoLogOut className="text-xl font-bold" />
         </div>
         <div className="flex flex-col md:flex-row gap-4 h-5/6 md:h-5/6">
@@ -141,7 +140,7 @@ const AdminDashboard: NextPage<{
               })}
             </div>
           </div>
-          <div className="rounded-lg md:w-9/12 sm:w-full h-full bg-slate-100 overflow-auto p-2">
+          <div className="rounded-lg md:w-9/12	 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
             <input
               name="id"
               value={defaultValue}
@@ -153,9 +152,8 @@ const AdminDashboard: NextPage<{
             ></input>
             <Log messages={filteredData} />
           </div>
-
         </div>
-        <div className="flex h-1/6 md:h-1/6 w-full items-center justify-center text-2xl">
+        <div className="flex h-1/6 md:h-1/6 w-full items-center justify-center  text-center  text-2xl gap-4">
           <button
             className="bg-pink-400 rounded-lg w-full h-full"
             onClick={() => {
@@ -163,6 +161,14 @@ const AdminDashboard: NextPage<{
             }}
           >
             Control
+          </button>
+          <button
+            className="bg-yellow-300 rounded-lg w-full h-full"
+            onClick={() => {
+              router.push("/manual");
+            }}
+          >
+            คู่มือ
           </button>
         </div>
       </div>
@@ -189,32 +195,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return b.point - a.point;
   });
 
-  const responseEvenGroup = await fetch("https://api.cscamp.net/api/logs/events", {
-    method: "GET",
-    headers: headersList,
-  });
+  const responseEvenGroup = await fetch(
+    "https://api.cscamp.net/api/logs/events",
+    {
+      method: "GET",
+      headers: headersList,
+    }
+  );
 
-  const dataJsonEvenGroup: getLogEventResponseNew = await responseEvenGroup.json();
+  const dataJsonEvenGroup: getLogEventResponseNew =
+    await responseEvenGroup.json();
   dataJsonEvenGroup.data.sort((a, b) => a.id - b.id);
-  
+
   const logBuyMessages: string[] = [];
   for (let i = 0; i < dataJsonEvenGroup.data.length; i++) {
     let cur = dataJsonEvenGroup.data[i];
-    let date_time = new Date(cur.date_time).toLocaleString("en-US", {
-      hour12: false,
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      timeZone: "Asia/Bangkok",
-    });
-    let at_cardName: string = cur.at_card_id === null ? "none" : cur.at_card_id.name;
-    let bf_cardName: string = cur.bf_card_id === null ? "none" : cur.bf_card_id.name;
-    let df_cardName: string = cur.df_card_id === null ? "none" : cur.df_card_id.name;
+    let at_cardName: string =
+      cur.at_card_id === null ? "none" : cur.at_card_id.name;
+    let bf_cardName: string =
+      cur.bf_card_id === null ? "none" : cur.bf_card_id.name;
+    let df_cardName: string =
+      cur.df_card_id === null ? "none" : cur.df_card_id.name;
     logBuyMessages.push(
-      `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n` +
+      `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n` +
         ` use at_card ${at_cardName} \n use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
     );
   }
@@ -227,7 +230,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
-
-function moment(date_time: string) {
-  throw new Error("Function not implemented.");
-}

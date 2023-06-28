@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import { toBase64, convertImage } from "@/utils/imageUtils";
 import { useCookies } from "react-cookie";
 import Loading from "./loading";
+import { getUserJson } from "@/utils/validateAdmin";
 
 const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const [cookies, setCookie] = useCookies();
@@ -50,7 +51,9 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       authorization: tokenString,
     };
-    const idUserString = localStorage.getItem("idUser") as string;
+
+    const userJson = getUserJson(tokenString)
+    const idUserString = userJson?.username
 
     const res = await fetch(`https://api.cscamp.net/api/users/${idUserString}`);
     const dataJson: getUserByIdResponse = await res.json();

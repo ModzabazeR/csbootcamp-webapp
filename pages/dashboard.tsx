@@ -7,7 +7,7 @@ import router from "next/router";
 import { getGroupName } from "@/utils/userUtils";
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
 import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
 
@@ -26,7 +26,9 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
   });
 
   useEffect(() => {
-    const idUserString = localStorage.getItem("idUser");
+    const tokenString = localStorage.getItem("token");
+    const userJson = getUserJson(tokenString)
+    const idUserString = userJson?.username
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {
@@ -34,7 +36,6 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
-    const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
     if (validate === null || idUserString === null) {
       router.push("/login");
