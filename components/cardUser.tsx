@@ -12,7 +12,7 @@ const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,ref
 
   const  handleSetCookie = () => {
     const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
+    expirationDate.setTime(expirationDate.getTime() + 10 * 60 * 1000); // 10 minutes from now
 
     setCookie( type, id, { maxAge: 20 * 60 });
   };

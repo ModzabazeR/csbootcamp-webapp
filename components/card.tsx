@@ -10,9 +10,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const [cookies, setCookie] = useCookies();
 
   const handleSetCookie = () => {
-    const expDate = new Date();
-    expDate.setTime(expDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
-    setCookie(`bought_${id}`, true, { maxAge: 20 * 60 });
+    setCookie(`bought_${id}`, true, { maxAge: 10 * 60 }); //10m
   };
 
   const handleGetCookie = () => {
