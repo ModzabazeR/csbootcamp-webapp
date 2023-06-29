@@ -10,7 +10,7 @@ import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
 import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
 import { useRouter } from "next/router";
-
+let countRefresh = 0;
 const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
   const router = useRouter()
   const [isShopOpen, setIsShopOpen] = useState(false);
@@ -44,12 +44,11 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
     let validate: boolean = varlidateToken(tokenString);
     if (validate === null || idUserString === null) {
       router.push("/login");
-    } else if (validate === false) {
-      router.push("/dashboard");
     } else if (validate === true) {
       router.push("/admin");
     }
 
+    
     fetch(USER_URL, {
       method: "GET",
       headers: headersList,
@@ -76,7 +75,37 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
       .then((data) => setIsPlayOpen(JSON.parse(data.data[0].open)))
       .catch((error) => console.log(error));
   }, []);
-  console.log(groups);
+  // console.log(groups);
+  const [refreshedGroups, setRefreshedGroups] = useState(groups);
+  async function fetchGroupsData (){
+    const ALLUESR_URL_INSIZE = "https://api.cscamp.net/api/users/";
+    let headersList = {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+    };
+    let responseAllgroup = await fetch(ALLUESR_URL_INSIZE, {
+      method: "GET",
+      headers: headersList,
+    });
+    let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
+  
+    dataJsonAllGroup.data.sort((a, b) => {
+      return b.point - a.point;
+    });
+    setRefreshedGroups(dataJsonAllGroup);
+  }
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // Fetch the updated groups data
+      fetchGroupsData();
+      console.log(countRefresh++)
+    }, 1000); // Refresh every 1 second
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -109,7 +138,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
                 <div>จำนวนการ์ด</div>
               </div>
             </div>
-            {groups.data.map((eachGroup) => {
+            {refreshedGroups.data.map((eachGroup) => {
               return (
                 <RowUser
                   groupUser={eachGroup}

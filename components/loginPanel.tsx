@@ -1,5 +1,3 @@
-import { useState } from "react";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import router from "next/router";
 import { varlidateAdminJson } from "@/utils/validateAdmin"
 

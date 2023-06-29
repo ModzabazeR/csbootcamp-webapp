@@ -90,7 +90,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   }, []);
   const handleSetCookie = (isTrue: boolean) => {
     const expirationDate = new Date();
-    expirationDate.setTime(expirationDate.getTime() + 20 * 60 * 1000); // 20 minutes from now
 
     setCookie("used", isTrue, { maxAge: 20 * 60 });
   };
@@ -172,6 +171,9 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     removeCookie("Attack");
     removeCookie("Defense");
     removeCookie("Buff");
+    removeCookie("AttackName");
+    removeCookie("DefenseName");
+    removeCookie("BuffName");
     makeList();
     setRefreshCardUser(!refreshCardUser);
     setRefrerefreshMycard(Math.floor(Math.random() * 99999));
@@ -180,18 +182,18 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   function makeList() {
     let text: string = "";
     text +=
-      (cookies["Attack"] !== undefined ? cookies["Attack"] + ",    " : " ") +
+      (cookies["AttackName"] !== undefined ? cookies["AttackName"] + ",    " : " ") +
       "    ";
     text +=
-      (cookies["Defense"] !== undefined ? cookies["Defense"] + ",    " : " ") +
+      (cookies["DefenseName"] !== undefined ? cookies["DefenseName"] + ",    " : " ") +
       "    ";
-    text += (cookies["Buff"] !== undefined ? cookies["Buff"] : " ") + "    ";
+    text += (cookies["BuffName"] !== undefined ? cookies["BuffName"] : " ") + "    ";
     setmyCardList(text);
   }
 
   function empty() {
     if (myCardList.trim() === "") {
-      return "ไม่มีการ์ดที่จะใช้ในรอบนี้ ยีนยันที่จะไม่ใช้หรือไม่";
+      return "คุณไม่ได้เลือกการ์ดที่จะใช้ในรอบนี้ ยืนยันที่จะไม่ใช้หรือไม่";
     }
   }
 
@@ -224,7 +226,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           กลับ
         </div>
         <h1 className="text-5xl text-white">คลัง</h1>
-        <div className="	w-full		">
+        <div className="break-all	w-full		">
           <div className="bg-slate-200 mx-5 rounded">
             <button
               onClick={clearCard}
@@ -246,9 +248,10 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
                 backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
               }}
             >
-              check
+              refresh
             </button>
-            List : {myCardList}
+            <div className="break-all p-5">การ์ดที่จะใช้ : {myCardList}</div>
+            
           </div>
         </div>
 
@@ -292,10 +295,10 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         <button
           disabled={disabled}
           onClick={openPopup}
-          className="absolute bg-blue-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
+          className="text-lg	 absolute bg-red-600 py-2 px-5 text-white left-5 top-5 cursor-pointer rounded"
           style={{
             cursor: disabled ? "default" : "pointer",
-            backgroundColor: disabled ? "grey" : "rgb(37, 99, 235)",
+            backgroundColor: disabled ? "grey" : "rgb(220, 38, 38)",
           }}
         >
           Use
@@ -311,14 +314,15 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       >
         <div className="text-lg	 flex flex-col items-center text-center h-full w-full justify-center">
           <div className="flex gap-4 flex-col items-center text-center w-full justify-center">
-            <p>การ์ดที่ใช้ </p>
+            <p>การ์ดที่จะใช้</p>
+            <div className="border-2 border-sky-500 p-3 rounded" >
             <p>{myCardList} </p>
             <p>{empty()}</p>
-            <p></p>
+            </div>
             <p>( หากกดปุ่ม &quot;ใช้&quot; จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
           </div>
 
-          <div className="flex w-auto justify-between mt-2">
+          <div className="text-xl flex w-auto justify-between mt-2">
             <button
               className="bg-[#ACACAC] px-4 py-2 w-1/2 rounded-l-lg"
               onClick={closePopup}
