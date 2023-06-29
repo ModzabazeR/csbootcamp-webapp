@@ -10,8 +10,14 @@ export function varlidateToken(token: string | null) {
   if (token == null) {
     return null;
   }
-  let validate = jwt.verify(token, "BOOTCAMP_2023_SECRET_KEY") as JwtPayload;
-  return validate.admin;
+  try {
+    let validate = jwt.verify(token, "BOOTCAMP_2023_SECRET_KEY") as JwtPayload;  
+    return validate.admin;  
+  } catch (error) {
+    return null;
+  }
+  
+  
 }
 
 export function getUserJson(token: string | null) {
