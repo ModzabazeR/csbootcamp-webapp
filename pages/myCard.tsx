@@ -147,24 +147,28 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     console.log(body);
     handleSetCookie(true);
     // console.log(res)
-
-    if (res.code === "000") {
-      alert("successful");
-      return;
-    } else if (res.code === "070") {
-      alert("User already use card.");
-      // setDisabled(false);
-      // removeCookie('used')
-      return;
-    } else if (res.code === "071") {
-      alert("User can not play card at this moment.");
-      setDisabled(false);
-      removeCookie("used");
-      return;
-    } else {
-      alert(res.message);
-      console.log(res);
+    try {
+      if (res.code === "000") {
+        alert("successful");
+        return;
+      } else if (res.code === "070") {
+        alert("User already use card.");
+        // setDisabled(false);
+        // removeCookie('used')
+        return;
+      } else if (res.code === "071") {
+        alert("User can not play card at this moment.");
+        setDisabled(false);
+        removeCookie("used");
+        return;
+      } else {
+        alert(res.message);
+        console.log(res);
+      }
+    } catch (error) {
+      alert("some error")
     }
+
 
     setLoading(false);
   }
