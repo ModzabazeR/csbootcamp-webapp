@@ -93,7 +93,7 @@ const AdminDashboard: NextPage<{
         cur.df_card_id === null ? "none" : cur.df_card_id.name;
       logBuyMessages.push(
         `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n` +
-          ` use at_card ${at_cardName} \n
+        ` use at_card ${at_cardName} \n
       use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
       );
     }
@@ -106,7 +106,7 @@ const AdminDashboard: NextPage<{
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      {isPageLoaded && <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
+      <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
         <div
           onClick={() => {
             localStorage.removeItem("token");
@@ -172,7 +172,7 @@ const AdminDashboard: NextPage<{
             คู่มือ
           </button>
         </div>
-      </div>}
+      </div>
     </motion.div>
   );
 };
@@ -219,7 +219,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       cur.df_card_id === null ? "none" : cur.df_card_id.name;
     logBuyMessages.push(
       `id:${cur.id} date: ${cur.date_time} - (Group) ${cur.user_id}\n\n` +
-        ` use at_card ${at_cardName} \n use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
+      ` use at_card ${at_cardName} \n use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
     );
   }
 
