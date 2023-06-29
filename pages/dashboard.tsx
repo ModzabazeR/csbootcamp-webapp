@@ -99,7 +99,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
     const intervalId = setInterval(() => {
       // Fetch the updated groups data
       fetchGroupsData();
-      console.log(countRefresh++)
+      // console.log(countRefresh++)
     }, 1000); // Refresh every 1 second
 
     return () => {
