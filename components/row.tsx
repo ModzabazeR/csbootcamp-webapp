@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
-import { typeRowGrup } from "@/typings";
+import { scoreSummary, typeRowGrup } from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
 
 const Row: React.FC<{ groupUser: typeRowGrup }> = ({ groupUser }) => {
-  const [defaultValue, setDefaultValue] = useState(groupUser.point);
+  const [defaultValue, setDefaultValue] = useState(0);
   const [initialPoint, setInitialPoint] = useState(groupUser.point);
+  const [oldSore, setoldSore] = useState(groupUser.point);
 
   useEffect(() => {
-    setDefaultValue(groupUser.point);
+    setDefaultValue(0);
     setInitialPoint(groupUser.point); // Set initialPoint only once when component mounts
     console.log("row Re");
   }, [groupUser]);
 
   const handleChange = (event: any, groupUser: typeRowGrup) => {
     setDefaultValue(event.target.value);
-    groupUser.point = Number(event.target.value);
+    groupUser.point = oldSore + Number(event.target.value);
   };
 
   return (
