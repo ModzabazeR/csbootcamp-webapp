@@ -44,7 +44,7 @@ const LogIn: NextPage = () => {
         <LogInPanel />
       </div>
       <footer className="overflow-hidden text-white	">
-        version 28/06/23 20/53
+        version 30/06/23 05/25
       </footer>
     </motion.div>
   );
