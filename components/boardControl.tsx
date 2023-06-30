@@ -2,19 +2,16 @@ import { group, updateBoard } from "@/utils/boardLeader";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Row from "./row";
-import { GetServerSideProps } from "next";
 import {
-  getAllUser,
-  upDatePointAll,
-  groupPoint,
-  arrayUser,
-  scoreSummary,
+  IGroupPointUpdate,
+  IUser,
+  IScoreSummary,
 } from "@/typings";
 import { useRouter } from "next/router";
 
-let arrayPoint: groupPoint[] = [];
-let groupCopy: arrayUser[] = [...group.data];
-let sumPoint: scoreSummary[] = [];
+let arrayPoint: IGroupPointUpdate[] = [];
+let groupCopy: IUser[] = [...group.data];
+let sumPoint: IScoreSummary[] = [];
 
 const Board: React.FC = () => {
   const popupStyle = {
@@ -42,11 +39,11 @@ const Board: React.FC = () => {
     arrayPoint = [];
     for (var i = 0; i < groupCopy.length; i++) {
       let addPointV = group.data[i].point - groupCopy[i].point;
-      let arr: groupPoint = {
+      let arr: IGroupPointUpdate = {
         user_id: group.data[i].id,
         update_point: addPointV,
       };
-      let arrSum: scoreSummary = {
+      let arrSum: IScoreSummary = {
         id: group.data[i].id,
         point: groupCopy[i].point,
         addPoint: addPointV,
@@ -64,7 +61,7 @@ const Board: React.FC = () => {
   const copyData = async () => {
     groupCopy = [];
     for (var item of group.data) {
-      let arr: arrayUser = {
+      let arr: IUser = {
         id: item.id,
         point: item.point,
         admin: item.admin,

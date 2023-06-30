@@ -1,4 +1,4 @@
-import { getAllUser, getUserByIdResponse } from "@/typings";
+import { getUsersResponse, getUserByIdResponse } from "@/typings";
 import { GetServerSideProps, NextPage } from "next";
 import { updateBoard } from "@/utils/boardLeader";
 import RowUser from "@/components/rowUser";
@@ -11,7 +11,7 @@ import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
 import { useRouter } from "next/router";
 let countRefresh = 0;
-const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
+const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({ groups }) => {
   const router = useRouter()
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isPlayOpen, setIsPlayOpen] = useState(false);
@@ -88,7 +88,7 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
       method: "GET",
       headers: headersList,
     });
-    let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
+    let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
   
     dataJsonAllGroup.data.sort((a, b) => {
       return b.point - a.point;
@@ -180,17 +180,17 @@ const Page: NextPage<{ user: any; groups: getAllUser }> = ({ groups }) => {
 export default Page;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const ALLUESR_URL = "https://api.cscamp.net/api/users/";
+  const ALLUSER_URL = "https://api.cscamp.net/api/users/";
   let headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   };
-  let responseAllgroup = await fetch(ALLUESR_URL, {
+  let responseAllgroup = await fetch(ALLUSER_URL, {
     method: "GET",
     headers: headersList,
   });
-  let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
+  let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
 
   dataJsonAllGroup.data.sort((a, b) => {
     return b.point - a.point;

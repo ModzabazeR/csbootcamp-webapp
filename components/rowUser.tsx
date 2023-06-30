@@ -1,9 +1,9 @@
 // import {  } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
-import { typeRowGrup } from "@/typings";
+import { IUser } from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
 
-const Row: React.FC<{groupUser: typeRowGrup, isFromAdmin: boolean}> = ({ groupUser, isFromAdmin }) => {
+const Row: React.FC<{groupUser: IUser, isFromAdmin: boolean}> = ({ groupUser, isFromAdmin }) => {
   const [defaultValue, setDefaultValue] = useState(groupUser.point);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { getAllUser } from "@/typings";
+import { getUsersResponse } from "@/typings";
 
 const url = 'https://api.cscamp.net/api/users/'
 let headersList = {
@@ -7,7 +7,7 @@ let headersList = {
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
 };
 
-export async function  getData(): Promise<getAllUser> {
+export async function  getData(): Promise<getUsersResponse> {
     updateBoard()
     return group;
   }
@@ -15,7 +15,7 @@ export async function  getData(): Promise<getAllUser> {
 function sortUsers(){
     group.data.sort((a, b) =>{return b.point-a.point})
 }
-export let group: getAllUser = {
+export let group: getUsersResponse = {
     code: "000",
     data: [
         {
@@ -32,7 +32,7 @@ export async function updateBoard() {
         method: "GET",
         headers: headersList,
     });
-    let dataJsonAllGroup: getAllUser = await responseAllgroup.json();
+    let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
     console.log(dataJsonAllGroup)
     group = dataJsonAllGroup;
     // sortUsers()

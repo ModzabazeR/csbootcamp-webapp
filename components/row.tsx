@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { scoreSummary, typeRowGrup } from "@/typings";
+import { IScoreSummary, IUser } from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
 
-const Row: React.FC<{ groupUser: typeRowGrup }> = ({ groupUser }) => {
+const Row: React.FC<{ groupUser: IUser }> = ({ groupUser }) => {
   const [defaultValue, setDefaultValue] = useState(0);
   const [initialPoint, setInitialPoint] = useState(groupUser.point);
   const [oldSore, setoldSore] = useState(groupUser.point);
@@ -13,7 +13,7 @@ const Row: React.FC<{ groupUser: typeRowGrup }> = ({ groupUser }) => {
     console.log("row Re");
   }, [groupUser]);
 
-  const handleChange = (event: any, groupUser: typeRowGrup) => {
+  const handleChange = (event: any, groupUser: IUser) => {
     setDefaultValue(event.target.value);
     groupUser.point = oldSore + Number(event.target.value);
   };

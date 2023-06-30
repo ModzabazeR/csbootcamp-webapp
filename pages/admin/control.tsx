@@ -4,7 +4,7 @@ import Board from "@/components/boardControl";
 import { getData, updateBoard } from "@/utils/boardLeader";
 import { GetServerSideProps, NextPage } from "next";
 import router from "next/router";
-import { getAllUser } from "@/typings";
+import { getUsersResponse } from "@/typings";
 import { varlidateToken } from "@/utils/validateAdmin";
 import { motion } from "framer-motion";
 

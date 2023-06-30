@@ -1,9 +1,8 @@
 import { GetServerSideProps, NextPage } from "next";
 import Log from "@/components/log";
 import {
-  getAllUser,
-  getLogBuyResponse,
-  getLogEventResponseNew,
+  getUsersResponse,
+  getLogEventResponse,
 } from "@/typings";
 import RowUser from "@/components/rowUser";
 import { useEffect, useState } from "react";
@@ -13,9 +12,9 @@ import { varlidateToken } from "@/utils/validateAdmin";
 import { IoLogOut } from "react-icons/io5";
 let countRefresh = 0;
 const AdminDashboard: NextPage<{
-  groups: getAllUser;
+  groups: getUsersResponse;
   logMessages: string[];
-  dataJsonEvenGroup: getLogEventResponseNew;
+  dataJsonEvenGroup: getLogEventResponse;
 }> = ({ groups, logMessages, dataJsonEvenGroup }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false)
   const [defaultValue, setDefaultValue] = useState(0);
@@ -64,7 +63,7 @@ const AdminDashboard: NextPage<{
         }
       );
 
-      const dataJsonAllGroup: getAllUser = await responseAllGroup.json();
+      const dataJsonAllGroup: getUsersResponse = await responseAllGroup.json();
       dataJsonAllGroup.data.sort((a, b) => {
         return b.point - a.point;
       });
@@ -77,7 +76,7 @@ const AdminDashboard: NextPage<{
 
   const handleChange = (event: any) => {
     setDefaultValue(event.target.value);
-    let dataJsonEvenGroupCopy: getLogEventResponseNew["data"] =
+    let dataJsonEvenGroupCopy: getLogEventResponse["data"] =
       dataJsonEvenGroup.data.filter(
         (e) => Number(e.id) >= Number(event.target.value)
       );
@@ -201,7 +200,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     headers: headersList,
   });
 
-  const dataJsonAllGroup: getAllUser = await responseAllGroup.json();
+  const dataJsonAllGroup: getUsersResponse = await responseAllGroup.json();
   dataJsonAllGroup.data.sort((a, b) => {
     return b.point - a.point;
   });
@@ -214,7 +213,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   );
 
-  const dataJsonEvenGroup: getLogEventResponseNew =
+  const dataJsonEvenGroup: getLogEventResponse =
     await responseEvenGroup.json();
   dataJsonEvenGroup.data.sort((a, b) => a.id - b.id);
 
@@ -240,7 +239,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       cur.df_card_id === null ? "none" : cur.df_card_id.name;
     logBuyMessages.push(
       `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n` +
-      ` use at_card ${at_cardName} \n use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
+      ` use at_card ${at_cardName} \n 
+      use bf_card ${bf_cardName} \n 
+      use bf_card ${df_cardName} \n 
+      target is ${cur.target_id} \n 
+      detail ${cur.detail}`
     );
   }
 

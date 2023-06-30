@@ -1,4 +1,4 @@
-import { arrayUser } from "@/typings";
+import { IUser } from "@/typings";
 
-export function compareLeader(a :arrayUser, b :arrayUser) {
+export function compareLeader(a :IUser, b :IUser) {
     return a.point-b.point }
