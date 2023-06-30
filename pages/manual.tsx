@@ -1,9 +1,12 @@
-import CardManual from "@/components/cardManual";
-import { ICard, getCardsResponse } from "@/typings";
-import { motion } from "framer-motion";
 import { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
 import { useRouter } from "next/router";
+import Head from "next/head";
+
+import { motion } from "framer-motion";
+
+import { ICard, getCardsResponse } from "@/typings";
+
+import CardManual from "@/components/cardManual";
 
 const Manual: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const router = useRouter();

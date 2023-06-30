@@ -1,13 +1,17 @@
-import { getUsersResponse, getUserByIdResponse } from "@/typings";
-import { GetServerSideProps, NextPage } from "next";
-import RowUser from "@/components/rowUser";
-import Link from "next/link";
-import { getGroupName } from "@/utils/userUtils";
-import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { getUserJson, validateToken } from "@/utils/validateAdmin";
-import { IoLogOut } from "react-icons/io5";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
+import { animate, motion } from "framer-motion";
+import { IoLogOut } from "react-icons/io5";
+
+import { getUsersResponse, getUserByIdResponse } from "@/typings";
+import { getGroupName } from "@/utils/userUtils";
+import { getUserJson, validateToken } from "@/utils/validateAdmin";
+
+import RowUser from "@/components/rowUser";
+
 let countRefresh = 0;
 const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = ({
   groups,

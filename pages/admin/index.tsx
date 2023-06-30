@@ -1,15 +1,19 @@
+import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import Log from "@/components/log";
+import { useRouter } from "next/router";
+
+import { motion } from "framer-motion";
+import { IoLogOut } from "react-icons/io5";
+
 import {
   getUsersResponse,
   getLogEventResponse,
 } from "@/typings";
-import RowUser from "@/components/rowUser";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { motion } from "framer-motion";
 import { validateToken } from "@/utils/validateAdmin";
-import { IoLogOut } from "react-icons/io5";
+
+import Log from "@/components/log";
+import RowUser from "@/components/rowUser";
+
 let countRefresh = 0;
 const AdminDashboard: NextPage<{
   groups: getUsersResponse;

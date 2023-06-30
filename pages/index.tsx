@@ -1,10 +1,12 @@
-import Image from "next/image";
-import BootcampLogo from "@/assets/images/logo.png";
-import { NextPage } from "next";
-import { motion } from "framer-motion";
 import { useEffect } from "react";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
+import Image from "next/image";
+
+import { motion } from "framer-motion";
+
 import { validateToken } from "@/utils/validateAdmin";
+import BootcampLogo from "@/assets/images/logo.png";
 
 const Home: NextPage = () => {
   const router = useRouter();

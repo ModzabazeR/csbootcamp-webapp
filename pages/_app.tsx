@@ -1,10 +1,10 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import Head from "next/head";
+import { Kanit } from "next/font/google";
+
 import Modal from "react-modal";
 import { AnimatePresence } from "framer-motion";
-
-import { Kanit } from "next/font/google";
-import Head from "next/head";
 
 const kanit = Kanit({
   subsets: ["thai", "latin"],

@@ -1,7 +1,9 @@
+import React, { useState } from "react";
 import Image from "next/image";
-import { ICard } from "@/typings";
-import React, { use, useEffect, useState } from "react";
+
 import Modal from "react-modal";
+
+import { ICard } from "@/typings";
 import { toBase64, convertImage } from "@/utils/imageUtils";
 
 const CardManual: React.FC<ICard> = ({

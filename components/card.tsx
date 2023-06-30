@@ -1,11 +1,14 @@
-import Image from "next/image";
-import { ICard, getUserByIdResponse } from "@/typings";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
 import Modal from "react-modal";
-import { toBase64, convertImage } from "@/utils/imageUtils";
 import { useCookies } from "react-cookie";
-import Loading from "./loading";
+
+import { ICard, getUserByIdResponse } from "@/typings";
+import { toBase64, convertImage } from "@/utils/imageUtils";
 import { getUserJson } from "@/utils/validateAdmin";
+
+import Loading from "./loading";
 
 const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   const [cookies, setCookie] = useCookies();

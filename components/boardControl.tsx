@@ -1,9 +1,12 @@
-import { group, updateBoard } from "@/utils/boardLeader";
 import React, { useEffect, useState } from "react";
-import Modal from "react-modal";
-import Row from "./row";
-import { IGroupPointUpdate, IUser, IScoreSummary } from "@/typings";
 import { useRouter } from "next/router";
+
+import Modal from "react-modal";
+
+import { IGroupPointUpdate, IUser, IScoreSummary } from "@/typings";
+import { group, updateBoard } from "@/utils/boardLeader";
+
+import Row from "./row";
 
 let arrayPoint: IGroupPointUpdate[] = [];
 let groupCopy: IUser[] = [...group.data];

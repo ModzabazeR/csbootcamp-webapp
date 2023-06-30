@@ -1,13 +1,16 @@
-import { GetServerSideProps, NextPage } from "next";
-import CardUser from "@/components/cardUser";
-import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { getUserJson, validateToken } from "@/utils/validateAdmin";
+import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import Head from "next/head";
+
+import { motion } from "framer-motion";
 import { useCookies } from "react-cookie";
 import Modal from "react-modal";
+
+import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
+import { getUserJson, validateToken } from "@/utils/validateAdmin";
+
+import CardUser from "@/components/cardUser";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);

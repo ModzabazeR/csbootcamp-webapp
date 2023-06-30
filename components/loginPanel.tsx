@@ -1,10 +1,12 @@
-import router from "next/router";
-import { validateToken } from "@/utils/validateAdmin"
+import { useRouter } from "next/router";
+
+import { validateToken } from "@/utils/validateAdmin";
 
 async function loginPerform(credentials: {
   username: string;
   password: string;
 }) {
+  const router = useRouter();
   const usernamePassword = Buffer.from(
     `${credentials.username}:${credentials.password}`,
     "utf8"
@@ -20,17 +22,16 @@ async function loginPerform(credentials: {
     .then((data) => data.json())
     .then((dataJson) => {
       if (dataJson.code !== "000") {
-        alert(dataJson.message)
+        alert(dataJson.message);
         return;
       }
       localStorage.setItem("token", dataJson.data.token);
       let validate = validateToken(dataJson.data.token);
-      console.log(validate)
+      console.log(validate);
       if (validate === true) {
-        router.push('/admin')
-      }
-      else if (validate === false) {
-        router.push('/dashboard')
+        router.push("/admin");
+      } else if (validate === false) {
+        router.push("/dashboard");
       }
     });
 

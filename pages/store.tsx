@@ -1,11 +1,14 @@
-import { GetServerSideProps, NextPage } from "next";
-import Card from "@/components/card";
-import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { GetServerSideProps, NextPage } from "next";
+import { useRouter } from "next/router";
+import Head from "next/head";
+
+import { motion } from "framer-motion";
+
+import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
 import { getUserJson, validateToken } from "@/utils/validateAdmin";
+
+import Card from "@/components/card";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [refreshCardUser, setRefreshCardUser] = useState(false);

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import Switch from "@/components/switch";
-import Board from "@/components/boardControl";
 import { NextPage } from "next";
 import router from "next/router";
-import { validateToken } from "@/utils/validateAdmin";
+
 import { motion } from "framer-motion";
+
+import { validateToken } from "@/utils/validateAdmin";
+
+import Switch from "@/components/switch";
+import Board from "@/components/boardControl";
 
 const Page: NextPage = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);

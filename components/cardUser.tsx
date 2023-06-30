@@ -1,10 +1,13 @@
-import Image from "next/image";
-import { ICardUser } from "@/typings";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
 import Modal from "react-modal";
-import Loading from "./loading";
-import { toBase64, convertImage } from "@/utils/imageUtils";
 import { useCookies } from "react-cookie";
+
+import { ICardUser } from "@/typings";
+import { toBase64, convertImage } from "@/utils/imageUtils";
+
+import Loading from "./loading";
 
 const Card: React.FC<ICardUser> = ({
   id,
