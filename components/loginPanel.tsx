@@ -1,5 +1,5 @@
 import router from "next/router";
-import { varlidateAdminJson } from "@/utils/validateAdmin"
+import { validateToken } from "@/utils/validateAdmin"
 
 async function loginPerform(credentials: {
   username: string;
@@ -24,15 +24,12 @@ async function loginPerform(credentials: {
         return;
       }
       localStorage.setItem("token", dataJson.data.token);
-      let validate: boolean = varlidateAdminJson(dataJson);
-      console.log(
-        validate
-      );
+      let validate = validateToken(dataJson.data.token);
       console.log(validate)
-      if (validate) {
+      if (validate === true) {
         router.push('/admin')
       }
-      else if (!validate) {
+      else if (validate === false) {
         router.push('/dashboard')
       }
     });

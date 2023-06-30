@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getGroupName } from "@/utils/userUtils";
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
+import { getUserJson, validateToken } from "@/utils/validateAdmin";
 import { IoLogOut } from "react-icons/io5";
 import { useRouter } from "next/router";
 let countRefresh = 0;
@@ -41,7 +41,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
-    let validate: boolean = varlidateToken(tokenString);
+    let validate = validateToken(tokenString);
     if (validate === null || idUserString === null) {
       router.push("/login");
     } else if (validate === true) {
@@ -76,13 +76,13 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
   }, []);
   const [refreshedGroups, setRefreshedGroups] = useState(groups);
   async function fetchGroupsData() {
-    const ALLUESR_URL_INSIZE = "https://api.cscamp.net/api/users/";
+    const ALLUSER_URL_INSIZE = "https://api.cscamp.net/api/users/";
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
-    let responseAllgroup = await fetch(ALLUESR_URL_INSIZE, {
+    let responseAllgroup = await fetch(ALLUSER_URL_INSIZE, {
       method: "GET",
       headers: headersList,
     });

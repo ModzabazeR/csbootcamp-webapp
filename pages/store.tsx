@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
+import { getUserJson, validateToken } from "@/utils/validateAdmin";
 
 const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [refreshCardUser, setRefreshCardUser] = useState(false);
@@ -15,7 +15,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   console.log(cardArr);
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
-    let validate: boolean = varlidateToken(tokenString);
+    let validate = validateToken(tokenString);
     if (validate === null) {
       router.push("/login");
     } else if (validate === true) {

@@ -4,5 +4,4 @@ const groupObj = Object.fromEntries(groupIds.map((_, i) => [groupIds[i], groupNa
 
 export const getGroupName = (groupId: string) => {
 	return groupObj[groupId]
-	// return groupId
 }

@@ -5,14 +5,14 @@ import { NextPage } from "next";
 import LogInPanel from "@/components/loginPanel";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { validateToken } from "@/utils/validateAdmin";
 import { useRouter } from "next/router";
 
 const LogIn: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
-    let validate: boolean = varlidateToken(tokenString);
+    let validate = validateToken(tokenString);
 
     if (validate === true) {
       router.push("/admin");

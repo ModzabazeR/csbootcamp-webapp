@@ -8,7 +8,7 @@ import RowUser from "@/components/rowUser";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { validateToken } from "@/utils/validateAdmin";
 import { IoLogOut } from "react-icons/io5";
 let countRefresh = 0;
 const AdminDashboard: NextPage<{
@@ -23,7 +23,7 @@ const AdminDashboard: NextPage<{
 
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
-    let validate: boolean = varlidateToken(tokenString);
+    let validate = validateToken(tokenString);
     if (validate === null) {
       router.push("/login");
     } else if (validate === false) {

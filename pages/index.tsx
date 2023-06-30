@@ -4,13 +4,13 @@ import { NextPage } from "next";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { validateToken } from "@/utils/validateAdmin";
 
 const Home: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
-    let validate: boolean = varlidateToken(tokenString);
+    let validate = validateToken(tokenString);
     if (validate === null) {
       router.push("/login");
     } else if (validate === false) {

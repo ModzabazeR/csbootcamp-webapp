@@ -3,14 +3,14 @@ import Switch from "@/components/switch";
 import Board from "@/components/boardControl";
 import { NextPage } from "next";
 import router from "next/router";
-import { varlidateToken } from "@/utils/validateAdmin";
+import { validateToken } from "@/utils/validateAdmin";
 import { motion } from "framer-motion";
 
 const Page: NextPage = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   useEffect(() => {
     const tokenString = localStorage.getItem("token") as string;
-    let validate: boolean = varlidateToken(tokenString);
+    let validate = validateToken(tokenString);
     if (validate === null) {
       router.push("/login");
     } else if (validate === false) {

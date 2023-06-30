@@ -18,13 +18,13 @@ export let group: getUsersResponse = {
 };
 
 export async function updateBoard() {
-  const ALLUESR_URL = "https://api.cscamp.net/api/users/";
+  const ALLUSER_URL = "https://api.cscamp.net/api/users/";
   let headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   };
-  let responseAllgroup = await fetch(ALLUESR_URL, {
+  let responseAllgroup = await fetch(ALLUSER_URL, {
     method: "GET",
     headers: headersList,
   });
