@@ -27,39 +27,39 @@ const Board: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // getGroup();
-  }, []);
-  useEffect(() => {
-    console.log("board Re");
+    console.log("Board Re");
   }, [isUpdate]);
-  // getGroup()
+
   const updateGroup = () => {
     sumPoint = [];
     arrayPoint = [];
-    for (var i = 0; i < groupCopy.length; i++) {
+
+    for (let i = 0; i < groupCopy.length; i++) {
       let addPointV = group.data[i].point - groupCopy[i].point;
+
       let arr: IGroupPointUpdate = {
         user_id: group.data[i].id,
         update_point: addPointV,
       };
+
       let arrSum: IScoreSummary = {
         id: group.data[i].id,
         point: groupCopy[i].point,
         addPoint: addPointV,
       };
+
       sumPoint.push(arrSum);
       arrayPoint.push(arr);
       console.log(arrayPoint);
     }
+
     openPopup();
-    // setIsUpdate(!isUpdate);
-    // setGroupS(groupTemp);
     console.log(group);
   };
 
   const copyData = async () => {
     groupCopy = [];
-    for (var item of group.data) {
+    for (let item of group.data) {
       let arr: IUser = {
         id: item.id,
         point: item.point,
@@ -76,21 +76,20 @@ const Board: React.FC = () => {
     setIsUpdate(!isUpdate);
   };
 
-  async function getGroup() {
-    // window.location.reload();
+  const getGroup = async () => {
     await updateBoard();
-    console.log("updatedBoard");
+    console.log("Updated Board");
+
     setIsUpdate(!isUpdate);
-    console.log("isUpdate");
     closePopup();
     console.log(group);
   }
 
-  async function pushData() {
+  const pushData = async () => {
     const tokenString = localStorage.getItem("token") as string;
     console.log(arrayPoint);
+
     const urlPush: string = "https://api.cscamp.net/api/users/points";
-    //authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q'
     const requestOptions = {
       method: "POST",
       headers: {
@@ -102,6 +101,7 @@ const Board: React.FC = () => {
         points: arrayPoint,
       }),
     };
+
     await fetch(urlPush, requestOptions)
       .then((response) => response.json())
       .then((response) => {
@@ -130,16 +130,16 @@ const Board: React.FC = () => {
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
-        contentLabel="Test Modal"
+        contentLabel="Update Point"
         closeTimeoutMS={200}
         style={popupStyle}
       >
-        <div className=" flex flex-col items-center text-center h-full w-full justify-center">
+        <div className="flex flex-col items-center text-center h-full w-full justify-center">
           {sumPoint.map((e) => {
             return (
               <div
                 key={e.id + "preview"}
-                className=" min-w-[50%] grid grid-cols-3 gap-4 "
+                className="min-w-[50%] grid grid-cols-3 gap-4"
               >
                 <div>{e.id}</div>
                 <div className="text-left">
@@ -165,26 +165,26 @@ const Board: React.FC = () => {
         </div>
       </Modal>
 
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center">
         <button
-          className="bg-pink-400 m-2 p-4 object-center rounded-lg	"
+          className="bg-pink-400 m-2 p-4 object-center rounded-lg"
           onClick={updateGroup}
         >
           send
         </button>
         <button
-          className="bg-green-400 m-2 p-4 object-center rounded-lg	"
+          className="bg-green-400 m-2 p-4 object-center rounded-lg"
           onClick={refresh}
         >
           refresh
         </button>
       </div>
-      <div className="sm:text-xl	md:text-4xl">
+      <div className="sm:text-xl md:text-4xl">
         <div className="block w-full text-center">
-          <div className=" grid grid-cols-3 gap-4 ">
+          <div className="grid grid-cols-3 gap-4 ">
             <div className="pl-5">{`ชื่อกลุ่ม`}</div>
-            <div className="border-x-2	px-5 border-x-black	">
-              <div className="relative ">คะแนน</div>
+            <div className="border-x-2 px-5 border-x-black">
+              <div className="relative">คะแนน</div>
             </div>
             <div>จำนวนการ์ดที่มี </div>
           </div>

@@ -5,10 +5,7 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import { IoLogOut } from "react-icons/io5";
 
-import {
-  getUsersResponse,
-  getLogEventResponse,
-} from "@/typings";
+import { getUsersResponse, getLogEventResponse } from "@/typings";
 import { validateToken } from "@/utils/validateAdmin";
 
 import Log from "@/components/log";
@@ -20,7 +17,7 @@ const AdminDashboard: NextPage<{
   logMessages: string[];
   dataJsonEvenGroup: getLogEventResponse;
 }> = ({ groups, logMessages, dataJsonEvenGroup }) => {
-  const [isPageLoaded, setIsPageLoaded] = useState(false)
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [defaultValue, setDefaultValue] = useState(0);
   const [filteredData, setFilteredData] = useState<string[]>(logMessages);
   const router = useRouter();
@@ -33,7 +30,7 @@ const AdminDashboard: NextPage<{
     } else if (validate === false) {
       router.push("/dashboard");
     } else if (validate === true) {
-      setIsPageLoaded(true)
+      setIsPageLoaded(true);
     }
   }, []);
 
@@ -79,12 +76,14 @@ const AdminDashboard: NextPage<{
 
   const handleChange = (event: any) => {
     setDefaultValue(event.target.value);
+
     let dataJsonEvenGroupCopy: getLogEventResponse["data"] =
       dataJsonEvenGroup.data.filter(
         (e) => Number(e.id) >= Number(event.target.value)
       );
     console.log(dataJsonEvenGroupCopy);
-    const logBuyMessages: string[] = [];
+
+    const logMessages: string[] = [];
     for (let i = 0; i < dataJsonEvenGroupCopy.length; i++) {
       let cur = dataJsonEvenGroupCopy[i];
       let date_time = new Date(cur.date_time).toLocaleString("en-US", {
@@ -97,20 +96,25 @@ const AdminDashboard: NextPage<{
         second: "2-digit",
         timeZone: "Asia/Bangkok",
       });
+
       let at_cardName: string =
         cur.at_card_id === null ? "none" : cur.at_card_id.name;
       let bf_cardName: string =
         cur.bf_card_id === null ? "none" : cur.bf_card_id.name;
       let df_cardName: string =
         cur.df_card_id === null ? "none" : cur.df_card_id.name;
-      logBuyMessages.push(
-        `id:${cur.id} date: ${date_time } - (Group) ${cur.user_id}\n\n` +
-        ` use at_card ${at_cardName} \n
-      use bf_card ${bf_cardName} \n use bf_card ${df_cardName} \n target is ${cur.target_id} \n detail ${cur.detail}`
+
+      logMessages.push(
+        `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n ` +
+        `use at_card ${at_cardName} \n
+        use bf_card ${bf_cardName} \n 
+        use df_card ${df_cardName} \n 
+        target is ${cur.target_id} \n 
+        detail ${cur.detail}`
       );
     }
-    setFilteredData(logBuyMessages);
-    // let arrCopy: getAllUser[] = refreshedGroups
+
+    setFilteredData(logMessages);
   };
   return (
     <motion.div
@@ -153,7 +157,7 @@ const AdminDashboard: NextPage<{
               })}
             </div>
           </div>
-          <div className="rounded-lg md:w-9/12	 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
+          <div className="rounded-lg md:w-9/12 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
             <input
               name="id"
               value={defaultValue}
@@ -216,11 +220,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     }
   );
 
-  const dataJsonEvenGroup: getLogEventResponse =
-    await responseEvenGroup.json();
+  const dataJsonEvenGroup: getLogEventResponse = await responseEvenGroup.json();
   dataJsonEvenGroup.data.sort((a, b) => a.id - b.id);
 
-  const logBuyMessages: string[] = [];
+  const logMessages: string[] = [];
   for (let i = 0; i < dataJsonEvenGroup.data.length; i++) {
     let cur = dataJsonEvenGroup.data[i];
     let date_time = new Date(cur.date_time).toLocaleString("en-US", {
@@ -233,18 +236,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       second: "2-digit",
       timeZone: "Asia/Bangkok",
     });
-    
+
     let at_cardName: string =
       cur.at_card_id === null ? "none" : cur.at_card_id.name;
     let bf_cardName: string =
       cur.bf_card_id === null ? "none" : cur.bf_card_id.name;
     let df_cardName: string =
       cur.df_card_id === null ? "none" : cur.df_card_id.name;
-    logBuyMessages.push(
-      `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n` +
-      ` use at_card ${at_cardName} \n 
+
+    logMessages.push(
+      `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n ` +
+      `use at_card ${at_cardName} \n 
       use bf_card ${bf_cardName} \n 
-      use bf_card ${df_cardName} \n 
+      use df_card ${df_cardName} \n 
       target is ${cur.target_id} \n 
       detail ${cur.detail}`
     );
@@ -253,7 +257,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       groups: dataJsonAllGroup,
-      logMessages: logBuyMessages as string[],
+      logMessages: logMessages,
       dataJsonEvenGroup: dataJsonEvenGroup, // Pass the serialized object instead of responseEvenGroup
     },
   };

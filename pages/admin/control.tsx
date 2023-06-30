@@ -11,6 +11,7 @@ import Board from "@/components/boardControl";
 
 const Page: NextPage = () => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
+
   useEffect(() => {
     const tokenString = localStorage.getItem("token") as string;
     let validate = validateToken(tokenString);
@@ -29,7 +30,6 @@ const Page: NextPage = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-
       <div
         key="controlPage"
         className="overflow-scroll p-3 h-screen justify-center items-center bg-slate-800"
@@ -61,7 +61,6 @@ const Page: NextPage = () => {
           <Board />
         </div>
       </div>
-
     </motion.div>
   );
 };

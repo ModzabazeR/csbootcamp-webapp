@@ -1,5 +1,5 @@
 import { IUserCredentials } from "@/typings";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export function validateToken(token: string | null) {
   if (token == null) {

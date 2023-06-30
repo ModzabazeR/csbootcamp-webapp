@@ -28,8 +28,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   useEffect(() => {
     const haveCookie = handleGetCookie();
     setDisabled(haveCookie);
-    console.log(type + haveCookie);
-  }, [id]);
+  }, []);
 
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -43,9 +42,8 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     },
   };
 
-  async function buyCard(event: React.MouseEvent<HTMLElement>) {
+  const buyCard = async (event: React.MouseEvent<HTMLElement>) => {
     const tokenString = localStorage.getItem("token") as string;
-    console.log("clicki");
     setLoading(true);
 
     let headersList = {

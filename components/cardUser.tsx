@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 import { ICardUser } from "@/typings";
 import { toBase64, convertImage } from "@/utils/imageUtils";
 
-import Loading from "./loading";
+import Loading from "@/components/loading";
 
 const Card: React.FC<ICardUser> = ({
   id,
@@ -27,13 +27,14 @@ const Card: React.FC<ICardUser> = ({
     setCookie(type, id, { maxAge: 20 * 60 });
     setCookie(type + "Name", name, { maxAge: 20 * 60 });
   };
+
   const handleGetCookie = () => {
     const cookieValue = cookies[type];
-    console.log("Cookie value of :" + type + " " + cookieValue);
     if (cookieValue == undefined) {
       return false;
     } else return true;
   };
+
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,11 +42,13 @@ const Card: React.FC<ICardUser> = ({
   useEffect(() => {
     setDisabled(false);
   }, [refresh]);
-  function tpyeCheck(type: string) {
+
+  const typeCheck = (type: string) => {
     if (type === "Attack") return "เลือก (สุ่มเป้าหมาย)";
     else if (type === "Defense") return "เลือก (ป้องกันอัตโนมัติ)";
     return "เลือก";
   }
+
   const popupStyle = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -56,11 +59,10 @@ const Card: React.FC<ICardUser> = ({
   };
 
   async function buyCard(event: React.MouseEvent<HTMLElement>) {
-    console.log("clicki");
     setDisabled(true);
     setLoading(true);
     const haveCookie = handleGetCookie();
-    console.log(haveCookie);
+
     if (haveCookie === true) {
       alert(
         "คุณเลือกการ์ดประเภทนี้ไปแล้ว โปรดเลือกการ์ดประเภทอื่นหรือ clear ใหม่"
@@ -68,6 +70,7 @@ const Card: React.FC<ICardUser> = ({
       setLoading(false);
       return;
     }
+    
     handleSetCookie();
     setLoading(false);
     refreshMain(Math.floor(Math.random() * 99999));
@@ -85,7 +88,6 @@ const Card: React.FC<ICardUser> = ({
   useEffect(() => {
     const haveCookie = handleGetCookie();
     setDisabled(haveCookie);
-    console.log(type + haveCookie);
   }, [id]);
 
   return (
@@ -93,11 +95,11 @@ const Card: React.FC<ICardUser> = ({
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
-        contentLabel="Test Modal"
+        contentLabel="Use Card"
         closeTimeoutMS={200}
         style={popupStyle}
       >
-        <div className=" flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
+        <div className="flex flex-col items-center text-center h-full w-full justify-center cursor-pointer">
           {loading ? <Loading /> : <div></div>}
           <Image
             style={{
@@ -137,7 +139,7 @@ const Card: React.FC<ICardUser> = ({
                 cursor: disabled ? "default" : "pointer",
               }}
             >
-              {tpyeCheck(type)}
+              {typeCheck(type)}
             </button>
           </div>
         </div>

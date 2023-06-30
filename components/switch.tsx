@@ -7,11 +7,7 @@ interface tSwitch {
 }
 
 const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
-  const getstatus = async () => {
-    const res = await fetch(url).then();
-    const data = await res.json();
-    console.log(data.data[0].open + " " + url);
-  };
+  const [isChecked, setisChecked] = useState(false);
 
   const pushState = async (isOpen: boolean) => {
     const tokenString = localStorage.getItem("token") as string;
@@ -26,6 +22,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
         status: isOpen,
       }),
     };
+
     await fetch(url, requestOptions)
       .then((response) => response.json())
       .then((response) => {
@@ -38,37 +35,33 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
       .catch((error) => console.error(error));
   };
 
-  // const effenRan = useRef(false);
-  const [isChecked, setisChecked] = useState(false);
-
   useEffect(() => {
     const headersGetList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
+
     fetch(url, {
       method: "GET",
       headers: headersGetList,
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setisChecked(JSON.parse(data.data[0].open));
       })
       .catch((error) => console.error(error));
-  }, [url]);
+  }, []);
 
   const changeState = async () => {
-    let isCheckedNew: boolean = !isChecked;
+    let isCheckedNew = !isChecked;
     setisChecked(isCheckedNew);
-    console.log("check " + isCheckedNew);
     await pushState(isCheckedNew);
   };
 
   return (
     <div className="m-3" id={url} key={url}>
-      <div className="text-xl		m-3 flex justify-center items-center">
+      <div className="text-xl m-3 flex justify-center items-center">
         <span>Session</span>
       </div>
       <div className="flex justify-center items-center">
@@ -86,7 +79,7 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
             className="switch-label block overflow-hidden h-10 rounded-full bg-gray-300 cursor-pointer"
           ></label>
         </div>
-        <label htmlFor={id2} className="text-lg	  text-gray-700">
+        <label htmlFor={id2} className="text-lg text-gray-700">
           {name}
         </label>
       </div>

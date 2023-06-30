@@ -2,54 +2,42 @@ import { useRouter } from "next/router";
 
 import { validateToken } from "@/utils/validateAdmin";
 
-async function loginPerform(credentials: {
-  username: string;
-  password: string;
-}) {
-  const router = useRouter();
-  const usernamePassword = Buffer.from(
-    `${credentials.username}:${credentials.password}`,
-    "utf8"
-  ).toString("base64");
-
-  fetch("https://api.cscamp.net/api/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: usernamePassword,
-    },
-  })
-    .then((data) => data.json())
-    .then((dataJson) => {
-      if (dataJson.code !== "000") {
-        alert(dataJson.message);
-        return;
-      }
-      localStorage.setItem("token", dataJson.data.token);
-      let validate = validateToken(dataJson.data.token);
-      console.log(validate);
-      if (validate === true) {
-        router.push("/admin");
-      } else if (validate === false) {
-        router.push("/dashboard");
-      }
-    });
-
-  return;
-}
-
 const LogInPanel: React.FC = () => {
-  const handleSubmit = async (e: any) => {
+  const router = useRouter();
+
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    const data = {
-      username: e.target.username.value,
-      password: e.target.password.value,
-    };
+    const usernamePassword = Buffer.from(
+      `${e.target.username.value}:${e.target.password.value}`,
+      "utf8"
+    ).toString("base64");
 
-    // redirects to /dashboard if is user
-    // redirects to /admin if is admin
-    console.log(await loginPerform(data));
+    fetch("https://api.cscamp.net/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: usernamePassword,
+      },
+    })
+      .then((data) => data.json())
+      .then((dataJson) => {
+        if (dataJson.code !== "000") {
+          alert(dataJson.message);
+          return;
+        }
+
+        localStorage.setItem("token", dataJson.data.token);
+        let validate = validateToken(dataJson.data.token);
+        
+        // redirects to /dashboard if is user
+        // redirects to /admin if is admin
+        if (validate === true) {
+          router.push("/admin");
+        } else if (validate === false) {
+          router.push("/dashboard");
+        }
+      });
   };
 
   return (
