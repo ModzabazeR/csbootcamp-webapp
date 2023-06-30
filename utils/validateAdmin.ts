@@ -6,7 +6,7 @@ export function validateToken(token: string | null) {
     return null;
   }
   try {
-    let validate = jwt.verify(token, "BOOTCAMP_2023_SECRET_KEY") as IUserCredentials;
+    let validate = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY as string) as IUserCredentials;
     return validate.admin;
   } catch (error) {
     return null;
@@ -20,7 +20,7 @@ export function getUserJson(token: string | null) {
   try {
     const session = jwt.verify(
       token,
-      "BOOTCAMP_2023_SECRET_KEY"
+      process.env.NEXT_PUBLIC_SECRET_KEY as string
     ) as IUserCredentials;
     return session;
   } catch (error) {
