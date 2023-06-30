@@ -1,5 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import Link from "next/link";
 import Card from "@/components/card";
 import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
 import Head from "next/head";
@@ -72,7 +71,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-
       <div className="flex flex-col items-center bg-slate-800 py-6 gap-4">
         <Head>
           <title>Shop | CS Bootcamp 2023</title>
@@ -100,7 +98,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
           })}
         </div>
       </div>
-
     </motion.div>
   );
 };

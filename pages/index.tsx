@@ -12,13 +12,11 @@ const Home: NextPage = () => {
     const tokenString = localStorage.getItem("token");
     let validate: boolean = varlidateToken(tokenString);
     if (validate === null) {
-      router.push('/login')
-    }
-    else if (validate === false) {
-      router.push('/dashboard')
-    }
-    else if(validate === true) {
-      router.push('/admin')
+      router.push("/login");
+    } else if (validate === false) {
+      router.push("/dashboard");
+    } else if (validate === true) {
+      router.push("/admin");
     }
   }, []);
 
@@ -39,7 +37,6 @@ const Home: NextPage = () => {
           CS29 Bootcamp | ยินดีต้อนรับ
         </div>
       </div>
-
     </motion.div>
   );
 };

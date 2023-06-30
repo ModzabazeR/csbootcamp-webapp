@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IScoreSummary, IUser } from "@/typings";
+import { IUser } from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
 
 const Row: React.FC<{ groupUser: IUser }> = ({ groupUser }) => {

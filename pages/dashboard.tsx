@@ -1,17 +1,15 @@
 import { getUsersResponse, getUserByIdResponse } from "@/typings";
 import { GetServerSideProps, NextPage } from "next";
-import { updateBoard } from "@/utils/boardLeader";
 import RowUser from "@/components/rowUser";
 import Link from "next/link";
 import { getGroupName } from "@/utils/userUtils";
 import { animate, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { getUserJson, varlidateToken } from "@/utils/validateAdmin";
-import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
 import { useRouter } from "next/router";
 let countRefresh = 0;
-const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({
+const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = ({
   groups,
 }) => {
   const router = useRouter();
@@ -76,7 +74,6 @@ const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({
       .then((data) => setIsPlayOpen(JSON.parse(data.data[0].open)))
       .catch((error) => console.log(error));
   }, []);
-  // console.log(groups);
   const [refreshedGroups, setRefreshedGroups] = useState(groups);
   async function fetchGroupsData() {
     const ALLUESR_URL_INSIZE = "https://api.cscamp.net/api/users/";
@@ -100,7 +97,6 @@ const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({
     const intervalId = setInterval(() => {
       // Fetch the updated groups data
       fetchGroupsData();
-      // console.log(countRefresh++)
     }, 1000); // Refresh every 1 second
 
     return () => {

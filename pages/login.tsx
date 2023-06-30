@@ -1,10 +1,3 @@
-// import { Kanit } from 'next/font/google'
-
-// const kanit = Kanit({
-//   subsets: ['thai'],
-//   weight: '400'
-// })
-
 import Image from "next/image";
 import BootcampLogo from "@/assets/images/logo.png";
 import Head from "next/head";
@@ -24,7 +17,7 @@ const LogIn: NextPage = () => {
     if (validate === true) {
       router.push("/admin");
     } else if (validate === false) {
-      router.push("/dashboard")
+      router.push("/dashboard");
     }
   });
 

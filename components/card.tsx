@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ICard, getUserByIdResponse } from "@/typings";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { toBase64, convertImage } from "@/utils/imageUtils";
 import { useCookies } from "react-cookie";
@@ -23,10 +23,10 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   };
 
   useEffect(() => {
-    const haveCookie = handleGetCookie()
-    setDisabled(haveCookie)
-    console.log(type + haveCookie)
-  },[id])
+    const haveCookie = handleGetCookie();
+    setDisabled(haveCookie);
+    console.log(type + haveCookie);
+  }, [id]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -52,8 +52,8 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       authorization: tokenString,
     };
 
-    const userJson = getUserJson(tokenString)
-    const idUserString = userJson?.username
+    const userJson = getUserJson(tokenString);
+    const idUserString = userJson?.username;
 
     const res = await fetch(`https://api.cscamp.net/api/users/${idUserString}`);
     const dataJson: getUserByIdResponse = await res.json();
@@ -77,9 +77,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
       .then((dataJson) => {
         console.log(dataJson);
         if (dataJson.code !== "000") {
-          alert(
-            "เกิดข้อผิดพลาด ไม่สามารถซื้อการ์ดได้: " + dataJson.message
-          );
+          alert("เกิดข้อผิดพลาด ไม่สามารถซื้อการ์ดได้: " + dataJson.message);
         } else {
           alert("ซื้อสำเร็จ");
           handleSetCookie();
@@ -91,7 +89,6 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
         alert("error");
       });
 
-    // console.log(event)
     setLoading(false);
     closePopup();
   }

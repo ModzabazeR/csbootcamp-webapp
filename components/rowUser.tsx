@@ -1,4 +1,3 @@
-// import {  } from "@/utils/boardLeader";
 import { useEffect, useState } from "react";
 import { IUser } from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
@@ -8,7 +7,6 @@ const Row: React.FC<{groupUser: IUser, isFromAdmin: boolean}> = ({ groupUser, is
 
   useEffect(() => {
     setDefaultValue(groupUser.point);
-    // console.log("row Re");
   }, [groupUser]);
 
   return (

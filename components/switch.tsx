@@ -1,5 +1,4 @@
-import { url } from "inspector";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 interface tSwitch {
   id2: string;
@@ -17,7 +16,6 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
   const pushState = async (isOpen: boolean) => {
     const tokenString = localStorage.getItem("token") as string;
     console.log("push " + isOpen + " " + id2);
-    //authorization : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiYWRtaW4iOnRydWUsImlhdCI6MTY4Nzc5NDU3NywiZXhwIjoxNjg4Mzk5Mzc3fQ.f5H5s5v0Whe5VAFmEuFbDvMzGjkQVlzJViNnKahbs7Q',
     const requestOptions = {
       method: "POST",
       headers: {
@@ -28,7 +26,6 @@ const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
         status: isOpen,
       }),
     };
-    // console.log(requestOptions.body)
     await fetch(url, requestOptions)
       .then((response) => response.json())
       .then((response) => {

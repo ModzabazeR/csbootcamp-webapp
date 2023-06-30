@@ -1,7 +1,4 @@
 import { GetServerSideProps, NextPage } from "next";
-import Loading from "@/components/loading";
-import Link from "next/link";
-// import Card from "@/components/card";
 import CardUser from "@/components/cardUser";
 import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
 import Head from "next/head";
@@ -16,7 +13,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const [disabled, setDisabled] = useState(false);
-  console.log(disabled);
   const [loading, setLoading] = useState(false);
   const [myCardList, setmyCardList] = useState("");
   const [refreshCardUser, setRefreshCardUser] = useState(false);
@@ -55,7 +51,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     }
     const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
-    console.log(USER_URL);
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -146,15 +141,12 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       .catch((error) => console.log(error));
     console.log(body);
     handleSetCookie(true);
-    // console.log(res)
     try {
       if (res.code === "000") {
         alert("successful");
         return;
       } else if (res.code === "070") {
         alert("User already use card.");
-        // setDisabled(false);
-        // removeCookie('used')
         return;
       } else if (res.code === "071") {
         alert("User can not play card at this moment.");
@@ -166,9 +158,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         console.log(res);
       }
     } catch (error) {
-      alert("some error")
+      alert("some error");
     }
-
 
     setLoading(false);
   }
@@ -187,12 +178,15 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   function makeList() {
     let text: string = "";
     text +=
-      (cookies["AttackName"] !== undefined ? cookies["AttackName"] + ",    " : " ") +
-      "    ";
+      (cookies["AttackName"] !== undefined
+        ? cookies["AttackName"] + ",    "
+        : " ") + "    ";
     text +=
-      (cookies["DefenseName"] !== undefined ? cookies["DefenseName"] + ",    " : " ") +
-      "    ";
-    text += (cookies["BuffName"] !== undefined ? cookies["BuffName"] : " ") + "    ";
+      (cookies["DefenseName"] !== undefined
+        ? cookies["DefenseName"] + ",    "
+        : " ") + "    ";
+    text +=
+      (cookies["BuffName"] !== undefined ? cookies["BuffName"] : " ") + "    ";
     setmyCardList(text);
   }
 
@@ -256,7 +250,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
               refresh
             </button>
             <div className="break-all p-5">การ์ดที่จะใช้ : {myCardList}</div>
-            
           </div>
         </div>
 
@@ -320,9 +313,9 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         <div className="text-lg	 flex flex-col items-center text-center h-full w-full justify-center">
           <div className="flex gap-4 flex-col items-center text-center w-full justify-center">
             <p>การ์ดที่จะใช้</p>
-            <div className="border-2 border-sky-500 p-3 rounded" >
-            <p>{myCardList} </p>
-            <p>{empty()}</p>
+            <div className="border-2 border-sky-500 p-3 rounded">
+              <p>{myCardList} </p>
+              <p>{empty()}</p>
             </div>
             <p>( หากกดปุ่ม &quot;ใช้&quot; จะไม่สามารถแก้ได้ ในรอบนี้ ) </p>
           </div>

@@ -1,35 +1,42 @@
 import Image from "next/image";
-import { ICard, ICardUser } from "@/typings";
+import { ICardUser } from "@/typings";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Loading from "./loading";
 import { toBase64, convertImage } from "@/utils/imageUtils";
-import { useCookies } from 'react-cookie'
+import { useCookies } from "react-cookie";
 
-
-const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,refresh,refreshMain }) => {
+const Card: React.FC<ICardUser> = ({
+  id,
+  name,
+  detail,
+  type,
+  prices,
+  img_url,
+  refresh,
+  refreshMain,
+}) => {
   const [cookies, setCookie] = useCookies();
 
-  const  handleSetCookie = () => {
+  const handleSetCookie = () => {
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 10 * 60 * 1000); // 10 minutes from now
-    setCookie( type, id, { maxAge: 20 * 60 });
-    setCookie( type+"Name", name, { maxAge: 20 * 60 });
+    setCookie(type, id, { maxAge: 20 * 60 });
+    setCookie(type + "Name", name, { maxAge: 20 * 60 });
   };
   const handleGetCookie = () => {
     const cookieValue = cookies[type];
-    console.log('Cookie value of :'+type+" "+cookieValue);
-    if ( cookieValue == undefined){
+    console.log("Cookie value of :" + type + " " + cookieValue);
+    if (cookieValue == undefined) {
       return false;
-    }
-    else return true
+    } else return true;
   };
   const [isOpen, setIsOpen] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   useEffect(() => {
-    setDisabled(false)
+    setDisabled(false);
   }, [refresh]);
   function tpyeCheck(type: string) {
     if (type === "Attack") return "เลือก (สุ่มเป้าหมาย)";
@@ -49,19 +56,19 @@ const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,ref
     console.log("clicki");
     setDisabled(true);
     setLoading(true);
-    const haveCookie = handleGetCookie()
+    const haveCookie = handleGetCookie();
     console.log(haveCookie);
-    if(haveCookie === true ) {
-      alert("คุณเลือกการ์ดประเภทนี้ไปแล้ว โปรดเลือกการ์ดประเภทอื่นหรือ clear ใหม่");
+    if (haveCookie === true) {
+      alert(
+        "คุณเลือกการ์ดประเภทนี้ไปแล้ว โปรดเลือกการ์ดประเภทอื่นหรือ clear ใหม่"
+      );
       setLoading(false);
       return;
     }
-    // console.log(event)
-    // event.currentTarget.style.cursor =  'default';
-    handleSetCookie()
+    handleSetCookie();
     setLoading(false);
-    refreshMain(Math.floor(Math.random() * 99999))
-    closePopup()
+    refreshMain(Math.floor(Math.random() * 99999));
+    closePopup();
   }
 
   const openPopup = () => {
@@ -73,10 +80,10 @@ const Card: React.FC<ICardUser> = ({ id, name, detail, type, prices, img_url,ref
   };
 
   useEffect(() => {
-    const haveCookie = handleGetCookie()
-    setDisabled(haveCookie)
-    console.log(type + haveCookie)
-  },[id])
+    const haveCookie = handleGetCookie();
+    setDisabled(haveCookie);
+    console.log(type + haveCookie);
+  }, [id]);
 
   return (
     <>

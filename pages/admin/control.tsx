@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import Switch from "@/components/switch";
 import Board from "@/components/boardControl";
-import { getData, updateBoard } from "@/utils/boardLeader";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import router from "next/router";
-import { getUsersResponse } from "@/typings";
 import { varlidateToken } from "@/utils/validateAdmin";
 import { motion } from "framer-motion";
 
@@ -64,29 +62,5 @@ const Page: NextPage = () => {
     </motion.div>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   // const USER_URL = "https://jsonplaceholder.typicode.com/todos/1";
-//   // let headersList = {
-//   //   Accept: "application/json",
-//   //   "Content-Type": "application/json",
-//   //   "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-//   // };
-
-//   await updateBoard();
-
-//   // let response = await fetch(USER_URL, {
-//   //   method: "GET",
-//   //   headers: headersList,
-//   // });
-//   // let dataJson: getAllUser = await response.json();
-//   // console.log(`Get card status: ${dataJson}`);
-
-//   return {
-//     props: {
-//       groups: null,
-//     },
-//   };
-// };
 
 export default Page;

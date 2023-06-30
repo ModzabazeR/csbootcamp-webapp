@@ -3,10 +3,15 @@ import { ICard } from "@/typings";
 import React, { use, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { toBase64, convertImage } from "@/utils/imageUtils";
-import { useCookies } from "react-cookie";
-import Loading from "./loading";
 
-const CardManual: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
+const CardManual: React.FC<ICard> = ({
+  id,
+  name,
+  detail,
+  type,
+  prices,
+  img_url,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const popupStyle = {
     overlay: {

@@ -2,11 +2,7 @@ import { group, updateBoard } from "@/utils/boardLeader";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Row from "./row";
-import {
-  IGroupPointUpdate,
-  IUser,
-  IScoreSummary,
-} from "@/typings";
+import { IGroupPointUpdate, IUser, IScoreSummary } from "@/typings";
 import { useRouter } from "next/router";
 
 let arrayPoint: IGroupPointUpdate[] = [];
@@ -23,7 +19,7 @@ const Board: React.FC = () => {
     },
   };
 
-  const router = useRouter()
+  const router = useRouter();
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -108,14 +104,14 @@ const Board: React.FC = () => {
       .then((response) => {
         console.log(response);
         if (response.code !== "000") {
-          alert(response.message)
+          alert(response.message);
         } else {
-          alert("success")
+          alert("success");
         }
       });
 
     getGroup();
-    router.reload()
+    router.reload();
   }
 
   const openPopup = () => {
@@ -143,7 +139,7 @@ const Board: React.FC = () => {
                 className=" min-w-[50%] grid grid-cols-3 gap-4 "
               >
                 <div>{e.id}</div>
-                <div className="text-left" >
+                <div className="text-left">
                   from {e.point} + {e.addPoint} = {e.point + e.addPoint}
                 </div>
               </div>
