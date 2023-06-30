@@ -1,3 +1,17 @@
+export interface IUser {
+	id: string;
+	point: number;
+	admin: number;
+	card_count: number;
+  }
+
+export interface IUserCredentials {
+	admin: boolean;
+	exp: number;
+	iat: number;
+	username: string;
+}
+
 export interface ICard {
   id: string;
   name: string;
@@ -5,13 +19,6 @@ export interface ICard {
   type: string;
   prices: number;
   img_url: string;
-}
-
-export interface IUser {
-  id: string;
-  point: number;
-  admin: number;
-  card_count: number;
 }
 
 export interface ICardUser {

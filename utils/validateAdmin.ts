@@ -1,3 +1,4 @@
+import { IUserCredentials } from "@/typings";
 import jwt, { JwtPayload } from "jsonwebtoken";
 export function varlidateAdminJson(dataJson: any) {
   try {
@@ -9,19 +10,17 @@ export function varlidateAdminJson(dataJson: any) {
   } catch (error) {
     return false;
   }
-  
 }
 export function varlidateToken(token: string | null) {
   if (token == null) {
     return null;
   }
   try {
-    let validate = jwt.verify(token, "BOOTCAMP_2023_SECRET_KEY") as JwtPayload;  
-    return validate.admin;  
+    let validate = jwt.verify(token, "BOOTCAMP_2023_SECRET_KEY") as JwtPayload;
+    return validate.admin;
   } catch (error) {
     return null;
   }
-  
 }
 
 export function getUserJson(token: string | null) {
@@ -29,10 +28,12 @@ export function getUserJson(token: string | null) {
     return null;
   }
   try {
-    const session = jwt.verify(token, "BOOTCAMP_2023_SECRET_KEY") as JwtPayload;
-  return session;
+    const session = jwt.verify(
+      token,
+      "BOOTCAMP_2023_SECRET_KEY"
+    ) as IUserCredentials;
+    return session;
   } catch (error) {
     return null;
   }
-  
 }

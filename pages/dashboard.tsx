@@ -11,8 +11,10 @@ import { useCookies } from "react-cookie";
 import { IoLogOut } from "react-icons/io5";
 import { useRouter } from "next/router";
 let countRefresh = 0;
-const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({ groups }) => {
-  const router = useRouter()
+const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({
+  groups,
+}) => {
+  const router = useRouter();
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isPlayOpen, setIsPlayOpen] = useState(false);
   const [updateUser, setupdateUser] = useState(false);
@@ -28,12 +30,12 @@ const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({ groups }) => 
 
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
-    const userJson = getUserJson(tokenString)
+    const userJson = getUserJson(tokenString);
     if (userJson === null) {
-      router.push("/login")
-      return
+      router.push("/login");
+      return;
     }
-    const idUserString = userJson.username
+    const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     console.log(USER_URL);
     let headersList = {
@@ -48,7 +50,6 @@ const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({ groups }) => 
       router.push("/admin");
     }
 
-    
     fetch(USER_URL, {
       method: "GET",
       headers: headersList,
@@ -77,7 +78,7 @@ const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({ groups }) => 
   }, []);
   // console.log(groups);
   const [refreshedGroups, setRefreshedGroups] = useState(groups);
-  async function fetchGroupsData (){
+  async function fetchGroupsData() {
     const ALLUESR_URL_INSIZE = "https://api.cscamp.net/api/users/";
     let headersList = {
       Accept: "application/json",
@@ -89,7 +90,7 @@ const Page: NextPage<{ user: any; groups: getUsersResponse }> = ({ groups }) => 
       headers: headersList,
     });
     let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
-  
+
     dataJsonAllGroup.data.sort((a, b) => {
       return b.point - a.point;
     });
