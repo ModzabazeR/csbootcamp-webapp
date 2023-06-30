@@ -24,11 +24,12 @@ export async function updateBoard() {
     "Content-Type": "application/json",
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   };
+
   let responseAllgroup = await fetch(ALLUSER_URL, {
     method: "GET",
     headers: headersList,
   });
+
   let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
-  console.log(dataJsonAllGroup);
   group = dataJsonAllGroup;
 }

@@ -10,9 +10,11 @@ import BootcampLogo from "@/assets/images/logo.png";
 
 const Home: NextPage = () => {
   const router = useRouter();
+
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     let validate = validateToken(tokenString);
+    
     if (validate === null) {
       router.push("/login");
     } else if (validate === false) {

@@ -81,7 +81,6 @@ const AdminDashboard: NextPage<{
       dataJsonEvenGroup.data.filter(
         (e) => Number(e.id) >= Number(event.target.value)
       );
-    console.log(dataJsonEvenGroupCopy);
 
     const logMessages: string[] = [];
     for (let i = 0; i < dataJsonEvenGroupCopy.length; i++) {

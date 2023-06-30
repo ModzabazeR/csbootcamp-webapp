@@ -31,7 +31,7 @@ const LogIn: NextPage = () => {
       exit={{ opacity: 0 }}
       className="overflow-hidden		"
     >
-      <div className="overflow-y-hidden	 flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+      <div className="overflow-y-hidden flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
         <Head>
           <title>Login | CS Bootcamp 2023</title>
         </Head>

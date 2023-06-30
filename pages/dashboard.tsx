@@ -20,6 +20,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isPlayOpen, setIsPlayOpen] = useState(false);
   const [updateUser, setupdateUser] = useState(false);
+  const [refreshedGroups, setRefreshedGroups] = useState(groups);
   const [user, setUser] = useState<getUserByIdResponse>({
     code: "000",
     data: {
@@ -33,18 +34,21 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     const userJson = getUserJson(tokenString);
+
     if (userJson === null) {
       router.push("/login");
       return;
     }
+
     const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
-    console.log(USER_URL);
+    
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
+
     let validate = validateToken(tokenString);
     if (validate === null || idUserString === null) {
       router.push("/login");
@@ -78,25 +82,29 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
       .then((data) => setIsPlayOpen(JSON.parse(data.data[0].open)))
       .catch((error) => console.log(error));
   }, []);
-  const [refreshedGroups, setRefreshedGroups] = useState(groups);
-  async function fetchGroupsData() {
+  
+  const fetchGroupsData = async () => {
     const ALLUSER_URL_INSIZE = "https://api.cscamp.net/api/users/";
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
+
     let responseAllgroup = await fetch(ALLUSER_URL_INSIZE, {
       method: "GET",
       headers: headersList,
     });
+
     let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
 
     dataJsonAllGroup.data.sort((a, b) => {
       return b.point - a.point;
     });
+
     setRefreshedGroups(dataJsonAllGroup);
   }
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       // Fetch the updated groups data
@@ -107,6 +115,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
       clearInterval(intervalId);
     };
   }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -187,10 +196,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     "Content-Type": "application/json",
     "User-Agent": "Thunder Client (https://www.thunderclient.com)",
   };
+
   let responseAllgroup = await fetch(ALLUSER_URL, {
     method: "GET",
     headers: headersList,
   });
+  
   let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
 
   dataJsonAllGroup.data.sort((a, b) => {

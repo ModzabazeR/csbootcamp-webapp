@@ -76,7 +76,6 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
     )
       .then((data) => data.json())
       .then((dataJson) => {
-        console.log(dataJson);
         if (dataJson.code !== "000") {
           alert("เกิดข้อผิดพลาด ไม่สามารถซื้อการ์ดได้: " + dataJson.message);
         } else {

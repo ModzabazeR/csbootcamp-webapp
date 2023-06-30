@@ -9,6 +9,7 @@ import Modal from "react-modal";
 
 import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
 import { getUserJson, validateToken } from "@/utils/validateAdmin";
+import { booleanify } from "@/utils/userUtils";
 
 import CardUser from "@/components/cardUser";
 
@@ -23,11 +24,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies();
   const router = useRouter();
-  const booleanify = (value: string): boolean => {
-    const truthy: string[] = ["true", "True", "1"];
 
-    return truthy.includes(value);
-  };
   const popupStyle = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.75)",
@@ -38,6 +35,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     width: "auto",
     height: "auto",
   };
+
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     let validate = validateToken(tokenString);
@@ -52,6 +50,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       router.push("/login");
       return;
     }
+
     const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     let headersList = {
@@ -59,6 +58,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
+
     fetch(USER_URL, {
       method: "GET",
       headers: headersList,
@@ -74,7 +74,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (!JSON.parse(data.data[0].open)) {
           router.push("/dashboard");
         } else {
@@ -82,15 +81,15 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
         }
       })
       .catch((error) => console.error(error));
+
     const haveCookie = cookies["used"];
     setDisabled(booleanify(haveCookie));
-    console.log("used   " + haveCookie);
   }, []);
-  const handleSetCookie = (isTrue: boolean) => {
-    const expirationDate = new Date();
 
+  const handleSetCookie = (isTrue: boolean) => {
     setCookie("used", isTrue, { maxAge: 20 * 60 });
   };
+
   const handleGetCookie = (type: string) => {
     const cookieValue = cookies[type];
     console.log("Cookie value:", cookieValue);
@@ -99,14 +98,16 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     }
     return cookieValue;
   };
-  console.log(cardArr);
-  async function buyCard(event: React.MouseEvent<HTMLElement>) {
+
+  const buyCard = async (event: React.MouseEvent<HTMLElement>) => {
     event.currentTarget.style.cursor = "default";
     setDisabled(true);
-    const tokenString = localStorage.getItem("token") as string;
-    const idUserString = localStorage.getItem("idUser") as string;
-    console.log(tokenString);
     setLoading(true);
+
+    const tokenString = localStorage.getItem("token") as string;
+    const userJson = getUserJson(tokenString);
+    const idUserString = userJson?.username;
+
     event.currentTarget.style.cursor = "wait";
     let headersList = {
       Accept: "application/json",
@@ -120,29 +121,22 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       def: handleGetCookie("Defense"),
     };
 
-    let res: {
-      code: string;
-      message: string;
-    } = {
+    let res= {
       code: "",
       message: "",
     };
+
     await fetch(`https://api.cscamp.net/api/users/${idUserString}/play`, {
       method: "POST",
       headers: headersList,
-      body: JSON.stringify({
-        buff: handleGetCookie("Buff"),
-        atk: handleGetCookie("Attack"),
-        def: handleGetCookie("Defense"),
-      }),
+      body: JSON.stringify(body),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         res = data;
       })
       .catch((error) => console.log(error));
-    console.log(body);
+
     handleSetCookie(true);
     try {
       if (res.code === "000") {
@@ -166,7 +160,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 
     setLoading(false);
   }
-  function clearCard() {
+
+  const clearCard = () => {
     removeCookie("Attack");
     removeCookie("Defense");
     removeCookie("Buff");
@@ -178,8 +173,8 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     setRefrerefreshMycard(Math.floor(Math.random() * 99999));
   }
 
-  function makeList() {
-    let text: string = "";
+  const makeList = () => {
+    let text = "";
     text +=
       (cookies["AttackName"] !== undefined
         ? cookies["AttackName"] + ",    "
@@ -193,7 +188,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     setmyCardList(text);
   }
 
-  function empty() {
+  const empty = () => {
     if (myCardList.trim() === "") {
       return "คุณไม่ได้เลือกการ์ดที่จะใช้ในรอบนี้ ยืนยันที่จะไม่ใช้หรือไม่";
     }
@@ -210,6 +205,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const closePopup = () => {
     setIsOpen(false);
   };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

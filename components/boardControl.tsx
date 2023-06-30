@@ -50,11 +50,9 @@ const Board: React.FC = () => {
 
       sumPoint.push(arrSum);
       arrayPoint.push(arr);
-      console.log(arrayPoint);
     }
 
     openPopup();
-    console.log(group);
   };
 
   const copyData = async () => {
@@ -82,12 +80,10 @@ const Board: React.FC = () => {
 
     setIsUpdate(!isUpdate);
     closePopup();
-    console.log(group);
   }
 
   const pushData = async () => {
     const tokenString = localStorage.getItem("token") as string;
-    console.log(arrayPoint);
 
     const urlPush: string = "https://api.cscamp.net/api/users/points";
     const requestOptions = {
@@ -105,7 +101,6 @@ const Board: React.FC = () => {
     await fetch(urlPush, requestOptions)
       .then((response) => response.json())
       .then((response) => {
-        console.log(response);
         if (response.code !== "000") {
           alert(response.message);
         } else {

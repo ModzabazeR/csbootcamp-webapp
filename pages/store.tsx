@@ -15,7 +15,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const router = useRouter();
-  console.log(cardArr);
+
   useEffect(() => {
     const tokenString = localStorage.getItem("token");
     let validate = validateToken(tokenString);
@@ -32,7 +32,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     }
     const idUserString = userJson.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
-    console.log(USER_URL);
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
@@ -44,8 +43,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     })
       .then((data) => data.json())
       .then((dataJson: getUserByIdResponse) => {
-        console.log(cardArr);
-        console.log(dataJson);
         let cardGet: ICard[] = dataJson.data.cards;
         const filteredCards = cardArr.filter(
           (e1) => !cardGet.some((e2) => e2.id === e1.id)
@@ -59,7 +56,6 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if (!JSON.parse(data.data[0].open)) {
           router.push("/dashboard");
         } else {
@@ -68,6 +64,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       })
       .catch((error) => console.error(error));
   }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
