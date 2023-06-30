@@ -29,7 +29,7 @@ const LogIn: NextPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="overflow-hidden		"
+      className="overflow-hidden"
     >
       <div className="overflow-y-hidden flex flex-col h-screen justify-center items-center bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
         <Head>
@@ -40,6 +40,7 @@ const LogIn: NextPage = () => {
           width={300}
           height={300}
           alt="bootcamp logo"
+          priority={true}
         />
         <LogInPanel />
       </div>

@@ -36,6 +36,7 @@ const Home: NextPage = () => {
           width={300}
           height={300}
           alt="bootcamp logo"
+          priority={true}
         />
         <div className="text-2xl md:text-5xl font-bold text-white drop-shadow-lg mb-8">
           CS29 Bootcamp | ยินดีต้อนรับ
