@@ -6,7 +6,7 @@ export function validateToken(token: string | null) {
     return null;
   }
   try {
-    let validate = jwt.verify(token, process.env.NEXT_PUBLIC_SECRET_KEY as string) as IUserCredentials;
+    let validate = jwt.decode(token) as IUserCredentials;
     return validate.admin;
   } catch (error) {
     return null;
@@ -18,10 +18,7 @@ export function getUserJson(token: string | null) {
     return null;
   }
   try {
-    const session = jwt.verify(
-      token,
-      process.env.NEXT_PUBLIC_SECRET_KEY as string
-    ) as IUserCredentials;
+    const session = jwt.decode(token) as IUserCredentials;
     return session;
   } catch (error) {
     return null;
