@@ -5,17 +5,23 @@ import Link from "next/link";
 
 import { animate, motion } from "framer-motion";
 import { IoLogOut } from "react-icons/io5";
+import { useCookies } from "react-cookie";
 
-import { getUsersResponse, getUserByIdResponse } from "@/typings";
+import {
+  getUsersResponse,
+  getUserByIdResponse,
+  IUserCredentials,
+} from "@/typings";
 import { getGroupName } from "@/utils/userUtils";
-import { getUserJson, validateToken } from "@/utils/validateAdmin";
+import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 
 import RowUser from "@/components/rowUser";
 
 let countRefresh = 0;
-const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = ({
-  groups,
-}) => {
+const Page: NextPage<{
+  profile: IUserCredentials | null;
+  groups: getUsersResponse;
+}> = ({ profile, groups }) => {
   const router = useRouter();
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isPlayOpen, setIsPlayOpen] = useState(false);
@@ -30,31 +36,24 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
       cards: [],
     },
   });
+  const [cookies, setCookie, removeCookie] = useCookies()
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    const userJson = getUserJson(tokenString);
-
-    if (userJson === null) {
+    if (profile === null) {
       router.push("/login");
       return;
+    } else if (profile.admin === true) {
+      router.push("/admin");
     }
 
-    const idUserString = userJson.username;
+    const idUserString = profile.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
-    
+
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
-
-    let validate = validateToken(tokenString);
-    if (validate === null || idUserString === null) {
-      router.push("/login");
-    } else if (validate === true) {
-      router.push("/admin");
-    }
 
     fetch(USER_URL, {
       method: "GET",
@@ -82,7 +81,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
       .then((data) => setIsPlayOpen(JSON.parse(data.data[0].open)))
       .catch((error) => console.log(error));
   }, []);
-  
+
   const fetchGroupsData = async () => {
     const ALLUSER_URL_INSIZE = "https://api.cscamp.net/api/users/";
     let headersList = {
@@ -103,7 +102,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
     });
 
     setRefreshedGroups(dataJsonAllGroup);
-  }
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -125,7 +124,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
       <div className="flex h-screen items-center justify-center bg-slate-800">
         <div
           onClick={() => {
-            localStorage.removeItem("token");
+            removeCookie("token");
             router.back();
           }}
           className="absolute bg-blue-600/25 p-4 backdrop-blur-md text-white right-5 top-5 cursor-pointer rounded-xl hover:backdrop-blur-sm transition-all drop-shadow"
@@ -189,7 +188,7 @@ const Page: NextPage<{ user: getUserByIdResponse; groups: getUsersResponse }> = 
 };
 export default Page;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const ALLUSER_URL = "https://api.cscamp.net/api/users/";
   let headersList = {
     Accept: "application/json",
@@ -201,15 +200,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     method: "GET",
     headers: headersList,
   });
-  
+
   let dataJsonAllGroup: getUsersResponse = await responseAllgroup.json();
 
   dataJsonAllGroup.data.sort((a, b) => {
     return b.point - a.point;
   });
 
+  const { token } = getAppCookies(req);
+  const profile = getUserJson(token);
+
   return {
     props: {
+      profile,
       groups: dataJsonAllGroup,
     },
   };

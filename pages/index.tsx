@@ -1,25 +1,26 @@
 import { useEffect } from "react";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
 import { motion } from "framer-motion";
 
-import { validateToken } from "@/utils/validateAdmin";
+import { IUserCredentials } from "@/typings";
+import {
+  getAppCookies,
+  getUserJson,
+} from "@/utils/validateAdmin";
 import BootcampLogo from "@/assets/images/logo.png";
 
-const Home: NextPage = () => {
+const Home: NextPage<{ profile: IUserCredentials | null }> = ({ profile }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    let validate = validateToken(tokenString);
-    
-    if (validate === null) {
+    if (profile === null) {
       router.push("/login");
-    } else if (validate === false) {
+    } else if (profile.admin === false) {
       router.push("/dashboard");
-    } else if (validate === true) {
+    } else if (profile.admin === true) {
       router.push("/admin");
     }
   }, []);
@@ -47,3 +48,13 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token }: any = getAppCookies(req);
+  const profile = getUserJson(token);
+  return {
+    props: {
+      profile,
+    },
+  };
+};

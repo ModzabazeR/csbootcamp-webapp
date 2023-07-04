@@ -7,13 +7,21 @@ import { motion } from "framer-motion";
 import { useCookies } from "react-cookie";
 import Modal from "react-modal";
 
-import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
-import { getUserJson, validateToken } from "@/utils/validateAdmin";
+import {
+  ICard,
+  IUserCredentials,
+  getCardsResponse,
+  getUserByIdResponse,
+} from "@/typings";
+import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 import { booleanify } from "@/utils/userUtils";
 
 import CardUser from "@/components/cardUser";
 
-const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
+const Store: NextPage<{
+  profile: IUserCredentials | null;
+  cardArr: ICard[];
+}> = ({ profile, cardArr }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const [disabled, setDisabled] = useState(false);
@@ -37,21 +45,14 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
   };
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    let validate = validateToken(tokenString);
-    if (validate === null) {
+    if (profile === null) {
       router.push("/login");
-    } else if (validate === true) {
+      return;
+    } else if (profile.admin === true) {
       router.push("/admin");
     }
 
-    const userJson = getUserJson(tokenString);
-    if (userJson === null) {
-      router.push("/login");
-      return;
-    }
-
-    const idUserString = userJson.username;
+    const idUserString = profile.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     let headersList = {
       Accept: "application/json",
@@ -104,16 +105,14 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     setDisabled(true);
     setLoading(true);
 
-    const tokenString = localStorage.getItem("token") as string;
-    const userJson = getUserJson(tokenString);
-    const idUserString = userJson?.username;
+    const idUserString = profile?.username;
 
     event.currentTarget.style.cursor = "wait";
     let headersList = {
       Accept: "application/json",
       "Content-Type": "application/json",
       "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-      authorization: tokenString,
+      authorization: cookies["token"],
     };
     const body = {
       buff: handleGetCookie("Buff"),
@@ -121,7 +120,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
       def: handleGetCookie("Defense"),
     };
 
-    let res= {
+    let res = {
       code: "",
       message: "",
     };
@@ -159,7 +158,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     }
 
     setLoading(false);
-  }
+  };
 
   const clearCard = () => {
     removeCookie("Attack");
@@ -171,7 +170,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     makeList();
     setRefreshCardUser(!refreshCardUser);
     setRefrerefreshMycard(Math.floor(Math.random() * 99999));
-  }
+  };
 
   const makeList = () => {
     let text = "";
@@ -186,13 +185,13 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
     text +=
       (cookies["BuffName"] !== undefined ? cookies["BuffName"] : " ") + "    ";
     setmyCardList(text);
-  }
+  };
 
   const empty = () => {
     if (myCardList.trim() === "") {
       return "คุณไม่ได้เลือกการ์ดที่จะใช้ในรอบนี้ ยืนยันที่จะไม่ใช้หรือไม่";
     }
-  }
+  };
 
   useEffect(() => {
     makeList();
@@ -346,7 +345,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 
 export default Store;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const CARDS_URL = "https://api.cscamp.net/api/cards";
   let headersList = {
     Accept: "application/json",
@@ -359,10 +358,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     headers: headersList,
   });
   let dataJson: getCardsResponse = await response.json();
-  console.log(`Get card status: ${dataJson.code}`);
+
+  const { token } = getAppCookies(req);
+  const profile = getUserJson(token);
 
   return {
     props: {
+      profile,
       cardArr: dataJson.data,
     },
   };

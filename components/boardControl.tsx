@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
+import { useCookies } from "react-cookie";
 import Modal from "react-modal";
 
 import { IGroupPointUpdate, IUser, IScoreSummary } from "@/typings";
@@ -23,6 +24,7 @@ const Board: React.FC = () => {
   };
 
   const router = useRouter();
+  const [cookies] = useCookies();
   const [isUpdate, setIsUpdate] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -80,10 +82,10 @@ const Board: React.FC = () => {
 
     setIsUpdate(!isUpdate);
     closePopup();
-  }
+  };
 
   const pushData = async () => {
-    const tokenString = localStorage.getItem("token") as string;
+    const tokenString = cookies["token"]
 
     const urlPush: string = "https://api.cscamp.net/api/users/points";
     const requestOptions = {
@@ -110,7 +112,7 @@ const Board: React.FC = () => {
 
     getGroup();
     router.reload();
-  }
+  };
 
   const openPopup = () => {
     setIsOpen(true);

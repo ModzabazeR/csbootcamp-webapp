@@ -1,28 +1,29 @@
 import { useEffect } from "react";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
 
 import { motion } from "framer-motion";
 
-import { validateToken } from "@/utils/validateAdmin";
+import { IUserCredentials } from "@/typings";
+import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 import BootcampLogo from "@/assets/images/logo.png";
 
 import LogInPanel from "@/components/loginPanel";
 
-const LogIn: NextPage = () => {
+const LogIn: NextPage<{ profile: IUserCredentials | null }> = ({ profile }) => {
   const router = useRouter();
-  useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    let validate = validateToken(tokenString);
 
-    if (validate === true) {
-      router.push("/admin");
-    } else if (validate === false) {
+  useEffect(() => {
+    if (profile === null) {
+      router.push("/login");
+    } else if (profile.admin === false) {
       router.push("/dashboard");
+    } else if (profile.admin === true) {
+      router.push("/admin");
     }
-  });
+  }, []);
 
   return (
     <motion.div
@@ -52,3 +53,14 @@ const LogIn: NextPage = () => {
 };
 
 export default LogIn;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token } = getAppCookies(req);
+  const profile = getUserJson(token);
+
+  return {
+    props: {
+      profile,
+    },
+  };
+};

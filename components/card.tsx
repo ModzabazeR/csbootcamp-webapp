@@ -43,7 +43,7 @@ const Card: React.FC<ICard> = ({ id, name, detail, type, prices, img_url }) => {
   };
 
   const buyCard = async (event: React.MouseEvent<HTMLElement>) => {
-    const tokenString = localStorage.getItem("token") as string;
+    const tokenString = cookies["token"];
     setLoading(true);
 
     let headersList = {

@@ -5,32 +5,34 @@ import Head from "next/head";
 
 import { motion } from "framer-motion";
 
-import { ICard, getCardsResponse, getUserByIdResponse } from "@/typings";
-import { getUserJson, validateToken } from "@/utils/validateAdmin";
+import {
+  ICard,
+  IUserCredentials,
+  getCardsResponse,
+  getUserByIdResponse,
+} from "@/typings";
+import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 
 import Card from "@/components/card";
 
-const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
+const Store: NextPage<{
+  profile: IUserCredentials | null;
+  cardArr: ICard[];
+}> = ({ profile, cardArr }) => {
   const [refreshCardUser, setRefreshCardUser] = useState(false);
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [filteredCardArr, setFilteredCardArr] = useState<ICard[]>(cardArr);
   const router = useRouter();
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    let validate = validateToken(tokenString);
-    if (validate === null) {
+    if (profile === null) {
       router.push("/login");
-    } else if (validate === true) {
+      return;
+    } else if (profile.admin === true) {
       router.push("/admin");
     }
 
-    const userJson = getUserJson(tokenString);
-    if (userJson === null) {
-      router.push("/login");
-      return;
-    }
-    const idUserString = userJson.username;
+    const idUserString = profile.username;
     const USER_URL = `https://api.cscamp.net/api/users/${idUserString}`;
     let headersList = {
       Accept: "application/json",
@@ -104,7 +106,7 @@ const Store: NextPage<{ cardArr: ICard[] }> = ({ cardArr }) => {
 
 export default Store;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const CARDS_URL = "https://api.cscamp.net/api/shops";
   let headersList = {
     Accept: "application/json",
@@ -117,10 +119,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     headers: headersList,
   });
   let dataJson: getCardsResponse = await response.json();
-  console.log(`Get card status: ${dataJson.code}`);
+
+  const { token } = getAppCookies(req);
+  const profile = getUserJson(token);
 
   return {
     props: {
+      profile,
       cardArr: dataJson.data,
     },
   };

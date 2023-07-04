@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 
-import { validateToken } from "@/utils/validateAdmin";
+import { useCookies } from "react-cookie";
 
 const LogInPanel: React.FC = () => {
   const router = useRouter();
+  const [cookies, setCookie] = useCookies();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -27,16 +28,8 @@ const LogInPanel: React.FC = () => {
           return;
         }
 
-        localStorage.setItem("token", dataJson.data.token);
-        let validate = validateToken(dataJson.data.token);
-        
-        // redirects to /dashboard if is user
-        // redirects to /admin if is admin
-        if (validate === true) {
-          router.push("/admin");
-        } else if (validate === false) {
-          router.push("/dashboard");
-        }
+        setCookie("token", dataJson.data.token);
+        router.reload();
       });
   };
 

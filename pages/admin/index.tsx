@@ -4,33 +4,40 @@ import { useRouter } from "next/router";
 
 import { motion } from "framer-motion";
 import { IoLogOut } from "react-icons/io5";
+import { useCookies } from "react-cookie";
 
-import { getUsersResponse, getLogEventResponse } from "@/typings";
-import { validateToken } from "@/utils/validateAdmin";
+import {
+  getUsersResponse,
+  getLogEventResponse,
+  IUserCredentials,
+} from "@/typings";
+import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 
 import Log from "@/components/log";
 import RowUser from "@/components/rowUser";
 
 let countRefresh = 0;
 const AdminDashboard: NextPage<{
+  profile: IUserCredentials | null;
   groups: getUsersResponse;
   logMessages: string[];
   dataJsonEvenGroup: getLogEventResponse;
-}> = ({ groups, logMessages, dataJsonEvenGroup }) => {
+}> = ({ profile, groups, logMessages, dataJsonEvenGroup }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
   const [defaultValue, setDefaultValue] = useState(0);
   const [filteredData, setFilteredData] = useState<string[]>(logMessages);
+  const [cookies, setCookie, removeCookie] = useCookies();
   const router = useRouter();
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("token");
-    let validate = validateToken(tokenString);
-    if (validate === null) {
+    if (profile) {
+      if (profile.admin === false) {
+        router.push("/dashboard");
+      } else if (profile.admin === true) {
+        setIsPageLoaded(true);
+      }
+    } else {
       router.push("/login");
-    } else if (validate === false) {
-      router.push("/dashboard");
-    } else if (validate === true) {
-      setIsPageLoaded(true);
     }
   }, []);
 
@@ -105,7 +112,7 @@ const AdminDashboard: NextPage<{
 
       logMessages.push(
         `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n ` +
-        `use at_card ${at_cardName} \n
+          `use at_card ${at_cardName} \n
         use bf_card ${bf_cardName} \n 
         use df_card ${df_cardName} \n 
         target is ${cur.target_id} \n 
@@ -124,7 +131,7 @@ const AdminDashboard: NextPage<{
       <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
         <div
           onClick={() => {
-            localStorage.removeItem("token");
+            removeCookie("token");
             router.back();
           }}
           className="absolute bg-blue-600/25 p-4 backdrop-blur-md text-white right-5 top-5 cursor-pointer rounded-xl hover:backdrop-blur-sm transition-all drop-shadow border border-white hover:border-none"
@@ -194,7 +201,7 @@ const AdminDashboard: NextPage<{
 
 export default AdminDashboard;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const headersList = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -245,7 +252,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     logMessages.push(
       `id:${cur.id} date: ${date_time} - (Group) ${cur.user_id}\n\n ` +
-      `use at_card ${at_cardName} \n 
+        `use at_card ${at_cardName} \n 
       use bf_card ${bf_cardName} \n 
       use df_card ${df_cardName} \n 
       target is ${cur.target_id} \n 
@@ -253,8 +260,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     );
   }
 
+  const { token } = getAppCookies(req);
+  const profile = getUserJson(token);
+
   return {
     props: {
+      profile,
       groups: dataJsonAllGroup,
       logMessages: logMessages,
       dataJsonEvenGroup: dataJsonEvenGroup, // Pass the serialized object instead of responseEvenGroup

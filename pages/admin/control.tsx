@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import router from "next/router";
 
 import { motion } from "framer-motion";
 
-import { validateToken } from "@/utils/validateAdmin";
+import { IUserCredentials } from "@/typings";
+import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 
 import Switch from "@/components/switch";
 import Board from "@/components/boardControl";
 
-const Page: NextPage = () => {
+const Page: NextPage<{ profile: IUserCredentials | null }> = ({ profile }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("token") as string;
-    let validate = validateToken(tokenString);
-    if (validate === null) {
+    if (profile === null) {
       router.push("/login");
-    } else if (validate === false) {
+    } else if (profile.admin === false) {
       router.push("/dashboard");
-    } else if (validate === true) {
+    } else if (profile.admin === true) {
       setIsPageLoaded(true);
     }
   }, []);
@@ -66,3 +65,13 @@ const Page: NextPage = () => {
 };
 
 export default Page;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { token } = getAppCookies(req);
+  const profile = getUserJson(token);
+  return {
+    props: {
+      profile,
+    },
+  };
+};

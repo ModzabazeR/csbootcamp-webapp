@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useCookies } from "react-cookie";
+
 interface tSwitch {
   id2: string;
   name: string;
@@ -8,9 +10,10 @@ interface tSwitch {
 
 const Switch: React.FC<tSwitch> = ({ id2, name, url }) => {
   const [isChecked, setisChecked] = useState(false);
+  const [cookies] = useCookies();
 
   const pushState = async (isOpen: boolean) => {
-    const tokenString = localStorage.getItem("token") as string;
+    const tokenString = cookies["token"];
     console.log("push " + isOpen + " " + id2);
     const requestOptions = {
       method: "POST",
