@@ -50,7 +50,7 @@ const Home: NextPage<{ profile: IUserCredentials | null }> = ({ profile }) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { token }: any = getAppCookies(req);
+  const { token } = getAppCookies(req);
   const profile = getUserJson(token);
   return {
     props: {

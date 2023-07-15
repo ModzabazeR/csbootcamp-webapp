@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
@@ -16,7 +16,6 @@ import { getAppCookies, getUserJson } from "@/utils/validateAdmin";
 import Log from "@/components/log";
 import RowUser from "@/components/rowUser";
 
-let countRefresh = 0;
 const AdminDashboard: NextPage<{
   profile: IUserCredentials | null;
   groups: getUsersResponse;
@@ -24,7 +23,6 @@ const AdminDashboard: NextPage<{
   dataJsonEvenGroup: getLogEventResponse;
 }> = ({ profile, groups, logMessages, dataJsonEvenGroup }) => {
   const [isPageLoaded, setIsPageLoaded] = useState(false);
-  const [defaultValue, setDefaultValue] = useState(0);
   const [filteredData, setFilteredData] = useState<string[]>(logMessages);
   const [cookies, setCookie, removeCookie] = useCookies();
   const router = useRouter();
@@ -81,9 +79,7 @@ const AdminDashboard: NextPage<{
     }
   };
 
-  const handleChange = (event: any) => {
-    setDefaultValue(event.target.value);
-
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     let dataJsonEvenGroupCopy: getLogEventResponse["data"] =
       dataJsonEvenGroup.data.filter(
         (e) => Number(e.id) >= Number(event.target.value)
@@ -120,7 +116,7 @@ const AdminDashboard: NextPage<{
       );
     }
 
-    setFilteredData(logMessages);
+    setFilteredData(logMessages.reverse());
   };
   return (
     <motion.div
@@ -128,7 +124,7 @@ const AdminDashboard: NextPage<{
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <div className="flex flex-col p-8 h-screen bg-slate-800 space-y-4">
+      <div className="flex flex-col p-8 h-screen bg-slate-800 sm:gap-8 md:gap-4">
         <div
           onClick={() => {
             removeCookie("token");
@@ -163,20 +159,19 @@ const AdminDashboard: NextPage<{
               })}
             </div>
           </div>
-          <div className="rounded-lg md:w-9/12 h-1/2 sm:w-full md:h-full bg-slate-100 overflow-auto p-2">
+          <div className="flex flex-col rounded-lg md:w-9/12 h-1/2 sm:w-full md:h-full bg-slate-100 p-2">
             <input
               name="id"
-              value={defaultValue}
               type="text"
               id="id"
               className="my-2 block w-full p-4 pl-10 text-center dark:focus:ring-blue-500 dark:focus:border-blue-500 rounded-lg"
-              placeholder="ID"
-              onChange={(event) => handleChange(event)}
+              placeholder="START ID"
+              onChange={handleChange}
             ></input>
-            <Log messages={filteredData} />
+            <Log messages={filteredData.reverse()} />
           </div>
         </div>
-        <div className="flex h-1/6 md:h-1/6 w-full items-center justify-center  text-center  text-2xl gap-4">
+        <div className="flex h-1/6 md:h-1/6 w-full items-center justify-center text-center text-2xl gap-4">
           <button
             className="bg-pink-400 rounded-lg w-full h-full"
             onClick={() => {

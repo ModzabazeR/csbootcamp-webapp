@@ -85,7 +85,7 @@ const Board: React.FC = () => {
   };
 
   const pushData = async () => {
-    const tokenString = cookies["token"]
+    const tokenString = cookies["token"];
 
     const urlPush: string = "https://api.cscamp.net/api/users/points";
     const requestOptions = {
@@ -178,12 +178,12 @@ const Board: React.FC = () => {
       </div>
       <div className="sm:text-xl md:text-4xl">
         <div className="block w-full text-center">
-          <div className="grid grid-cols-3 gap-4 ">
-            <div className="pl-5">{`ชื่อกลุ่ม`}</div>
+          <div className="grid grid-cols-3 gap-4 items-center">
+            <div className="text-center pr-10 pl-5">ชื่อกลุ่ม</div>
             <div className="border-x-2 px-5 border-x-black">
-              <div className="relative">คะแนน</div>
+              <div className="text-center">คะแนน</div>
             </div>
-            <div>จำนวนการ์ดที่มี </div>
+            <div>จำนวนการ์ดที่มี</div>
           </div>
         </div>
         {group.data.map((user) => {
